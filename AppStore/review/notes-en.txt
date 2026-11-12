@@ -1,0 +1,24 @@
+LocalioBC is a simple, quick, offline video-cropping utility for macOS. The Mac App Store edition is a one-time paid purchase (EUR 4.99 in the selected euro storefront), with no subscriptions, in-app purchases, account, ads, tracking or media uploads. It is open source under MIT; the complete license is included and available in About. The free direct-distribution build is a separate distribution channel, not an unlock or alternative payment flow inside this app. No GitHub link is present in the app.
+
+No sign-in or demo account is required. All features are available immediately after the App Store purchase. A network connection is not required for import, editing, previews or export. Web and support links open in the system's default browser/mail application.
+
+Review attachment: demo-clips.zip contains two original five-second 1280x720 QuickTime clips generated specifically for this app. Both show the same original LocalioBC graphic and have no audio. Source generation is in Scripts/generate-demo.swift. You can also use your own MP4, MOV or M4V clips, including clips with audio for the audio-removal test.
+
+Suggested review steps:
+1. Import both demo clips using the file picker, or drag files from Finder into the window.
+2. Select a clip. Set a shorter start/end interval using the thumbnail timeline.
+3. Choose 9:16 or another aspect ratio. Move/resize the crop frame as desired. Click Apply to clip, or Apply to all. Pending crops must be confirmed/cancelled before export.
+4. Switch between Clip and Output to inspect source footage and the composed result.
+5. Choose Merge into one video; select MP4/H.264 and a quality preset. Export through the save panel to a user-selected location.
+6. Choose Each clip separately, then Export clips. Select a folder. A uniquely named subfolder is created with numbered clip files; sources are preserved.
+7. With a clip that has audio, enable Remove audio and export. Exported files have no audio tracks.
+8. Settings supports light/dark/system appearance and system/Czech/English language. In system mode, Czech is used for a Czech primary language, English for all other primary languages. Manual language overrides apply immediately.
+9. About includes an offline privacy notice, a link to the public privacy policy, the MIT license and support contact.
+
+The app is sandboxed and uses only user-selected file read/write access. It retains sandbox access during asynchronous AVFoundation work and releases it afterwards. No camera, microphone, screen recording, Full Disk Access or Accessibility permission is needed.
+
+Known scope: no project save/load, hosted content, messaging, cloud storage or downloadable executable components. Target-size estimates depend on encoder/container overhead. Lossless export is limited to compatible unmodified clips; trims can depend on source keyframes. HEVC availability depends on the Mac.
+
+Public support: https://localiobc.mylocalio.com/support/
+Public privacy policy: https://localiobc.mylocalio.com/privacy/
+The private App Review contact is provided separately in App Store Connect.

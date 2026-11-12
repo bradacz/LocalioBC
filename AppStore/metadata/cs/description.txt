@@ -1,0 +1,20 @@
+LocalioBC je jednoduché a rychlé řešení pro ořez videa na Macu. Otevřete klipy, vyberte výřez a exportujte. Přehledné ovládání usnadní běžné úpravy videí.
+
+OŘEZ V NĚKOLIKA KROCÍCH
+Vyberte poměr stran 16:9, 9:16, 1:1, 4:5 nebo 4:3, případně nastavte vlastní výřez. Ořez použijte na jeden klip nebo stejným způsobem upravte všechny klipy najednou. Výsledek si před exportem prohlédněte.
+
+ZKRÁCENÍ A EXPORT
+Zkraťte začátek či konec pomocí časové osy s náhledy. Změňte pořadí a spojte klipy do jednoho videa nebo každý exportujte jako samostatný očíslovaný soubor. Pokud potřebujete jen obraz, odeberte zvuk.
+
+KONTROLA VELIKOSTI
+Exportujte MP4 či MOV s kodekem H.264 nebo HEVC. Vyberte předvolbu kvality, omezte rozlišení nebo zadejte orientační cílovou velikost. Kompatibilní klipy lze exportovat bezeztrátově bez změny obrazu.
+
+LOKÁLNĚ A SOUKROMĚ
+Videa i zvuk zůstávají na vašem Macu. Úpravy a export fungují offline, bez účtu, nahrávání na server, analytiky, reklam a vodoznaků.
+
+VYTVOŘENO PRO MAC
+Nativní rozhraní se světlým, tmavým a systémovým vzhledem. Český systém automaticky použije češtinu, ostatní jazyky angličtinu. Jazyk si můžete kdykoli zvolit v nastavení.
+
+Jednorázový nákup. Bez předplatného a nákupů v aplikaci. LocalioBC je open source pod licencí MIT.
+
+Vyžaduje macOS 14 a novější. Podporuje Apple Silicon i Intel. Cílová velikost je odhad; bezeztrátový střih může záviset na klíčových snímcích. Dostupnost HEVC závisí na Macu. Ukládání a načítání projektů není součástí aplikace.

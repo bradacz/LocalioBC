@@ -11,3 +11,9 @@ xcuserdata/
 .env.*
 dist/
 *.dmg
+
+# Private App Review contact and local submission state
+AppStore/*.local.json
+AppStore/screenshots/raw/
+website/dist/
+website/.git/

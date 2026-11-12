@@ -4,6 +4,21 @@ import Foundation
 import Observation
 import UniformTypeIdentifiers
 
+// Keep the user's sandbox grant alive while AVFoundation reads/writes asynchronously.
+final class SecurityScopedAccess {
+    private let url: URL
+    private let didStart: Bool
+
+    init(_ url: URL) {
+        self.url = url
+        didStart = url.startAccessingSecurityScopedResource()
+    }
+
+    deinit {
+        if didStart { url.stopAccessingSecurityScopedResource() }
+    }
+}
+
 @Observable
 @MainActor
 final class EditorViewModel {
@@ -47,6 +62,8 @@ final class EditorViewModel {
     private var exportTask: Task<Void, Never>?
     @ObservationIgnored
     private var activePreviewURL: URL?
+    @ObservationIgnored
+    private var clipAccess: [UUID: SecurityScopedAccess] = [:]
 
     typealias PreviewBuilder = @MainActor ([VideoClip], ExportSettings) async throws -> AVPlayerItem
     typealias ExportOperation = @MainActor ([VideoClip], ExportSettings, URL, @escaping @Sendable (Double) -> Void) async throws -> ExportResult
@@ -196,8 +213,10 @@ final class EditorViewModel {
 
         var newlyAdded: [VideoClip] = []
         for url in urls {
+            let access = SecurityScopedAccess(url)
             do {
                 let clip = try await VideoInspector.loadClip(from: url)
+                clipAccess[clip.id] = access
                 newlyAdded.append(clip)
             } catch {
                 errorMessage = error.localizedDescription
@@ -232,6 +251,7 @@ final class EditorViewModel {
     }
 
     func removeClip(_ id: UUID) {
+        defer { clipAccess[id] = nil }
         pause()
         let wasSelected = (selectedClipID == id)
         if wasSelected { cancelCropEditing() }
@@ -296,6 +316,7 @@ final class EditorViewModel {
         currentTime = 0
         lastExportResult = nil
         settings = ExportSettings()
+        clipAccess.removeAll()
         exportMode = .merged
         player.isMuted = false
     }
@@ -625,11 +646,13 @@ final class EditorViewModel {
     }
 
     func startExport(to destinationURL: URL) {
-        beginExport(jobs: [ExportJob(clips: clips, destination: destinationURL)], directory: nil)
+        beginExport(jobs: [ExportJob(clips: clips, destination: destinationURL)], directory: nil,
+                    destinationAccess: SecurityScopedAccess(destinationURL))
     }
 
     func startSeparateExport(in directory: URL) {
         guard !clips.isEmpty, !isExporting, !isEditingCrop else { return }
+        let access = SecurityScopedAccess(directory)
         do {
             for clip in clips { try settings.validateTargetSize(for: [clip]) }
             // A unique folder prevents collisions with sources and previous exports.
@@ -639,13 +662,13 @@ final class EditorViewModel {
                 let name = String(format: "%03d_%@", index + 1, clip.url.deletingPathExtension().lastPathComponent)
                 return ExportJob(clips: [clip], destination: folder.appendingPathComponent(name).appendingPathExtension(settings.container.fileExtension))
             }
-            beginExport(jobs: jobs, directory: folder)
+            beginExport(jobs: jobs, directory: folder, destinationAccess: access)
         } catch {
             errorMessage = error.localizedDescription
         }
     }
 
-    private func beginExport(jobs: [ExportJob], directory: URL?) {
+    private func beginExport(jobs: [ExportJob], directory: URL?, destinationAccess: SecurityScopedAccess) {
         guard !clips.isEmpty, !isExporting, !isEditingCrop, !jobs.isEmpty else { return }
         do {
             for job in jobs { try settings.validateTargetSize(for: job.clips) }
@@ -663,7 +686,9 @@ final class EditorViewModel {
         lastExportDirectory = directory
         exportStatus = tr("Připravuji export…")
 
-        exportTask = Task {
+        let sourceAccess = jobs.flatMap { job in job.clips.compactMap { clipAccess[$0.id] } }
+        exportTask = Task { [destinationAccess, sourceAccess] in
+            defer { withExtendedLifetime((destinationAccess, sourceAccess)) {} }
             do {
                 for (index, job) in jobs.enumerated() {
                     try Task.checkCancellation()

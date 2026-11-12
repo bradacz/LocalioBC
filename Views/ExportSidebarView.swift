@@ -327,6 +327,7 @@ struct ExportSidebarView: View {
                         .padding(.vertical, 4)
                 }
                 .buttonStyle(AppButtonStyle(primary: true))
+                .id("\(preferences.language.rawValue)-\(viewModel.exportMode.rawValue)")
                 .controlSize(.large)
                 .disabled(viewModel.clips.isEmpty || viewModel.isLoadingClips || viewModel.isEditingCrop || targetSizeWarning != nil)
             }

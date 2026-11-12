@@ -1,0 +1,76 @@
+{
+  "app_name": "LocalioBC",
+  "bundle_id": "com.localiobvideo.app",
+  "sku": "LOCALIOBC-MAC-001",
+  "version": "1.0.0",
+  "build": "3",
+  "platform": "macOS",
+  "minimum_macos": "14.0",
+  "architectures": [
+    "arm64",
+    "x86_64"
+  ],
+  "team_id": "4RY8J45UR3",
+  "seller": "Localio Labs s.r.o.",
+  "primary_language": "en-US",
+  "localizations": [
+    "en-US",
+    "cs"
+  ],
+  "primary_category": "PHOTO_AND_VIDEO",
+  "secondary_category": null,
+  "copyright": "2026 Localio Labs s.r.o. and LocalioBC contributors",
+  "price": {
+    "business_model": "paid_upfront",
+    "amount": "4.99",
+    "currency": "EUR",
+    "suggested_base_country": "DEU",
+    "other_currencies": "Review Apple-generated local prices before confirming",
+    "subscriptions": false,
+    "in_app_purchases": false,
+    "status": "Prepared; not configured in App Store Connect"
+  },
+  "release_mode": "manual",
+  "content_rights": "Original app and original demo footage; no licensed catalogue content",
+  "app_privacy": {
+    "data_collected": false,
+    "tracking": false,
+    "privacy_policy_url": "https://localiobc.mylocalio.com/privacy/",
+    "notes": "App disclosure only. Website connection logs and support correspondence are described separately in the policy."
+  },
+  "encryption": {
+    "uses_non_exempt_encryption": false,
+    "note": "No custom cryptography, VPN, messaging, DRM or encrypted networking implemented by the app; Apple system frameworks only. Reassess if this changes."
+  },
+  "review_contact": {
+    "first_name": null,
+    "last_name": null,
+    "email": "info@mylocalio.com",
+    "phone": null,
+    "status": "Full contact, including phone, is prepared in ignored ReviewContact.local.json; never publish it."
+  },
+  "sign_in_required": false,
+  "age_rating": {
+    "expected": "4+",
+    "status": "Complete current Apple questionnaire; Apple computes final regional ratings",
+    "content_descriptors": "None for built-in content",
+    "unrestricted_web_access": false,
+    "online_user_generated_content": false,
+    "advertising": false,
+    "messaging": false,
+    "gambling": false,
+    "health_or_medical": false
+  },
+  "owner_actions": [
+    "Confirm active Paid Apps Agreement, banking and tax records",
+    "Complete EU trader verification using legal company contact details",
+    "Create or confirm app record for the bundle ID",
+    "Confirm pricing and storefront availability",
+    "Upload package, wait for Apple processing, select build and screenshots",
+    "Submit review after owner checks; release manually after approval"
+  ],
+  "website": {
+    "url": "https://localiobc.mylocalio.com/",
+    "status": "Public; custom domain and TLS active, English/Czech home/support/privacy verified in browser on 2026-11-12"
+  }
+}

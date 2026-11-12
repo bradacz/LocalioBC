@@ -117,7 +117,7 @@ Target sizes are estimates because variable-bitrate encoding and container overh
 
 ## License
 
-[MIT](LICENSE). LocalioBC is open source and completely free to use.
+[MIT](LICENSE). The direct/GitHub edition is free to use and build from source. A separately distributed Mac App Store edition is prepared as a EUR 4.99 one-time purchase; it remains open source.
 
 ## Build a distributable DMG
 
@@ -137,3 +137,11 @@ bash Scripts/build-dmg.sh
 Use your own Developer ID certificate and an existing `notarytool` Keychain profile. Credentials stay in the Keychain and must never be committed. Without `NOTARY_PROFILE`, the script produces an unnotarized development image. Without `SIGN_IDENTITY`, it uses ad-hoc signing, which is not suitable for a trusted public release.
 
 The script builds both architectures in Release mode, signs and notarizes the app, staples its ticket, creates a branded drag-to-Applications DMG, signs and notarizes the DMG, and verifies the packaged app and Gatekeeper acceptance. Artifacts and the checksum are written to `dist/`. Set `RELEASE_VERSION` to override the packaging version for a future release.
+
+## Mac App Store edition
+
+The separate `LocalioBC-AppStore` scheme archives the paid Store configuration with sandboxing, a bundled privacy manifest and licence, and copy appropriate for a one-time purchase. The public GitHub DMG remains the free direct edition.
+
+The complete [submission kit](AppStore/README.md) includes English/Czech metadata, screenshots, reviewer instructions and original demo clips, privacy/compliance answers, export options and a repeatable build script. Pricing is prepared at **EUR 4.99**, with manual release after Apple approval. Account-side pricing and review submission are not performed by the scripts.
+
+[Product website](https://localiobc.mylocalio.com/) · [Support](https://localiobc.mylocalio.com/support/) · [Privacy policy](https://localiobc.mylocalio.com/privacy/)

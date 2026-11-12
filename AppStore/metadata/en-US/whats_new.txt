@@ -1,0 +1,1 @@
+First Mac App Store release: simple video cropping, trimming, batch crop, separate or merged exports, optional audio removal, compression settings and Czech/English interface.

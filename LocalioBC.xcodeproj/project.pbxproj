@@ -25,6 +25,8 @@
 		A10000000000000000000003 = {isa = PBXBuildFile; fileRef = A10000000000000000000004; };
 		A10000000000000000000005 = {isa = PBXBuildFile; fileRef = A10000000000000000000006; };
         A20000000000000000000001 = {isa = PBXBuildFile; fileRef = A20000000000000000000002; };
+A30000000000000000000001 = {isa = PBXBuildFile; fileRef = A30000000000000000000002; };
+A30000000000000000000006 = {isa = PBXBuildFile; fileRef = A30000000000000000000007; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +64,8 @@
 		A10000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		A10000000000000000000008 = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = Resources/cs.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
         A20000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
+A30000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXVariantGroup section */
@@ -78,6 +82,8 @@
 			isa = PBXGroup;
 			children = (
 				7F783A8804752F0C2ADEDFF3 /* LocalioBCApp.swift */,
+                A30000000000000000000002 /* PrivacyInfo.xcprivacy */,
+                A30000000000000000000007 /* LICENSE */,
                 A10000000000000000000006 /* Localizable.strings */,
 				BF657CFE8769AAE6C0570C29 /* Models */,
 				6EE67047A4B2648DDBB08231 /* Services */,
@@ -211,7 +217,7 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		FE3A9AA62E912D99594D3F9E /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (222F0DBFFE5EB23DCD3FD16F /* Assets.xcassets in Resources */, A10000000000000000000005); runOnlyForDeploymentPostprocessing = 0; };
+		FE3A9AA62E912D99594D3F9E /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (222F0DBFFE5EB23DCD3FD16F /* Assets.xcassets in Resources */, A10000000000000000000005, A30000000000000000000001, A30000000000000000000006); runOnlyForDeploymentPostprocessing = 0; };
 		505FFA93A7FB229B699300E7 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXResourcesBuildPhase section */
 
@@ -344,12 +350,61 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LocalioBC.app/Contents/MacOS/LocalioBC";
 			}; name = Release; };
+		A30000000000000000000003 /* AppStore */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = AppStore;
+		};
+		A30000000000000000000004 /* AppStore */ = {isa = XCBuildConfiguration; buildSettings = {
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LocalioBC.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+                DEVELOPMENT_TEAM = 4RY8J45UR3;
+                SWIFT_ACTIVE_COMPILATION_CONDITIONS = "APP_STORE $(inherited)";
+                ENABLE_APP_SANDBOX = YES;
+                CURRENT_PROJECT_VERSION = 3;
+				COMBINE_HIDPI_IMAGES = YES;
+
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks");
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.localiobvideo.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			}; name = AppStore; };
+		A30000000000000000000005 /* AppStore */ = {isa = XCBuildConfiguration; buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks", "@loader_path/../Frameworks");
+				PRODUCT_BUNDLE_IDENTIFIER = com.localiobvideo.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LocalioBC.app/Contents/MacOS/LocalioBC";
+			}; name = AppStore; };
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		550FEBBE252641242DA80FDE = {isa = XCConfigurationList; buildConfigurations = (D08DD63EED508AD30D0CB0B4, 811CB99F7A296F7846C18A7F); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
-		A296CF4B7E708AB4E80076A9 = {isa = XCConfigurationList; buildConfigurations = (E9B2E96ABC5F6856F2BE79CF, 5A8C91857F674E16E2724F47); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
-		BBD1A4309DD6635F34F23AFF = {isa = XCConfigurationList; buildConfigurations = (FCB48D8F88BCDB0ED9FADFD7, 942EEBBACD6C88CAE7F29B29); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		550FEBBE252641242DA80FDE = {isa = XCConfigurationList; buildConfigurations = (D08DD63EED508AD30D0CB0B4, 811CB99F7A296F7846C18A7F, A30000000000000000000003); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		A296CF4B7E708AB4E80076A9 = {isa = XCConfigurationList; buildConfigurations = (E9B2E96ABC5F6856F2BE79CF, 5A8C91857F674E16E2724F47, A30000000000000000000004); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		BBD1A4309DD6635F34F23AFF = {isa = XCConfigurationList; buildConfigurations = (FCB48D8F88BCDB0ED9FADFD7, 942EEBBACD6C88CAE7F29B29, A30000000000000000000005); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
 /* End XCConfigurationList section */
 	};
 	rootObject = 98F54143AB4E86B28C3AFEE0 /* Project object */;

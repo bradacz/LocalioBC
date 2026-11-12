@@ -1,0 +1,20 @@
+LocalioBC is a simple, quick way to crop video on your Mac. Open your clips, choose the frame and export. Clear controls keep everyday video edits straightforward.
+
+CROP IN A FEW STEPS
+Choose a familiar aspect ratio — 16:9, 9:16, 1:1, 4:5 or 4:3 — or adjust a custom frame. Apply the crop to one clip or use the same crop across all your clips. Preview the result before exporting.
+
+TRIM AND EXPORT
+Shorten the beginning or end using a thumbnail timeline. Reorder and merge clips into one video, or export each clip as a separate numbered file. Remove audio when you only need the picture.
+
+CONTROL FILE SIZE
+Export MP4 or MOV with H.264 or HEVC. Choose a quality preset, set a resolution limit or enter an estimated target size. Eligible clips can use lossless export without changing the image.
+
+LOCAL AND PRIVATE
+Your video and audio stay on your Mac. Editing and export work offline, with no account, uploads, analytics, ads or watermarks.
+
+MADE FOR MAC
+A native interface with light, dark and system appearance. Czech is selected automatically on Czech systems; other system languages use English. You can always choose the language in Settings.
+
+One-time purchase. No subscription or in-app purchases. LocalioBC is open source under the MIT license.
+
+Requires macOS 14 or later. Supports Apple Silicon and Intel. Target sizes are estimates; lossless trimming can depend on source keyframes. HEVC availability depends on your Mac. Project save/load is not included.

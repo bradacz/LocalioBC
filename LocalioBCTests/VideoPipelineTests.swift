@@ -663,6 +663,17 @@ final class VideoPipelineTests: XCTestCase {
         XCTAssertEqual(AppLanguage.english.resolvedCode(preferredLanguages: ["cs-CZ"]), "en")
     }
 
+    func testPrivacyManifestIsBundledAndDeclaresLocalOnlyUsage() throws {
+        let url = try XCTUnwrap(Bundle.main.url(forResource: "PrivacyInfo", withExtension: "xcprivacy"))
+        let manifest = try XCTUnwrap(PropertyListSerialization.propertyList(from: Data(contentsOf: url), format: nil) as? [String: Any])
+        XCTAssertEqual(manifest["NSPrivacyTracking"] as? Bool, false)
+        XCTAssertEqual((manifest["NSPrivacyCollectedDataTypes"] as? [[String: Any]])?.count, 0)
+        let reasons = try XCTUnwrap(manifest["NSPrivacyAccessedAPITypes"] as? [[String: Any]])
+        let defaults = try XCTUnwrap(reasons.first { $0["NSPrivacyAccessedAPIType"] as? String == "NSPrivacyAccessedAPICategoryUserDefaults" })
+        XCTAssertEqual(defaults["NSPrivacyAccessedAPITypeReasons"] as? [String], ["CA92.1"])
+        XCTAssertEqual(AppDistribution.privacyURL.absoluteString, "https://localiobc.mylocalio.com/privacy/")
+    }
+
     @MainActor
     func testPassthroughTrimAndTargetSizeCompression() async throws {
         let sourceURL = tempDir.appendingPathComponent("source.mp4")

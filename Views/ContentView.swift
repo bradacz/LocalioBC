@@ -104,7 +104,7 @@ struct ContentView: View {
             .frame(width: 680)
             .padding(.top, 26)
             Spacer(minLength: 24)
-            Label(tr("Lokální zpracování · Zdarma · Open source"), systemImage: "lock.shield")
+            Label(AppDistribution.footer, systemImage: "lock.shield")
                 .font(.system(size: 11)).foregroundStyle(.secondary)
                 .padding(.bottom, 22)
         }

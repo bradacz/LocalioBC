@@ -1,0 +1,1 @@
+A simple, quick way to crop video on your Mac. Pick the frame, trim the clip and export. Apply one crop to all clips. No subscription or uploads.

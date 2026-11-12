@@ -2,6 +2,35 @@ import AppKit
 import Observation
 import SwiftUI
 
+enum AppDistribution {
+    static let website = URL(string: "https://localiobc.mylocalio.com")!
+    static let privacyURL = website.appendingPathComponent("privacy/")
+
+    static var aboutTitle: String {
+        #if APP_STORE
+        tr("Jednorázový nákup · Open source")
+        #else
+        tr("Zdarma a open source")
+        #endif
+    }
+
+    static var aboutDescription: String {
+        #if APP_STORE
+        tr("LocalioBC je open source editor videa. Jednorázový nákup v Mac App Storu, bez předplatného, reklam a vodoznaků.")
+        #else
+        tr("LocalioBC je open source a zcela zdarma. Bez předplatného, reklam a vodoznaků.")
+        #endif
+    }
+
+    static var footer: String {
+        #if APP_STORE
+        tr("Lokální zpracování · Bez předplatného · Open source")
+        #else
+        tr("Lokální zpracování · Zdarma · Open source")
+        #endif
+    }
+}
+
 enum AppAppearance: String, CaseIterable, Identifiable {
     case system, light, dark
     var id: String { rawValue }

@@ -4,6 +4,8 @@ struct SettingsView: View {
     @Bindable var preferences: AppPreferences
     var initialTab = 0
     @State private var selectedTab = 0
+    @State private var showPrivacy = false
+    @State private var showLicense = false
     @Environment(\.dismiss) private var dismiss
 
     private let accent = AppDesign.accent
@@ -42,6 +44,8 @@ struct SettingsView: View {
         .background(Color(nsColor: .windowBackgroundColor))
         .tint(accent)
         .onAppear { selectedTab = initialTab }
+        .sheet(isPresented: $showPrivacy) { PrivacyPolicyView() }
+        .sheet(isPresented: $showLicense) { LicenseView() }
         .preferredColorScheme(preferences.appearance.colorScheme)
         .environment(\.locale, Locale(identifier: preferences.language.resolvedCode))
     }
@@ -133,13 +137,13 @@ struct SettingsView: View {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("LocalioBC").font(.system(size: 28, weight: .bold))
                     Text(tr("Verze %@", version)).font(.callout).foregroundStyle(.secondary)
-                    Text(tr("Zdarma a open source"))
+                    Text(AppDistribution.aboutTitle)
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(accent)
                 }
             }
             VStack(alignment: .leading, spacing: 10) {
-                Text(tr("LocalioBC je open source a zcela zdarma. Bez předplatného, reklam a vodoznaků."))
+                Text(AppDistribution.aboutDescription)
                 Text(tr("Videa se zpracovávají lokálně na vašem Macu. Pro úpravy ani export není potřeba účet nebo internet."))
                     .foregroundStyle(.secondary)
             }
@@ -170,13 +174,21 @@ struct SettingsView: View {
             VStack(alignment: .leading, spacing: 14) {
                 Text(tr("Odkazy a kontakt")).font(.system(size: 15, weight: .semibold))
                 VStack(spacing: 8) {
+                    contactLink("LocalioBC", detail: "localiobc.mylocalio.com", icon: "film", url: AppDistribution.website.absoluteString)
                     contactLink("LocalioBuzz", detail: "www.localiobuzz.com", icon: "globe", url: "https://www.localiobuzz.com")
                     contactLink("MyLocalio", detail: "mylocalio.com", icon: "globe", url: "https://mylocalio.com")
                     contactLink(tr("Kontakt"), detail: "info@mylocalio.com", icon: "envelope", url: "mailto:info@mylocalio.com")
                 }
+                Button { showPrivacy = true } label: {
+                    Label(tr("Zásady ochrany soukromí"), systemImage: "hand.raised")
+                }
+                .buttonStyle(.link)
             }
-            Text(tr("Licence MIT • © 2026 LocalioBC contributors"))
-                .font(.caption).foregroundStyle(.secondary)
+            HStack(spacing: 8) {
+                Button(tr("Licence MIT")) { showLicense = true }.buttonStyle(.link)
+                Text("© 2026 Localio Labs s.r.o. / LocalioBC contributors").foregroundStyle(.secondary)
+            }
+            .font(.caption)
         }
     }
 
@@ -226,6 +238,50 @@ struct SettingsView: View {
         "Odstranění zvukových stop, průběh exportu a možnost zrušení.",
         "České a anglické rozhraní; světlý, tmavý nebo systémový vzhled."
     ]
+}
+
+private struct PrivacyPolicyView: View {
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            Text(tr("Zásady ochrany soukromí")).font(.title2.bold())
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    Text(tr("Videa a zvuk se zpracovávají pouze na vašem Macu. LocalioBC je nenahrává na servery a neshromažďuje osobní údaje, analytiku ani reklamní identifikátory."))
+                    Text(tr("Aplikace přistupuje pouze k souborům a složkám, které vyberete nebo přetáhnete do okna. Dočasné soubory používá pro zpracování videa; nastavení jazyka a vzhledu ukládá lokálně."))
+                    Text(tr("Nákupy, platby a případnou diagnostiku App Storu spravuje Apple podle svých zásad. Otevření webového odkazu nebo e-mailu spustí vaši zvolenou aplikaci a řídí se zásadami dané služby."))
+                    Text(tr("Pokud nás kontaktujete e-mailem, použijeme údaje z vaší zprávy k vyřízení dotazu. Provozovatel: Localio Labs s.r.o. Kontakt: info@mylocalio.com. Aktualizováno: 12. listopadu 2026."))
+                    Link(tr("Úplné zásady na webu"), destination: AppDistribution.privacyURL)
+                }
+                .font(.body)
+                .lineSpacing(4)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            HStack { Spacer(); Button(tr("Zavřít")) { dismiss() }.keyboardShortcut(.cancelAction) }
+        }
+        .padding(28)
+        .frame(width: 600, height: 470)
+    }
+}
+
+private struct LicenseView: View {
+    @Environment(\.dismiss) private var dismiss
+    private var license: String {
+        guard let url = Bundle.main.url(forResource: "LICENSE", withExtension: nil),
+              let text = try? String(contentsOf: url, encoding: .utf8) else { return "MIT License" }
+        return text
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            Text(tr("Licence MIT")).font(.title2.bold())
+            ScrollView { Text(license).font(.body).textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading) }
+            HStack { Spacer(); Button(tr("Zavřít")) { dismiss() }.keyboardShortcut(.cancelAction) }
+        }
+        .padding(28)
+        .frame(width: 640, height: 480)
+    }
 }
 
 private struct AppearanceOption: View {

@@ -1,0 +1,1 @@
+První vydání v Mac App Storu: jednoduchý ořez a střih videa, hromadný ořez, samostatný či společný export, odebrání zvuku, komprese a české i anglické rozhraní.

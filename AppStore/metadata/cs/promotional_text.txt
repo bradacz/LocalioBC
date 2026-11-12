@@ -1,0 +1,1 @@
+Jednoduché a rychlé řešení pro ořez videa na Macu. Vyberte výřez, zkraťte klip a exportujte. Stejný ořez použijte na všechny klipy. Bez předplatného.
