@@ -1,0 +1,11 @@
+.DS_Store
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.xcresult
+*.mov
+*.mp4
+*.m4v
+.env
+.env.*

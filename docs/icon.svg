@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="LocalioBC video editor icon">
+  <rect x="64" y="64" width="896" height="896" rx="200" fill="#f4eedf"/>
+  <g transform="translate(142 142) scale(9)">
+    <rect x="8" y="8" width="76" height="76" fill="#151515"/>
+    <rect x="2" y="2" width="76" height="76" fill="#f4eedf" stroke="#151515" stroke-width="4"/>
+    <path d="M4 4h36v72H4z" fill="#3157c8"/>
+    <path d="M40 4h36v36H40z" fill="#e9652a"/>
+    <path d="M40 40h36v36H40z" fill="#f0c646"/>
+    <path d="M15 16v43h17v9H6V16h9z" fill="#f4eedf"/>
+    <path d="M48 13h11.8c7.5 0 11.8 4.2 11.8 10.4 0 3.8-1.9 6.7-5.1 8.3 4.1 1.4 6.5 4.6 6.5 9 0 7.2-4.9 11.7-13 11.7H48V13zm10.9 15.8c3.4 0 5.3-1.6 5.3-4.5 0-2.9-1.9-4.3-5.3-4.3h-3.6v8.8h3.6zm.6 16.6c3.9 0 6.1-1.7 6.1-5.1 0-3.3-2.2-5-6.1-5h-4.2v10.1h4.2z" fill="#151515"/>
+    <rect x="47" y="57" width="25" height="16" rx="3" fill="#151515"/>
+    <path d="M56 60.5L65 65l-9 4.5z" fill="#f4eedf"/>
+  </g>
+</svg>
