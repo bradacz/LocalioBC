@@ -32,8 +32,13 @@ enum AppLanguage: String, CaseIterable, Identifiable {
         }
     }
     var resolvedCode: String {
+        resolvedCode(preferredLanguages: Locale.preferredLanguages)
+    }
+
+    func resolvedCode(preferredLanguages: [String]) -> String {
         if self != .system { return rawValue }
-        return Locale.preferredLanguages.first?.hasPrefix("cs") == true ? "cs" : "en"
+        guard let primaryLanguage = preferredLanguages.first else { return "en" }
+        return Locale.Language(identifier: primaryLanguage).languageCode?.identifier == "cs" ? "cs" : "en"
     }
 }
 

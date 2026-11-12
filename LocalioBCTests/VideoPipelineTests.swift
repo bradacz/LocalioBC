@@ -651,6 +651,18 @@ final class VideoPipelineTests: XCTestCase {
         XCTAssertEqual(localized("Ořez", language: .czech), "Ořez")
     }
 
+    func testAutomaticLanguageUsesCzechOnlyForCzechSystemLanguage() {
+        for language in ["cs", "cs-CZ", "cs_CZ", "CS-cz"] {
+            XCTAssertEqual(AppLanguage.system.resolvedCode(preferredLanguages: [language]), "cs", language)
+        }
+        for language in ["en-US", "de-DE", "sk-SK", "fr-FR", "ja-JP"] {
+            XCTAssertEqual(AppLanguage.system.resolvedCode(preferredLanguages: [language, "cs-CZ"]), "en", language)
+        }
+        XCTAssertEqual(AppLanguage.system.resolvedCode(preferredLanguages: []), "en")
+        XCTAssertEqual(AppLanguage.czech.resolvedCode(preferredLanguages: ["en-US"]), "cs")
+        XCTAssertEqual(AppLanguage.english.resolvedCode(preferredLanguages: ["cs-CZ"]), "en")
+    }
+
     @MainActor
     func testPassthroughTrimAndTargetSizeCompression() async throws {
         let sourceURL = tempDir.appendingPathComponent("source.mp4")
