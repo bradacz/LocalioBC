@@ -48,6 +48,7 @@ private struct EditorRootView: View {
             .id(preferences.language)
             .environment(preferences)
             .environment(\.locale, Locale(identifier: preferences.language.resolvedCode))
+            .tint(AppDesign.accent)
             .preferredColorScheme(preferences.appearance.colorScheme)
             .sheet(isPresented: $showSettings) { SettingsView(preferences: preferences, initialTab: showAbout ? 1 : 0) }
             .onReceive(NotificationCenter.default.publisher(for: .showLocalioSettings)) { _ in showAbout = true; showSettings = true }

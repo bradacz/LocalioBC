@@ -28,11 +28,7 @@ struct TimelineTrimView: View {
             }
         }
         .padding(14)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14))
-        .overlay(
-            RoundedRectangle(cornerRadius: 14)
-                .strokeBorder(Color.primary.opacity(0.08), lineWidth: 1)
-        )
+        .appPanel()
     }
 
     private var controlsHeader: some View {
@@ -42,8 +38,7 @@ struct TimelineTrimView: View {
                     .font(.system(size: 13, weight: .semibold))
                     .frame(width: 30, height: 30)
             }
-            .buttonStyle(.borderedProminent)
-            .clipShape(Circle())
+            .buttonStyle(AppButtonStyle(primary: true, compact: true))
             .help(isPlaying ? tr("Pozastavit") : tr("Přehrát"))
 
             if isPreviewingComposed {
@@ -72,12 +67,14 @@ struct TimelineTrimView: View {
                         Button(tr("Celý klip")) {
                             onTrimChange(0, clip.durationSeconds, 0)
                         }
-                        .buttonStyle(.bordered)
+                        .buttonStyle(AppButtonStyle(compact: true))
                         .controlSize(.small)
                     }
                 }
             }
         }
+        .lineLimit(1)
+        .frame(height: 32)
     }
 
     private func timeTag(title: String, value: String, highlight: Bool = false) -> some View {
@@ -87,7 +84,7 @@ struct TimelineTrimView: View {
                 .foregroundStyle(.secondary)
             Text(value)
                 .font(.caption.monospacedDigit().weight(.semibold))
-                .foregroundStyle(highlight ? Color.accentColor : Color.primary)
+                .foregroundStyle(highlight ? AppDesign.accent : Color.primary)
         }
         .padding(.horizontal, 8)
         .padding(.vertical, 4)
@@ -144,9 +141,9 @@ struct TimelineTrimView: View {
 
                 // Horní a dolní linka aktivního rozsahu
                 VStack {
-                    Rectangle().fill(Color.accentColor).frame(height: 3)
+                    Rectangle().fill(AppDesign.accent).frame(height: 3)
                     Spacer()
-                    Rectangle().fill(Color.accentColor).frame(height: 3)
+                    Rectangle().fill(AppDesign.accent).frame(height: 3)
                 }
                 .frame(width: max(2, endX - startX), height: trackHeight)
                 .offset(x: startX)
@@ -214,7 +211,7 @@ struct TimelineTrimView: View {
                 bottomTrailingRadius: isLeft ? 0 : 7,
                 topTrailingRadius: isLeft ? 0 : 7
             )
-            .fill(Color.accentColor)
+            .fill(AppDesign.accent)
 
             RoundedRectangle(cornerRadius: 1)
                 .fill(Color.white.opacity(0.92))
@@ -259,7 +256,7 @@ struct TimelineTrimView: View {
                         let proportion = CGFloat(item.trimmedDuration / total)
                         ZStack {
                             RoundedRectangle(cornerRadius: 6)
-                                .fill(Color.accentColor.opacity(0.24))
+                                .fill(AppDesign.accent.opacity(0.24))
                             Text(item.fileName)
                                 .font(.caption2)
                                 .lineLimit(1)
@@ -288,6 +285,6 @@ struct TimelineTrimView: View {
                     }
             )
         }
-        .frame(height: 40)
+        .frame(height: trackHeight)
     }
 }

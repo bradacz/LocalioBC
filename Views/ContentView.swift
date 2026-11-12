@@ -19,14 +19,16 @@ struct ContentView: View {
             }
         }
         .frame(minWidth: 1040, minHeight: 680)
+        .background(AppDesign.canvas)
+        .tint(AppDesign.accent)
         .onDrop(of: [.fileURL], isTargeted: $isDropTargeted) { providers in
             viewModel.handleDroppedProviders(providers)
         }
         .overlay {
             if isDropTargeted && !viewModel.clips.isEmpty {
                 RoundedRectangle(cornerRadius: 16)
-                    .strokeBorder(Color.accentColor, style: StrokeStyle(lineWidth: 3, dash: [10, 6]))
-                    .background(Color.accentColor.opacity(0.08), in: RoundedRectangle(cornerRadius: 16))
+                    .strokeBorder(AppDesign.accent, style: StrokeStyle(lineWidth: 3, dash: [10, 6]))
+                    .background(AppDesign.accent.opacity(0.08), in: RoundedRectangle(cornerRadius: 16))
                     .overlay {
                         Label(tr("Pusťte videa pro přidání do fronty"), systemImage: "plus.circle.fill")
                             .font(.title3.weight(.semibold))
@@ -56,78 +58,71 @@ struct ContentView: View {
     // MARK: - Empty Dropzone
 
     private var emptyDropZoneView: some View {
-        VStack(spacing: 26) {
-            HStack { Spacer(); settingsButton }
-            Spacer()
-
-            VStack(spacing: 18) {
-                ZStack {
-                    Circle()
-                        .fill(Color.accentColor.opacity(isDropTargeted ? 0.24 : 0.12))
-                        .frame(width: 84, height: 84)
-
-                    Image(systemName: "film.stack")
-                        .font(.system(size: 36, weight: .medium))
-                        .foregroundStyle(Color.accentColor)
-                }
-
-                VStack(spacing: 6) {
-                    Text("LocalioBC")
-                        .font(.largeTitle.weight(.bold))
-                    Text(tr("Přetáhněte sem jedno nebo více videí (.mp4, .mov, .m4v)"))
-                        .font(.title3)
-                        .foregroundStyle(.secondary)
-                }
-
-                Button {
-                    viewModel.openFilePicker()
-                } label: {
-                    Label(tr("Vybrat videa z disku…"), systemImage: "folder.badge.plus")
-                        .font(.headline)
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 6)
-                }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.large)
-                .disabled(viewModel.isLoadingClips)
-
-                if viewModel.isLoadingClips {
-                    ProgressView(tr("Načítám video…"))
-                        .controlSize(.small)
-                }
+        VStack(spacing: 0) {
+            HStack {
+                brand
+                Spacer()
+                settingsButton
             }
-            .frame(maxWidth: 580)
-            .padding(44)
-            .background(
-                RoundedRectangle(cornerRadius: 22)
-                    .fill(Color(nsColor: .controlBackgroundColor).opacity(0.65))
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 22)
-                    .strokeBorder(
-                        isDropTargeted ? Color.accentColor : Color.primary.opacity(0.16),
-                        style: StrokeStyle(lineWidth: isDropTargeted ? 2.5 : 1.5, dash: [10, 7])
-                    )
-            )
-
-            HStack(spacing: 14) {
+            .padding(.horizontal, 22)
+            .padding(.vertical, 14)
+            Divider()
+            Spacer(minLength: 24)
+            VStack(spacing: 22) {
+                Image(nsImage: NSApp.applicationIconImage)
+                    .resizable().frame(width: 80, height: 80)
+                VStack(spacing: 9) {
+                    Text(tr("Vaše video. Váš výřez."))
+                        .font(.system(size: 30, weight: .bold))
+                    Text(tr("Importujte klipy a pusťte se do úprav. Vše zůstává na vašem Macu."))
+                        .font(.system(size: 13)).foregroundStyle(.secondary)
+                }
+                VStack(spacing: 16) {
+                    Button { viewModel.openFilePicker() } label: {
+                        Label(tr("Vybrat videa z disku…"), systemImage: "plus")
+                            .padding(.horizontal, 12).padding(.vertical, 3)
+                    }
+                    .buttonStyle(AppButtonStyle(primary: true))
+                    .disabled(viewModel.isLoadingClips)
+                    Text(tr("nebo sem přetáhněte MP4, MOV či M4V"))
+                        .font(.system(size: 12)).foregroundStyle(.secondary)
+                    if viewModel.isLoadingClips {
+                        ProgressView(tr("Načítám video…")).controlSize(.small)
+                    }
+                }
+                .padding(.top, 4)
+            }
+            .padding(36)
+            .frame(width: 590)
+            .appPanel(radius: 18)
+            .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(isDropTargeted ? AppDesign.accent : .clear, lineWidth: 2))
+            HStack(spacing: 28) {
                 featureBadge(icon: "scissors", title: tr("Časové zkrácení"), detail: tr("Rychlý střih začátku a konce"))
-                featureBadge(icon: "aspectratio", title: tr("Ořez obrazu"), detail: tr("16:9, 9:16, 1:1, 4:5 i vlastní"))
-                featureBadge(icon: "rectangle.stack.badge.plus", title: tr("Spojení & komprese"), detail: tr("Sloučení klipů a limit v MB"))
+                featureBadge(icon: "crop", title: tr("Ořez obrazu"), detail: tr("16:9, 9:16, 1:1, 4:5 i vlastní"))
+                featureBadge(icon: "square.and.arrow.up", title: tr("Spojení & komprese"), detail: tr("Sloučení klipů a limit v MB"))
             }
-            .frame(maxWidth: 680)
-
-            Spacer()
+            .frame(width: 680)
+            .padding(.top, 26)
+            Spacer(minLength: 24)
+            Label(tr("Lokální zpracování · Zdarma · Open source"), systemImage: "lock.shield")
+                .font(.system(size: 11)).foregroundStyle(.secondary)
+                .padding(.bottom, 22)
         }
-        .padding(32)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    private var brand: some View {
+        HStack(spacing: 9) {
+            Image(nsImage: NSApp.applicationIconImage).resizable().frame(width: 30, height: 30)
+            Text("LocalioBC").font(.system(size: 15, weight: .semibold))
+        }
     }
 
     private func featureBadge(icon: String, title: String, detail: String) -> some View {
         HStack(spacing: 10) {
             Image(systemName: icon)
                 .font(.title3)
-                .foregroundStyle(Color.accentColor)
+                .foregroundStyle(AppDesign.accent)
                 .frame(width: 28)
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -138,95 +133,89 @@ struct ContentView: View {
             }
             Spacer(minLength: 0)
         }
-        .padding(12)
-        .frame(maxWidth: .infinity)
-        .background(Color(nsColor: .controlBackgroundColor).opacity(0.55), in: RoundedRectangle(cornerRadius: 12))
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     // MARK: - Main Editor Layout
 
     private var editorWorkspaceView: some View {
-        HSplitView {
-            VStack(spacing: 8) {
-                topBar
-                clipStripView
-                cropControls
-                previewStage
-                TimelineTrimView(
-                    clip: viewModel.selectedClip,
-                    allClips: viewModel.clips,
-                    currentTime: viewModel.currentTime,
-                    isPlaying: viewModel.isPlaying,
-                    isPreviewingComposed: viewModel.isPreviewingComposedResult,
-                    totalTrimmedDuration: viewModel.totalTrimmedDuration,
-                    onTogglePlayPause: { viewModel.togglePlayPause() },
-                    onSeek: { viewModel.seek(to: $0) },
-                    onTrimChange: { start, end, seekTarget in
-                        viewModel.updateTrim(start: start, end: end, seekTo: seekTarget)
-                    }
-                )
+        VStack(spacing: 0) {
+            topBar
+                .padding(.horizontal, 18)
+                .padding(.vertical, 10)
+            Divider()
+            HSplitView {
+                VStack(spacing: 12) {
+                    clipStripView
+                    cropControls
+                    previewStage
+                    TimelineTrimView(
+                        clip: viewModel.selectedClip,
+                        allClips: viewModel.clips,
+                        currentTime: viewModel.currentTime,
+                        isPlaying: viewModel.isPlaying,
+                        isPreviewingComposed: viewModel.isPreviewingComposedResult,
+                        totalTrimmedDuration: viewModel.totalTrimmedDuration,
+                        onTogglePlayPause: { viewModel.togglePlayPause() },
+                        onSeek: { viewModel.seek(to: $0) },
+                        onTrimChange: { start, end, seekTarget in
+                            viewModel.updateTrim(start: start, end: end, seekTo: seekTarget)
+                        }
+                    )
+                }
+                .padding(16)
+                .frame(minWidth: 680, maxWidth: .infinity, maxHeight: .infinity)
+                ExportSidebarView(viewModel: viewModel)
             }
-            .padding(12)
-            .frame(minWidth: 680, maxWidth: .infinity, maxHeight: .infinity)
-
-            ExportSidebarView(viewModel: viewModel)
         }
     }
 
     private var topBar: some View {
         HStack(spacing: 12) {
-            Button {
-                viewModel.openFilePicker()
-            } label: {
-                Label(tr("Přidat video"), systemImage: "plus")
-            }
-            .buttonStyle(.bordered)
-            .disabled(viewModel.isLoadingClips || viewModel.isExporting)
-
-            if viewModel.isLoadingClips {
-                ProgressView()
-                    .controlSize(.small)
-            }
-
-            Spacer()
-
-            Picker(
-                tr("Režim náhledu"),
-                selection: Binding(
-                    get: { viewModel.isPreviewingComposedResult },
-                    set: { viewModel.setComposedPreviewEnabled($0) }
-                )
-            ) {
+            brand
+            Text(tr(viewModel.clips.count == 1 ? "%d klip" : (viewModel.clips.count < 5 ? "%d klipy" : "%d klipů"), viewModel.clips.count))
+                .font(.system(size: 11, weight: .medium))
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, 9).padding(.vertical, 5)
+                .background(Color.primary.opacity(0.045), in: Capsule())
+            Spacer(minLength: 12)
+            Picker(tr("Režim náhledu"), selection: Binding(
+                get: { viewModel.isPreviewingComposedResult },
+                set: { viewModel.setComposedPreviewEnabled($0) }
+            )) {
                 Text(tr("Klip")).tag(false)
                 Text(tr("Výsledek")).tag(true)
             }
             .pickerStyle(.segmented)
             .labelsHidden()
-            .frame(width: 220)
+            .frame(width: 180)
             .help(tr("Klip: původní video pro střih. Výsledek: náhled všech úprav před exportem."))
-            .disabled(viewModel.clips.isEmpty || viewModel.isBuildingPreview || viewModel.isEditingCrop)
-
-            Spacer()
-
-            Button(role: .destructive) {
-                viewModel.clearAll()
-            } label: {
-                Label(tr("Vymazat vše"), systemImage: "trash")
+            .disabled(viewModel.isBuildingPreview || viewModel.isEditingCrop)
+            Spacer(minLength: 12)
+            if viewModel.isLoadingClips { ProgressView().controlSize(.small) }
+            Button { viewModel.openFilePicker() } label: {
+                Label(tr("Přidat video"), systemImage: "plus")
             }
-            .buttonStyle(.bordered)
+            .buttonStyle(AppButtonStyle())
+            .disabled(viewModel.isLoadingClips || viewModel.isExporting)
+            Button(role: .destructive) { viewModel.clearAll() } label: {
+                Image(systemName: "trash")
+            }
+            .buttonStyle(AppButtonStyle())
+            .help(tr("Vymazat vše"))
+            .accessibilityLabel(tr("Vymazat vše"))
             .disabled(viewModel.isExporting)
             settingsButton
         }
         .lineLimit(1)
-        .fixedSize(horizontal: false, vertical: true)
-        .controlSize(.small)
+        .frame(height: 32)
     }
 
     private var settingsButton: some View {
         Button(action: onOpenSettings) { Image(systemName: "gearshape") }
             .help(tr("Nastavení"))
             .accessibilityLabel(tr("Nastavení"))
-            .buttonStyle(.bordered)
+            .buttonStyle(AppButtonStyle(compact: true))
     }
 
     // MARK: - Clip Strip (Merge Queue)
@@ -304,12 +293,12 @@ struct ContentView: View {
                     if clip.isCropped {
                         Image(systemName: "crop")
                             .font(.system(size: 9))
-                            .foregroundStyle(Color.accentColor)
+                            .foregroundStyle(AppDesign.accent)
                     }
                     if clip.isTrimmed {
                         Image(systemName: "scissors")
                             .font(.system(size: 9))
-                            .foregroundStyle(Color.accentColor)
+                            .foregroundStyle(AppDesign.accent)
                     }
                 }
             }
@@ -353,11 +342,11 @@ struct ContentView: View {
         .padding(.vertical, 7)
         .background(
             RoundedRectangle(cornerRadius: 10)
-                .fill(isSelected ? Color.accentColor.opacity(0.14) : Color(nsColor: .controlBackgroundColor).opacity(0.8))
+                .fill(isSelected ? AppDesign.accent.opacity(0.07) : AppDesign.surface)
         )
         .overlay(
             RoundedRectangle(cornerRadius: 10)
-                .strokeBorder(isSelected ? Color.accentColor : Color.primary.opacity(0.1), lineWidth: isSelected ? 1.5 : 1)
+                .strokeBorder(isSelected ? AppDesign.accent : AppDesign.border, lineWidth: isSelected ? 1.5 : 1)
         )
         .contentShape(Rectangle())
         .onTapGesture {
@@ -393,7 +382,7 @@ struct ContentView: View {
                 Button(tr("Zrušit")) { viewModel.cancelCropEditing() }
                     .disabled(!viewModel.isEditingCrop)
                 Button(tr("Použít na klip")) { viewModel.applyCrop() }
-                    .buttonStyle(.borderedProminent)
+                    .buttonStyle(AppButtonStyle(primary: true, compact: true))
                     .disabled(!viewModel.isEditingCrop)
                 Button(tr("Na všechny klipy")) { viewModel.applyCrop(toAllClips: true) }
                     .disabled(viewModel.clips.count < 2)
@@ -430,8 +419,9 @@ struct ContentView: View {
         }
         .frame(height: 76, alignment: .top)
         .controlSize(.small)
-        .padding(8)
-        .background(Color.primary.opacity(0.035), in: RoundedRectangle(cornerRadius: 8))
+        .buttonStyle(AppButtonStyle(compact: true))
+        .padding(12)
+        .appPanel()
         .disabled(viewModel.isExporting || viewModel.isBuildingPreview)
     }
 
@@ -449,11 +439,11 @@ struct ContentView: View {
             let videoRect = PlayerLayerView.aspectFitRect(for: activeContentSize, in: containerSize)
 
             ZStack {
-                RoundedRectangle(cornerRadius: 14)
+                RoundedRectangle(cornerRadius: 12)
                     .fill(Color.black)
 
                 PlayerLayerView(player: viewModel.player)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                     .contentShape(Rectangle())
                     .onTapGesture {
                         viewModel.togglePlayPause()

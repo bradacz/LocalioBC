@@ -6,7 +6,7 @@ struct SettingsView: View {
     @State private var selectedTab = 0
     @Environment(\.dismiss) private var dismiss
 
-    private let accent = Color(red: 0.19, green: 0.34, blue: 0.78)
+    private let accent = AppDesign.accent
     private var version: String { Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0" }
 
     var body: some View {

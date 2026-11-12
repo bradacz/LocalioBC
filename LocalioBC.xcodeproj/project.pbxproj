@@ -24,6 +24,7 @@
 		A10000000000000000000001 = {isa = PBXBuildFile; fileRef = A10000000000000000000002; };
 		A10000000000000000000003 = {isa = PBXBuildFile; fileRef = A10000000000000000000004; };
 		A10000000000000000000005 = {isa = PBXBuildFile; fileRef = A10000000000000000000006; };
+        A20000000000000000000001 = {isa = PBXBuildFile; fileRef = A20000000000000000000002; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		A10000000000000000000004 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A10000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		A10000000000000000000008 = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = Resources/cs.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
+        A20000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXVariantGroup section */
@@ -136,6 +138,7 @@
 				5D6CC9309BDD5B15A1E55607 /* ExportSidebarView.swift */,
 				0382DB39033D3421A4467D1D /* ContentView.swift */,
                 A10000000000000000000004 /* SettingsView.swift */,
+                A20000000000000000000002 /* DesignSystem.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -218,6 +221,7 @@
 				39D5D11C521AFB3EA90870FB /* LocalioBCApp.swift in Sources */,
                 A10000000000000000000001,
                 A10000000000000000000003,
+                A20000000000000000000001,
 				CEDC9B47575FBAB6D13BF60D /* AspectRatioPreset.swift in Sources */,
 				80C5957F0A2ECCA0655672AF /* VideoClip.swift in Sources */,
 				0B1907E8CFC71E41658B36C5 /* ExportSettings.swift in Sources */,
