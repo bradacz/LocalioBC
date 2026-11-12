@@ -3,5 +3,8 @@
 from pathlib import Path
 import shutil
 root = Path(__file__).resolve().parent
-shutil.copytree(root / 'public', root / 'dist', dirs_exist_ok=True)
+output = root / 'dist'
+if output.exists():
+    shutil.rmtree(output)
+shutil.copytree(root / 'public', output)
 print('Built website/dist')
