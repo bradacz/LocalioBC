@@ -10,6 +10,14 @@ No subscriptions, ads, watermarks, accounts or uploads. Built with SwiftUI, AppK
 
 ![LocalioBC English interface](docs/screenshots/editor-en.png)
 
+## Download for macOS
+
+[**Download LocalioBC 1.0.0 for Mac**](https://github.com/bradacz/LocalioBC/releases/download/v1.0.0/LocalioBC-1.0.0-universal.dmg) · [All releases](https://github.com/bradacz/LocalioBC/releases)
+
+Requires **macOS 14 or later**. One universal DMG supports **Apple Silicon and Intel**. Open the disk image, drag **LocalioBC.app** into **Applications**, then eject the image and launch the app.
+
+Public release builds are Developer ID signed and Apple notarized. A SHA-256 checksum is provided with the release.
+
 ## Features
 
 - **Import:** drag and drop MP4, MOV and M4V files, or use the file picker.
@@ -110,3 +118,22 @@ Target sizes are estimates because variable-bitrate encoding and container overh
 ## License
 
 [MIT](LICENSE). LocalioBC is open source and completely free to use.
+
+## Build a distributable DMG
+
+Packaging uses the optional development tool `dmgbuild`; it is not bundled with the app.
+
+```sh
+python3 -m venv /tmp/LocalioBC-dmg-tools
+/tmp/LocalioBC-dmg-tools/bin/python -m pip install -r Scripts/requirements-dmg.txt
+
+SIGN_IDENTITY='Developer ID Application: Your Company (TEAMID)' \
+DEVELOPMENT_TEAM='TEAMID' \
+NOTARY_PROFILE='your-keychain-profile' \
+DMGBUILD_BIN=/tmp/LocalioBC-dmg-tools/bin/dmgbuild \
+bash Scripts/build-dmg.sh
+```
+
+Use your own Developer ID certificate and an existing `notarytool` Keychain profile. Credentials stay in the Keychain and must never be committed. Without `NOTARY_PROFILE`, the script produces an unnotarized development image. Without `SIGN_IDENTITY`, it uses ad-hoc signing, which is not suitable for a trusted public release.
+
+The script builds both architectures in Release mode, signs and notarizes the app, staples its ticket, creates a branded drag-to-Applications DMG, signs and notarizes the DMG, and verifies the packaged app and Gatekeeper acceptance. Artifacts and the checksum are written to `dist/`. Set `RELEASE_VERSION` to override the packaging version for a future release.

@@ -9,3 +9,5 @@ xcuserdata/
 *.m4v
 .env
 .env.*
+dist/
+*.dmg
