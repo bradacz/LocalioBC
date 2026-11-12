@@ -38,6 +38,14 @@ No subscriptions, ads, watermarks, accounts or uploads. Built with SwiftUI, AppK
 
 Open the gear icon to change language and appearance or read about the app. Keyboard shortcuts: **⌘O** to import, **⌘E** to export and **⌘,** for settings.
 
+## Preferences
+
+A dedicated settings panel provides a fixed navigation sidebar, visual appearance choices, immediate language switching and a structured About page. Preferences are saved automatically.
+
+![English settings in light appearance](docs/screenshots/settings-en-light.png)
+
+[View the dark appearance](docs/screenshots/settings-en-dark.png).
+
 ## Build from source
 
 Requires **macOS 14 or later** and **Xcode 16 or later with Swift 6**. Development and tests are verified with Xcode 26.3. There are no third-party package dependencies.
