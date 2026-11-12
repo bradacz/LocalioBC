@@ -1,6 +1,27 @@
-// Local presentation effects only. No analytics, storage, or network requests.
+// Presentation effects and playback of the user-supplied CDN video. No analytics or storage.
 (() => {
   const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const video = document.querySelector('.hero-film video');
+  const toggle = document.querySelector('.video-toggle');
+  if (video && toggle) {
+    video.muted = true;
+    video.controls = false;
+    toggle.hidden = false;
+    const update = () => {
+      toggle.textContent = video.paused ? toggle.dataset.play : toggle.dataset.pause;
+    };
+    toggle.addEventListener('click', () => {
+      if (video.paused) video.play().catch(update);
+      else video.pause();
+    });
+    video.addEventListener('play', update);
+    video.addEventListener('pause', update);
+    preference.addEventListener('change', event => {
+      if (event.matches) video.pause();
+    });
+    if (!preference.matches) video.play().catch(update);
+    update();
+  }
   if (preference.matches || !('IntersectionObserver' in window)) return;
 
   const header = document.querySelector('header');
