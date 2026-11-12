@@ -172,7 +172,6 @@ struct SettingsView: View {
                 VStack(spacing: 8) {
                     contactLink("LocalioBuzz", detail: "www.localiobuzz.com", icon: "globe", url: "https://www.localiobuzz.com")
                     contactLink("MyLocalio", detail: "mylocalio.com", icon: "globe", url: "https://mylocalio.com")
-                    contactLink(tr("Zdrojový kód na GitHubu"), detail: "bradacz/LocalioBC", icon: "chevron.left.forwardslash.chevron.right", url: "https://github.com/bradacz/LocalioBC")
                     contactLink(tr("Kontakt"), detail: "info@mylocalio.com", icon: "envelope", url: "mailto:info@mylocalio.com")
                 }
             }
