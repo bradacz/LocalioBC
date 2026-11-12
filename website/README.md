@@ -32,4 +32,4 @@ A local `motion.js` progressively adds staggered content reveals, a subtle scree
 
 ## Hero video
 
-The supplied Bunny.net MP4 plays muted and loops below the hero text, with soft CSS edge masks blending into the white canvas. An accessible localized pause/play control remains available; reduced-motion users get manual playback. Without JavaScript the native video controls remain available. The CDN receives normal media connection information as disclosed in both privacy pages. The current supplied screenshot remains undistorted and is lazy-loaded below the film.
+The supplied Bunny.net MP4 plays muted and loops behind the hero text, with soft CSS edge masks blending into the white canvas. A directional white veil keeps the foreground heading, description and download button readable. An accessible localized pause/play control remains available; reduced-motion users get manual playback. Without JavaScript the native video controls remain available. The CDN receives normal media connection information as disclosed in both privacy pages. The current supplied screenshot remains undistorted and is lazy-loaded below the film.

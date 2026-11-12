@@ -106,19 +106,26 @@ header.is-scrolled { border-color: #e4e7f0; box-shadow: 0 7px 22px #1c2b5407; }
 
 .full-version-note { color: var(--ink); font-size: 15px; margin: 10px 0 18px; max-width: 680px; }
 
-/* The film sits below the introduction and dissolves into the white canvas. */
-.hero-film { position: relative; max-width: 1080px; margin: 0 auto 36px; }
+
+/* Background film and foreground copy share the same hero area. */
+.hero { position: relative; isolation: isolate; max-width: none; min-height: 650px; padding: 64px 36px 72px; margin-bottom: 20px; }
+.hero-content { position: relative; z-index: 2; max-width: 720px; }
+.hero-content .lead { max-width: 650px; color: #505057; }
+.hero-content .fine { max-width: 600px; color: #55555c; }
+.hero-film { position: absolute; inset: 0 -12px; z-index: 0; overflow: hidden; }
 .hero-film video {
-  display: block; width: 100%; height: auto; background: var(--canvas);
+  display: block; position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center; background: var(--canvas);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent), linear-gradient(to bottom, transparent, #000 10%, #000 78%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent), linear-gradient(to bottom, transparent, #000 10%, #000 78%, transparent);
+  -webkit-mask-composite: source-in; mask-composite: intersect;
 }
-.hero-film video:not([controls]) {
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent), linear-gradient(to bottom, transparent, #000 12%, #000 84%, transparent);
-  mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent), linear-gradient(to bottom, transparent, #000 12%, #000 84%, transparent);
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
+.hero-film::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, #fffffffa 0%, #fffffff0 28%, #ffffffc9 48%, #ffffff42 74%, #ffffff0d 100%);
 }
 .video-toggle {
-  position: absolute; right: 28px; bottom: 12px; padding: 9px 15px;
+  position: absolute; z-index: 3; right: 32px; bottom: 34px; padding: 9px 15px;
   border: 1px solid var(--border); border-radius: 999px;
   background: #ffffffed; color: var(--ink); font: inherit; font-size: 13px;
   cursor: pointer; box-shadow: 0 3px 12px #1c2b5408;
@@ -127,6 +134,10 @@ header.is-scrolled { border-color: #e4e7f0; box-shadow: 0 7px 22px #1c2b5407; }
 .video-toggle:focus-visible { outline: 3px solid #3157c855; outline-offset: 4px; }
 .video-toggle[hidden] { display: none; }
 @media (max-width: 700px) {
-  .hero-film { margin: 0 -12px 24px; }
-  .video-toggle { right: 12px; bottom: 0; font-size: 12px; padding: 8px 12px; }
+  .hero { padding: 36px 0 90px; min-height: 0; margin-bottom: 10px; }
+  .hero-film { inset: 0 -22px; }
+  .hero-film video { object-position: 58% center; }
+  .hero-film::after { background: linear-gradient(90deg, #fffffff0, #ffffffc9); }
+  .hero-content .lead { font-size: 18px; }
+  .video-toggle { right: 22px; bottom: 28px; font-size: 12px; padding: 8px 12px; }
 }

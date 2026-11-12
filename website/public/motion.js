@@ -39,7 +39,7 @@
     }
   }, { threshold: 0.08, rootMargin: '0px 0px -24px 0px' });
 
-  const targets = [...document.querySelectorAll('.hero > *, .screen, .feature, .notice, .prose > h1, .prose > h2, .prose > p, .prose > details')];
+  const targets = [...document.querySelectorAll('.hero-content > *, .screen, .feature, .notice, .prose > h1, .prose > h2, .prose > p, .prose > details')];
   targets.forEach((element, index) => {
     const siblings = element.classList.contains('feature')
       ? [...element.parentElement.children].indexOf(element) : index % 3;
