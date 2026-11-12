@@ -107,32 +107,5 @@ header.is-scrolled { border-color: #e4e7f0; box-shadow: 0 7px 22px #1c2b5407; }
 .full-version-note { color: var(--ink); font-size: 15px; margin: 10px 0 18px; max-width: 680px; }
 
 
-/* Background film and foreground copy share the same hero area. */
-.hero { position: relative; isolation: isolate; max-width: none; min-height: 650px; padding: 64px 36px 72px; margin-bottom: 20px; }
-.hero-content { position: relative; z-index: 2; max-width: 720px; }
-.hero-content .lead { max-width: 650px; color: #35353b; }
-.hero-content .fine { max-width: 600px; color: #414147; }
-.hero-film {
-  position: absolute; inset: 0 -12px; z-index: 0; overflow: hidden;
-  --film-edge: clamp(24px, 3.2vw, 42px);
-}
-.hero-film video {
-  display: block; position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; object-position: center; background: var(--canvas);
-  /* Soft feathering reaches zero opacity on every edge without a clipped corner. */
-  -webkit-mask-image: linear-gradient(to right, transparent 0, #0000000a calc(var(--film-edge) * .15), #00000029 calc(var(--film-edge) * .3), #00000080 calc(var(--film-edge) * .5), #000000d6 calc(var(--film-edge) * .7), #000000f5 calc(var(--film-edge) * .85), #000 var(--film-edge), #000 calc(100% - var(--film-edge)), #000000f5 calc(100% - var(--film-edge) * .85), #000000d6 calc(100% - var(--film-edge) * .7), #00000080 calc(100% - var(--film-edge) * .5), #00000029 calc(100% - var(--film-edge) * .3), #0000000a calc(100% - var(--film-edge) * .15), transparent 100%), linear-gradient(to bottom, transparent 0, #0000000a calc(var(--film-edge) * .15), #00000029 calc(var(--film-edge) * .3), #00000080 calc(var(--film-edge) * .5), #000000d6 calc(var(--film-edge) * .7), #000000f5 calc(var(--film-edge) * .85), #000 var(--film-edge), #000 calc(100% - var(--film-edge)), #000000f5 calc(100% - var(--film-edge) * .85), #000000d6 calc(100% - var(--film-edge) * .7), #00000080 calc(100% - var(--film-edge) * .5), #00000029 calc(100% - var(--film-edge) * .3), #0000000a calc(100% - var(--film-edge) * .15), transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0, #0000000a calc(var(--film-edge) * .15), #00000029 calc(var(--film-edge) * .3), #00000080 calc(var(--film-edge) * .5), #000000d6 calc(var(--film-edge) * .7), #000000f5 calc(var(--film-edge) * .85), #000 var(--film-edge), #000 calc(100% - var(--film-edge)), #000000f5 calc(100% - var(--film-edge) * .85), #000000d6 calc(100% - var(--film-edge) * .7), #00000080 calc(100% - var(--film-edge) * .5), #00000029 calc(100% - var(--film-edge) * .3), #0000000a calc(100% - var(--film-edge) * .15), transparent 100%), linear-gradient(to bottom, transparent 0, #0000000a calc(var(--film-edge) * .15), #00000029 calc(var(--film-edge) * .3), #00000080 calc(var(--film-edge) * .5), #000000d6 calc(var(--film-edge) * .7), #000000f5 calc(var(--film-edge) * .85), #000 var(--film-edge), #000 calc(100% - var(--film-edge)), #000000f5 calc(100% - var(--film-edge) * .85), #000000d6 calc(100% - var(--film-edge) * .7), #00000080 calc(100% - var(--film-edge) * .5), #00000029 calc(100% - var(--film-edge) * .3), #0000000a calc(100% - var(--film-edge) * .15), transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
-}
-.hero-film::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(90deg, var(--canvas) 0%, var(--canvas) 4%, #fffffff2 24%, #ffffffcc 38%, #ffffff99 48%, #ffffff20 74%, #ffffff00 100%);
-}
-@media (max-width: 700px) {
-  .hero { padding: 36px 0 90px; min-height: 0; margin-bottom: 10px; }
-  .hero-film { inset: 0 -10px; }
-  .hero-film video { object-position: 58% center; }
-  .hero-film::after { background: linear-gradient(90deg, var(--canvas) 0%, #ffffffe6 35%, #ffffffb3 100%); }
-  .hero-content .lead { font-size: 18px; }
-}
+/* Compact introduction on the page canvas. */
+.hero-content { max-width: 940px; }

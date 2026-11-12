@@ -30,6 +30,6 @@ The page advertises the App Store edition as coming soon at EUR 4.99. It links t
 
 A local `motion.js` progressively adds staggered content reveals, a subtle screenshot parallax, a sticky translucent header and a thin scroll-progress bar. It makes no network requests, uses no storage, and honours `prefers-reduced-motion` (including changes during the session). The content and navigation remain usable without JavaScript. Scroll work is throttled with `requestAnimationFrame` and a passive listener.
 
-## Hero video
+## Hero section
 
-The supplied Bunny.net MP4 plays muted and loops behind the hero text, with a compact, smooth 24–42 px feather on all edges, without a clipped corner, outline or shadow. The left overlay starts at the exact page canvas color before gradually revealing the video. A directional white veil keeps the foreground heading, description and download button readable. The background video has no visible playback controls. Reduced-motion users get a still frame; playback follows changes to the system motion preference. Without JavaScript the video remains still. The CDN receives normal media connection information as disclosed in both privacy pages. The current supplied screenshot remains undistorted and is lazy-loaded below the film.
+The introduction uses the white page canvas without a background video or external media requests. The supplied app screenshot remains undistorted and is lazy-loaded below the text.
