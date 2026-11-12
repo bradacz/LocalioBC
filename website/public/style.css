@@ -114,26 +114,25 @@ header.is-scrolled { border-color: #e4e7f0; box-shadow: 0 7px 22px #1c2b5407; }
 .hero-content .fine { max-width: 600px; color: #414147; }
 .hero-film {
   position: absolute; inset: 0 -12px; z-index: 0; overflow: hidden;
-  border-radius: 24px;
-  --film-edge: clamp(12px, 2vw, 26px);
+  --film-edge: clamp(24px, 3.2vw, 42px);
 }
 .hero-film video {
   display: block; position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover; object-position: center; background: var(--canvas);
-  /* A narrow fade on three edges; the left text overlay stays unchanged. */
-  -webkit-mask-image: linear-gradient(to right, #000, #000 calc(100% - var(--film-edge)), transparent), linear-gradient(to bottom, transparent, #000 var(--film-edge), #000 calc(100% - var(--film-edge)), transparent);
-  mask-image: linear-gradient(to right, #000, #000 calc(100% - var(--film-edge)), transparent), linear-gradient(to bottom, transparent, #000 var(--film-edge), #000 calc(100% - var(--film-edge)), transparent);
+  /* Soft feathering reaches zero opacity on every edge without a clipped corner. */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #0000000a calc(var(--film-edge) * .15), #00000029 calc(var(--film-edge) * .3), #00000080 calc(var(--film-edge) * .5), #000000d6 calc(var(--film-edge) * .7), #000000f5 calc(var(--film-edge) * .85), #000 var(--film-edge), #000 calc(100% - var(--film-edge)), #000000f5 calc(100% - var(--film-edge) * .85), #000000d6 calc(100% - var(--film-edge) * .7), #00000080 calc(100% - var(--film-edge) * .5), #00000029 calc(100% - var(--film-edge) * .3), #0000000a calc(100% - var(--film-edge) * .15), transparent 100%), linear-gradient(to bottom, transparent 0, #0000000a calc(var(--film-edge) * .15), #00000029 calc(var(--film-edge) * .3), #00000080 calc(var(--film-edge) * .5), #000000d6 calc(var(--film-edge) * .7), #000000f5 calc(var(--film-edge) * .85), #000 var(--film-edge), #000 calc(100% - var(--film-edge)), #000000f5 calc(100% - var(--film-edge) * .85), #000000d6 calc(100% - var(--film-edge) * .7), #00000080 calc(100% - var(--film-edge) * .5), #00000029 calc(100% - var(--film-edge) * .3), #0000000a calc(100% - var(--film-edge) * .15), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #0000000a calc(var(--film-edge) * .15), #00000029 calc(var(--film-edge) * .3), #00000080 calc(var(--film-edge) * .5), #000000d6 calc(var(--film-edge) * .7), #000000f5 calc(var(--film-edge) * .85), #000 var(--film-edge), #000 calc(100% - var(--film-edge)), #000000f5 calc(100% - var(--film-edge) * .85), #000000d6 calc(100% - var(--film-edge) * .7), #00000080 calc(100% - var(--film-edge) * .5), #00000029 calc(100% - var(--film-edge) * .3), #0000000a calc(100% - var(--film-edge) * .15), transparent 100%), linear-gradient(to bottom, transparent 0, #0000000a calc(var(--film-edge) * .15), #00000029 calc(var(--film-edge) * .3), #00000080 calc(var(--film-edge) * .5), #000000d6 calc(var(--film-edge) * .7), #000000f5 calc(var(--film-edge) * .85), #000 var(--film-edge), #000 calc(100% - var(--film-edge)), #000000f5 calc(100% - var(--film-edge) * .85), #000000d6 calc(100% - var(--film-edge) * .7), #00000080 calc(100% - var(--film-edge) * .5), #00000029 calc(100% - var(--film-edge) * .3), #0000000a calc(100% - var(--film-edge) * .15), transparent 100%);
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
 }
 .hero-film::after {
   content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(90deg, #ffffffe8 0%, #ffffffd6 28%, #ffffff99 48%, #ffffff20 74%, #ffffff00 100%);
+  background: linear-gradient(90deg, var(--canvas) 0%, var(--canvas) 4%, #fffffff2 24%, #ffffffcc 38%, #ffffff99 48%, #ffffff20 74%, #ffffff00 100%);
 }
 @media (max-width: 700px) {
   .hero { padding: 36px 0 90px; min-height: 0; margin-bottom: 10px; }
-  .hero-film { inset: 0 -10px; border-radius: 18px; }
+  .hero-film { inset: 0 -10px; }
   .hero-film video { object-position: 58% center; }
-  .hero-film::after { background: linear-gradient(90deg, #ffffffdc, #ffffffb3); }
+  .hero-film::after { background: linear-gradient(90deg, var(--canvas) 0%, #ffffffe6 35%, #ffffffb3 100%); }
   .hero-content .lead { font-size: 18px; }
 }
