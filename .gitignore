@@ -17,3 +17,6 @@ AppStore/*.local.json
 AppStore/screenshots/raw/
 website/dist/
 website/.git/
+
+# Private App Store submission identifiers and account URLs
+AppStore/SubmissionStatus.local.json

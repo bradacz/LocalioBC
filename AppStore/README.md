@@ -2,6 +2,10 @@
 
 LocalioBC **1.0.0 (3)** is prepared as a one-time paid Mac App Store app at **EUR 4.99**. The product positioning is **simple, quick video cropping**, with trimming, compression and batch export as supporting features. The public GitHub/direct edition remains free. Store builds do not claim to be free and contain no GitHub link.
 
+## Current submission
+
+Submitted November 13, 2026 as version **1.0.0 (3)**. Status: **Waiting for Review**. The branded icon, English/Czech metadata and screenshots, review attachment/contact, age rating 4+, privacy answers, EUR 4.99 Germany base price and availability in all 175 countries/regions are configured. Release remains manual after approval. See `STATUS.md` for the submission status; private identifiers and account URLs remain in ignored `SubmissionStatus.local.json`.
+
 ## Prepared artifacts
 
 - `dist/app-store-final/export/LocalioBC.pkg`: signed Mac App Store upload package.
@@ -41,7 +45,7 @@ The Account Holder must confirm active developer membership, the **Paid Apps Agr
 
 In Pricing and Availability, choose an EUR base storefront (suggested: **Germany**) and select **EUR 4.99**. Review the entire generated price table before confirming. Other currencies use Apple's local equivalents; do not interpret EUR 4.99 as the same numeric price in CZK or USD. Confirm the EUR storefronts show the intended price and choose the required availability regions. No subscription or in-app purchase product needs to be created.
 
-Pricing is prepared in this kit; it has not been saved in App Store Connect. The store listing must not claim the App Store download is free.
+Pricing is saved in App Store Connect: Germany EUR 4.99, with Apple-generated equivalents (Czech Republic CZK 99). The store listing must not claim the App Store download is free.
 
 ## Upload and submit
 
@@ -54,7 +58,7 @@ Pricing is prepared in this kit; it has not been saved in App Store Connect. The
 7. Confirm price, regions, copyright, content rights, company/trader information and manual release. Submit for review after checking all required fields.
 8. Release manually after Apple approval. Replace the website's coming-soon text with the actual App Store link only when available.
 
-No upload to App Store Connect, review submission or public Store release is performed by this kit.
+The scripts do not upload or submit automatically. The prepared package was uploaded through Transporter and submitted through App Store Connect on November 13, 2026. Public Store release remains pending review and manual release.
 
 ## Rebuild and validate
 

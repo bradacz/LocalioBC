@@ -28,7 +28,7 @@
     "other_currencies": "Review Apple-generated local prices before confirming",
     "subscriptions": false,
     "in_app_purchases": false,
-    "status": "Prepared; not configured in App Store Connect"
+    "status": "Configured in App Store Connect"
   },
   "release_mode": "manual",
   "content_rights": "Original app and original demo footage; no licensed catalogue content",
@@ -52,7 +52,7 @@
   "sign_in_required": false,
   "age_rating": {
     "expected": "4+",
-    "status": "Complete current Apple questionnaire; Apple computes final regional ratings",
+    "status": "Questionnaire completed; Apple calculated 4+",
     "content_descriptors": "None for built-in content",
     "unrestricted_web_access": false,
     "online_user_generated_content": false,
@@ -62,15 +62,21 @@
     "health_or_medical": false
   },
   "owner_actions": [
-    "Confirm active Paid Apps Agreement, banking and tax records",
-    "Complete EU trader verification using legal company contact details",
-    "Create or confirm app record for the bundle ID",
-    "Confirm pricing and storefront availability",
-    "Upload package, wait for Apple processing, select build and screenshots",
-    "Submit review after owner checks; release manually after approval"
+    "Wait for App Review and respond to any Apple feedback",
+    "Release manually after approval",
+    "Add the actual public App Store link to the website after release"
   ],
   "website": {
     "url": "https://localiobc.mylocalio.com/",
     "status": "Public; custom domain and TLS active, English/Czech home/support/privacy verified in browser on 2026-11-12"
+  },
+  "availability": {
+    "countries_or_regions": 175,
+    "status": "Available on manual App Release"
+  },
+  "review_submission": {
+    "status": "WAITING_FOR_REVIEW",
+    "submitted_on": "2026-11-13",
+    "private_details": "Ignored SubmissionStatus.local.json"
   }
 }
