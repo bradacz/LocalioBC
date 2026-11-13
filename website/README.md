@@ -2,9 +2,16 @@
 
 Public product, support and privacy pages, in English and Czech, for https://localiobc.mylocalio.com/.
 
-The static source is in `public/`; `python3 build.py` copies it to `dist/`. There are no application dependencies, forms, analytics tags, third-party player embeds or advertising cookies. Language navigation and FAQ disclosure controls work without JavaScript. The website uses a clean light palette matching the app: white and light-grey surfaces with LocalioBC blue. A supplied native screenshot is shown without distortion, at its original aspect ratio. Both flag controls remain available and preserve the current page when switching language.
+The static source is in `public/`; `python3 build.py` copies it to `dist/`. There are no application dependencies, forms, third-party player embeds or advertising cookies. Optional Google Analytics loads only after explicit website consent; the macOS app has no analytics SDK. Language navigation and FAQ disclosure controls work without JavaScript. The website uses a clean light palette matching the app: white and light-grey surfaces with LocalioBC blue. A supplied native screenshot is shown without distortion, at its original aspect ratio. Both flag controls remain available and preserve the current page when switching language.
 
-Hosted using Sites, project `appgprj_6af5c725b70c81918f92ee2b358f6e7f`, with public access. The custom hostname and HTTPS certificate were activated on November 12, 2026. The isolated source synchronization checkout used for publication is `/private/tmp/localiobc-product-site`; `.openai/hosting.json` preserves the project identity for future edits. Credentials must be obtained at runtime through the Sites tools and never stored in source or this file.
+## GitHub → Cloudflare Pages
+
+Production source: `bradacz/LocalioBC`, branch `main`, directory `website`.
+Cloudflare Pages project: `localiobc-web` (`localiobc-web.pages.dev`). Build command `python3 build.py`, output `dist`, root `website`; preview builds disabled.
+The initial GitHub deployment `2ccb08e9-bfaa-4665-b4d3-95fdc6978922` succeeded on 13 November 2026. Custom-domain cutover is being verified; do not claim it complete before DNS and HTTPS checks.
+The previous Sites project `appgprj_6af5c725b70c81918f92ee2b358f6e7f` is historical and is no longer the intended publishing workflow. Do not publish from its temporary checkout.
+
+See [Google measurement and verification](GOOGLE.md) for IDs, consent behavior and acceptance state.
 
 ## Routes
 
@@ -18,11 +25,11 @@ Hosted using Sites, project `appgprj_6af5c725b70c81918f92ee2b358f6e7f`, with pub
 
 Only records for the new `localiobc` hostname were added in the mylocalio.com Cloudflare zone. Existing apex, wildcard, mail and other subdomain records were preserved.
 
-- `localiobc.mylocalio.com` CNAME `custom-domains.chatgpt.site`, DNS only, automatic TTL.
+- Target after verified cutover: `localiobc.mylocalio.com` CNAME `localiobc-web.pages.dev`. Previous target was `custom-domains.chatgpt.site`.
 - `_openai-site-verification.localiobc.mylocalio.com` TXT: ownership verification managed by Sites.
 - `_cf-custom-hostname.localiobc.mylocalio.com` TXT: certificate/hostname verification managed by Sites.
 
-Keep verification records while the custom hostname is in use. Refresh the Sites custom-domain state after any DNS changes.
+The two TXT records above belong to the historical Sites hosting. Do not remove unrelated DNS records. Verify the Pages custom-domain status and HTTPS after cutover.
 
 The page advertises the App Store edition as coming soon at EUR 4.99. It links to the full free direct download, explicitly stating that all features are included with no time limits, paid unlocks or watermarks. A GitHub source link is available in the footer. Add a genuine App Store product URL after Apple approves and releases the listing; do not insert a guessed app ID or non-working store badge.
 
