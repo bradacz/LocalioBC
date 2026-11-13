@@ -10,3 +10,9 @@ Updated 13 November 2026. Scope: public website only; macOS app has no analytics
 - Cloudflare Pages is built automatically from GitHub main, root website, command python3 build.py, output dist. Build ignores temporary editor/media files.
 - Eliška named Google reporting is connected; daily email remains TwoUp, MyLocalio, FLOOXI and LocalioBuzz only.
 - Acceptance: shared consent code passed opt-in, rejection, revocation, expiry, blocked-storage, host-boundary and URL-redaction tests. Production deployment 8b7629ff-3d38-4070-81f7-f86fcac5ec85 succeeded. CNAME now points to localiobc-web.pages.dev; Cloudflare reports domain, validation and verification active. HTTPS serves the GitHub build. Google confirmed ownership and GA Realtime returned page_view, first_visit and session_start after a normal consented visit on 13/14 November. These acceptance visits are not representative traffic. Enhanced automatic measurement was disabled on 14 November; controlled page views remain enabled.
+
+## Oprava inicializace 14. 11. 2026
+
+Google tag GTM-M8HZKXQH, účet 6405006390, kontejner 286852667: publikována živá verze 2. Výchozí Initialization - All Pages ignorovalo webové gtag config a způsobovalo duplicitní page_view. Nahrazeno jediným pravidlem Inicializace podle konfigurace webu s podporou gtag(config), čekáním na vlastní kontejner a přesné ID G-HFRP7KWGWE. Původní pravidlo odstraněno. Nastavení send_page_view:false i soukromí nyní řídí kód webu. Automatické rozšířené měření zůstává vypnuté.
+
+Kontrolovaná návštěva se souhlasem po publikování přidala právě jedno page_view (Realtime 1 → 2). Jde o technický test, nikoli historickou návštěvnost. Přehledy v Elišce používají přesná GA/GSC ID; nová historie se nevytváří zpětně.
