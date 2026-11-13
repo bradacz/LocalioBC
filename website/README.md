@@ -40,3 +40,7 @@ A local `motion.js` progressively adds staggered content reveals, a subtle scree
 ## Hero section
 
 The introduction uses the white page canvas without a background video or external media requests. The supplied app screenshot remains undistorted and is lazy-loaded below the text.
+
+### Final cutover check — 14 November 2026
+
+The production CNAME points to localiobc-web.pages.dev. Cloudflare domain and certificate validation are active, HTTPS serves the GitHub build, Search Console ownership is verified and GA Realtime receives consented page views. See GOOGLE.md.
