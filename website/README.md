@@ -39,7 +39,7 @@ A local `motion.js` progressively adds staggered content reveals, a subtle scree
 
 ## Hero section
 
-The introduction uses the white page canvas with one pale LocalioBC-blue wireframe sphere beneath the text. Its latitude/longitude geometry is precomputed inline SVG, with fainter back-facing lines for depth; no canvas, media request, or graphics dependency is needed. Fine-pointer movement gently offsets and tilts the sphere through CSS custom properties, with requestAnimationFrame updates only while pointer events arrive. The sphere stays static for touch/coarse pointers, without JavaScript, or when reduced motion is requested. It is hidden from assistive technologies, never blocks links or obscures text, and has no background video. The supplied app screenshot remains undistorted and is lazy-loaded below the text.
+The introduction uses the clean white page canvas without background artwork, pointer effects, video, or external media requests. The supplied app screenshot remains undistorted and is lazy-loaded below the text. Existing scroll reveals, the screenshot parallax and navigation remain unchanged.
 
 ### Final cutover check — 14 November 2026
 
