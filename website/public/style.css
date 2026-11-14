@@ -107,8 +107,55 @@ header.is-scrolled { border-color: #e4e7f0; box-shadow: 0 7px 22px #1c2b5407; }
 .full-version-note { color: var(--ink); font-size: 15px; margin: 10px 0 18px; max-width: 680px; }
 
 
-/* Compact introduction on the page canvas. */
-.hero-content { max-width: 940px; }
+/* Keep the artwork behind the copy at every viewport size. */
+.hero {
+  position: relative;
+  isolation: isolate;
+  max-width: none;
+}
+.hero-content { position: relative; z-index: 2; }
+.hero h1 { max-width: 760px; text-shadow: 0 2px 16px #ffffffb3; }
+.hero .lead, .hero .full-version-note, .hero .fine { max-width: min(540px, calc(45% - 20px)); }
+.hero .lead, .hero .fine { color: #44444a; }
+.hero-art {
+  position: absolute;
+  z-index: 0;
+  inset-block-start: -24px;
+  inset-inline-end: 100px;
+  display: block;
+  inline-size: 58%;
+  max-inline-size: 680px;
+  block-size: auto;
+  aspect-ratio: 1;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  user-select: none;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, #fff 0%, #ffffffe6 30%, #ffffffbf 46%, #ffffff00 72%);
+  background: linear-gradient(90deg in oklab, #fff 0%, #ffffffe6 30%, #ffffffbf 46%, #ffffff00 72%);
+}
+@media (max-width: 1000px) {
+  .hero .lead, .hero .full-version-note, .hero .fine { max-width: 680px; }
+  .hero-art {
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    inline-size: min(100%, 680px);
+    opacity: .32;
+  }
+  .hero::after {
+    background: linear-gradient(90deg, #ffffffcc 0%, #ffffff66 45%, #ffffff00 100%);
+    background: linear-gradient(90deg in oklab, #ffffffcc 0%, #ffffff66 45%, #ffffff00 100%);
+  }
+}
+@media (max-width: 700px) {
+  .hero-art { inset-block-start: 20px; opacity: .3; }
+}
 
 .release-news { margin-top: 38px; }
 .news-heading { display: flex; gap: 16px; align-items: center; justify-content: space-between; margin-bottom: 16px; }

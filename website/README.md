@@ -39,7 +39,7 @@ A local `motion.js` progressively adds staggered content reveals, a subtle scree
 
 ## Hero section
 
-The introduction uses the clean white page canvas without background artwork, pointer effects, video, or external media requests. The supplied app screenshot remains undistorted and is lazy-loaded below the text. Existing scroll reveals, the screenshot parallax and navigation remain unchanged.
+Both homepages show the approved blue cut/crop illustration shifted left behind the headline. The illustration stays absolutely positioned behind the introduction at every screen width, without adding a separate row or extra page height. On smaller screens it scales to the available width and becomes softer behind the copy. A white gradient and darker supporting text preserve readability; decorative layers never intercept clicks. The local decorative WebP asset has 600px and 1200px variants, explicit dimensions, and high fetch priority. The supplied app screenshot remains undistorted and lazy-loaded below the introduction. Existing scroll reveals, screenshot parallax and navigation remain unchanged.
 
 ### Final cutover check — 14 November 2026
 
