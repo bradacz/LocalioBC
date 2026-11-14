@@ -268,6 +268,226 @@ final class VideoPipelineTests: XCTestCase {
         }
     }
 
+    func testPlaybackSpeedChangesDurationBudgetAndLosslessEligibility() throws {
+        var clip = makeClip(duration: 600)
+        XCTAssertEqual(clip.playbackRate, 1)
+        XCTAssertEqual(clip.outputDuration, 600)
+        var settings = ExportSettings()
+        settings.compressionMode = .passthrough
+        XCTAssertTrue(settings.canUsePassthrough(for: [clip]))
+        clip.playbackRate = 4
+        XCTAssertEqual(clip.outputDuration, 150)
+        XCTAssertFalse(settings.canUsePassthrough(for: [clip]))
+
+        settings.compressionMode = .targetSize
+        settings.targetSizeMB = 5
+        XCTAssertNoThrow(try settings.validateTargetSize(for: [clip]))
+        clip.playbackRate = 0.5
+        XCTAssertEqual(clip.outputDuration, 1200)
+        XCTAssertThrowsError(try settings.validateTargetSize(for: [clip]))
+
+        settings.compressionMode = .preset
+        clip.playbackRate = 1
+        let normalBytes = settings.estimatedOutputBytes(for: [clip])
+        clip.playbackRate = 0.5
+        XCTAssertEqual(Double(settings.estimatedOutputBytes(for: [clip])), Double(normalBytes) * 2, accuracy: 2)
+        for invalid in [Double.nan, .infinity, -.infinity] {
+            clip.playbackRate = invalid
+            XCTAssertEqual(clip.effectivePlaybackRate, 1)
+            XCTAssertEqual(clip.outputDuration, 600)
+        }
+        clip.playbackRate = 0
+        XCTAssertEqual(clip.effectivePlaybackRate, 0.25)
+        clip.playbackRate = 100
+        XCTAssertEqual(clip.effectivePlaybackRate, 4)
+    }
+
+    @MainActor
+    func testMixedPlaybackSpeedsKeepVideoAudioAndSilentClipsAligned() async throws {
+        let audioURL = tempDir.appendingPathComponent("speed-audio.mov")
+        let silentURL = tempDir.appendingPathComponent("speed-silent.mov")
+        for (url, audio) in [(audioURL, true), (silentURL, false)] {
+            try await TestMediaFactory.writeFourQuadrantVideo(
+                to: url, naturalSize: CGSize(width: 320, height: 180), durationSeconds: 2,
+                fps: 30, preferredTransform: .identity, includeAudio: audio
+            )
+        }
+        var slow = try await VideoInspector.loadClip(from: audioURL, thumbnailCount: 1)
+        slow.trimStart = 0.2
+        slow.trimEnd = 1.8
+        slow.playbackRate = 0.5
+        var silent = try await VideoInspector.loadClip(from: silentURL, thumbnailCount: 1)
+        silent.trimEnd = 0.6
+        silent.playbackRate = 0.5
+        var fast = slow
+        fast.playbackRate = 2
+        let built = try await CompositionBuilder.build(clips: [slow, silent, fast], settings: ExportSettings())
+        XCTAssertEqual(built.totalDuration, 5.2, accuracy: 0.003)
+        XCTAssertEqual(built.composition.duration.seconds, 5.2, accuracy: 0.003)
+        XCTAssertEqual(built.videoComposition.instructions.map { $0.timeRange.duration.seconds }, [3.2, 1.2, 0.8])
+        let audioTrack = try XCTUnwrap(built.composition.tracks(withMediaType: .audio).first)
+        let media = audioTrack.segments.filter { !$0.isEmpty }
+        XCTAssertEqual(media.count, 2)
+        guard media.count == 2 else { return }
+        XCTAssertEqual(media[0].timeMapping.target.start.seconds, 0, accuracy: 0.003)
+        XCTAssertEqual(media[0].timeMapping.target.duration.seconds, 3.2, accuracy: 0.003)
+        XCTAssertEqual(media[1].timeMapping.target.start.seconds, 4.4, accuracy: 0.003)
+        XCTAssertEqual(media[1].timeMapping.target.duration.seconds, 0.8, accuracy: 0.003)
+        XCTAssertTrue(audioTrack.segments.contains { $0.isEmpty && abs($0.timeMapping.target.duration.seconds - 1.2) < 0.003 })
+        XCTAssertEqual(built.audioMix?.inputParameters.first?.audioTimePitchAlgorithm, .varispeed)
+    }
+
+    @MainActor
+    func testSpeedExportsScaleDurationAndAudioPitchWithoutLosingTail() async throws {
+        let source = tempDir.appendingPathComponent("speed-tone.mov")
+        try await TestMediaFactory.writeFourQuadrantVideo(
+            to: source, naturalSize: CGSize(width: 320, height: 180), durationSeconds: 1.6,
+            fps: 30, preferredTransform: .identity, includeAudio: true, audioFrequency: 440
+        )
+        var clip = try await VideoInspector.loadClip(from: source, thumbnailCount: 1)
+        clip.trimStart = 0.2
+        clip.trimEnd = 1.4
+        var settings = ExportSettings()
+        settings.compressionMode = .passthrough // Speed edits must use the encoder instead.
+        for rate in [0.25, 2.0, 4.0] {
+            clip.playbackRate = rate
+            let output = tempDir.appendingPathComponent("speed-\(rate).mp4")
+            let result = try await VideoExporter.export(clips: [clip], settings: settings, to: output) { _ in }
+            XCTAssertFalse(result.usedPassthrough)
+            let asset = AVURLAsset(url: output)
+            let duration = try await asset.load(.duration)
+            XCTAssertEqual(duration.seconds, 1.2 / rate, accuracy: 0.1)
+            let videoTracks = try await asset.loadTracks(withMediaType: .video)
+            let audioTracks = try await asset.loadTracks(withMediaType: .audio)
+            let videoRange = try await XCTUnwrap(videoTracks.first).load(.timeRange)
+            let audioRange = try await XCTUnwrap(audioTracks.first).load(.timeRange)
+            XCTAssertEqual(videoRange.end.seconds, audioRange.end.seconds, accuracy: 0.1)
+            let measuredFrequency = try await TestMediaFactory.measureToneFrequency(of: output)
+            XCTAssertEqual(measuredFrequency, 440 * rate, accuracy: 15, "Audio pitch must follow the selected playback speed")
+            if rate == 0.25 {
+                let tailFrequency = try await TestMediaFactory.measureToneFrequency(of: output, portion: 0.92...0.98)
+                XCTAssertEqual(tailFrequency, 440 * rate, accuracy: 20, "The source audio tail was lost or replaced with silence")
+                let item = try await CompositionBuilder.buildPreviewPlayerItem(clips: [clip], settings: settings)
+                let player = AVPlayer(playerItem: item)
+                player.isMuted = true
+                defer { player.pause() }
+                player.playImmediately(atRate: 1)
+                let deadline = ContinuousClock.now + .seconds(8)
+                while player.currentTime().seconds < 4.75 {
+                    guard ContinuousClock.now < deadline else {
+                        XCTFail("Composed speed preview stalled before the end")
+                        return
+                    }
+                    try await Task.sleep(for: .milliseconds(25))
+                }
+            }
+        }
+    }
+
+    @MainActor
+    func testSpeedSelectionUpdatesRawPlaybackAndKeepsPausedClipsPaused() async throws {
+        let source = tempDir.appendingPathComponent("speed-preview.mov")
+        try await TestMediaFactory.writeFourQuadrantVideo(
+            to: source, naturalSize: CGSize(width: 320, height: 180), durationSeconds: 2,
+            fps: 30, preferredTransform: .identity, includeAudio: false
+        )
+        let first = try await VideoInspector.loadClip(from: source, thumbnailCount: 1)
+        let second = try await VideoInspector.loadClip(from: source, thumbnailCount: 1)
+        let model = EditorViewModel()
+        model.clips = [first, second]
+        model.selectClip(first.id)
+        try await waitUntil { model.player.currentItem?.status == .readyToPlay }
+        model.isExporting = true
+        model.togglePlayPause()
+        XCTAssertFalse(model.isPlaying)
+        model.isExporting = false
+        model.isBuildingPreview = true
+        model.togglePlayPause()
+        XCTAssertFalse(model.isPlaying)
+        model.isBuildingPreview = false
+        model.exportMode = .separate
+        model.settings.compressionMode = .passthrough
+        model.setSelectedPlaybackRate(0.5)
+        XCTAssertFalse(model.isPlaying)
+        XCTAssertEqual(model.player.rate, 0)
+        XCTAssertEqual(model.totalOutputDuration, 6, accuracy: 0.003)
+        XCTAssertEqual(model.settings.compressionMode, .preset)
+        XCTAssertFalse(model.isPassthroughEligible)
+        XCTAssertEqual(model.player.currentItem?.audioTimePitchAlgorithm, .varispeed)
+
+        model.togglePlayPause()
+        XCTAssertTrue(model.isPlaying)
+        XCTAssertEqual(model.player.rate, 0.5, accuracy: 0.001)
+        model.setSelectedPlaybackRate(2)
+        XCTAssertEqual(model.player.rate, 2, accuracy: 0.001)
+        model.setSelectedPlaybackRate(.nan)
+        model.setSelectedPlaybackRate(0.1)
+        XCTAssertEqual(model.selectedClip?.playbackRate, 2)
+        model.selectClip(second.id)
+        XCTAssertFalse(model.isPlaying)
+        XCTAssertEqual(model.player.rate, 0)
+        XCTAssertEqual(model.selectedClip?.playbackRate, 1)
+    }
+
+    @MainActor
+    func testSpeedSelectionRebuildsComposedPreviewWithUpdatedTimeline() async throws {
+        var previewRates: [Double] = []
+        let model = EditorViewModel(previewBuilder: { clips, _ in
+            previewRates.append(clips[0].effectivePlaybackRate)
+            return AVPlayerItem(asset: AVMutableComposition())
+        })
+        let clip = makeClip(duration: 4)
+        model.clips = [clip]
+        model.selectedClipID = clip.id
+        model.setComposedPreviewEnabled(true)
+        try await waitUntil { previewRates.count == 1 && !model.isBuildingPreview }
+        model.setSelectedPlaybackRate(0.25)
+        try await waitUntil { previewRates.count == 2 && !model.isBuildingPreview }
+        XCTAssertEqual(previewRates, [1, 0.25])
+        XCTAssertEqual(model.totalOutputDuration, 16)
+        XCTAssertEqual(model.activeTimelineDuration, 16)
+        XCTAssertTrue(model.isPreviewingComposedResult)
+        XCTAssertFalse(model.isPlaying)
+        XCTAssertEqual(model.currentTime, 0)
+    }
+
+    @MainActor
+    func testSpeedExportPreservesInternalAudioGaps() async throws {
+        guard #available(macOS 15.0, *) else { throw XCTSkip("Native fixture export requires macOS 15") }
+        let original = tempDir.appendingPathComponent("gap-tone-source.mov")
+        try await TestMediaFactory.writeFourQuadrantVideo(
+            to: original, naturalSize: CGSize(width: 320, height: 180), durationSeconds: 2,
+            fps: 30, preferredTransform: .identity, includeAudio: true, audioFrequency: 440
+        )
+        let asset = AVURLAsset(url: original)
+        let videos = try await asset.loadTracks(withMediaType: .video)
+        let audios = try await asset.loadTracks(withMediaType: .audio)
+        let sourceVideo = try XCTUnwrap(videos.first)
+        let sourceAudio = try XCTUnwrap(audios.first)
+        let gapped = AVMutableComposition()
+        let video = try XCTUnwrap(gapped.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid))
+        let audio = try XCTUnwrap(gapped.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid))
+        func time(_ value: Double) -> CMTime { CMTime(seconds: value, preferredTimescale: 600) }
+        try video.insertTimeRange(CMTimeRange(start: .zero, duration: time(2)), of: sourceVideo, at: .zero)
+        try audio.insertTimeRange(CMTimeRange(start: .zero, duration: time(0.4)), of: sourceAudio, at: .zero)
+        try audio.insertTimeRange(CMTimeRange(start: time(0.8), duration: time(0.4)), of: sourceAudio, at: time(1.2))
+        let source = tempDir.appendingPathComponent("gap-tone.mov")
+        let session = try XCTUnwrap(AVAssetExportSession(asset: gapped, presetName: AVAssetExportPresetPassthrough))
+        try await session.export(to: source, as: .mov)
+        var clip = try await VideoInspector.loadClip(from: source, thumbnailCount: 1)
+        clip.playbackRate = 0.5
+        let output = tempDir.appendingPathComponent("gap-tone-slow.mp4")
+        _ = try await VideoExporter.export(clips: [clip], settings: ExportSettings(), to: output) { _ in }
+        let firstTone = try await TestMediaFactory.measureAudioRMS(of: output, portion: 0.04...0.14)
+        let internalSilence = try await TestMediaFactory.measureAudioRMS(of: output, portion: 0.3...0.5)
+        let secondTone = try await TestMediaFactory.measureAudioRMS(of: output, portion: 0.65...0.75)
+        let trailingSilence = try await TestMediaFactory.measureAudioRMS(of: output, portion: 0.85...0.95)
+        XCTAssertGreaterThan(firstTone, 0.1)
+        XCTAssertLessThan(internalSilence, 0.005)
+        XCTAssertGreaterThan(secondTone, 0.1)
+        XCTAssertLessThan(trailingSilence, 0.005)
+    }
+
     func testImpossibleTargetIsRejectedBeforeCreatingOutput() async throws {
         var settings = ExportSettings()
         settings.compressionMode = .targetSize
@@ -553,6 +773,7 @@ final class VideoPipelineTests: XCTestCase {
         var second = try await VideoInspector.loadClip(from: source, thumbnailCount: 1)
         second.trimStart = 0.2
         second.trimEnd = 0.8
+        second.playbackRate = 2
         second.cropRect = AspectRatioPreset.ratio1x1.centeredNormalizedCrop(for: second.displaySize)
         let model = EditorViewModel()
         model.clips = [first, second]
@@ -576,7 +797,7 @@ final class VideoPipelineTests: XCTestCase {
         let firstOutput = try await VideoInspector.loadClip(from: outputs[0].outputURL, thumbnailCount: 1)
         let secondOutput = try await VideoInspector.loadClip(from: outputs[1].outputURL, thumbnailCount: 1)
         XCTAssertEqual(firstOutput.durationSeconds, 1.2, accuracy: 0.1)
-        XCTAssertEqual(secondOutput.durationSeconds, 0.6, accuracy: 0.1)
+        XCTAssertEqual(secondOutput.durationSeconds, 0.3, accuracy: 0.1)
         XCTAssertEqual(firstOutput.displaySize.width, 320, accuracy: 1)
         XCTAssertEqual(secondOutput.displaySize.width, secondOutput.displaySize.height, accuracy: 1)
         model.startSeparateExport(in: tempDir)
@@ -737,7 +958,8 @@ private enum TestMediaFactory {
         durationSeconds: Double,
         fps: Int32,
         preferredTransform: CGAffineTransform,
-        includeAudio: Bool
+        includeAudio: Bool,
+        audioFrequency: Double = 0
     ) async throws {
         let fileType: AVFileType = url.pathExtension.lowercased() == "mov" ? .mov : .mp4
         let writer = try AVAssetWriter(outputURL: url, fileType: fileType)
@@ -820,7 +1042,7 @@ private enum TestMediaFactory {
             }
             if !audioFinished, let audioInput, audioInput.isReadyForMoreMediaData {
                 let count = min(chunkSamples, totalSamples - audioOffset)
-                guard let sampleBuf = makeSilentAudioSampleBuffer(sampleCount: count, startSample: audioOffset, sampleRate: sampleRate),
+                guard let sampleBuf = makeSilentAudioSampleBuffer(sampleCount: count, startSample: audioOffset, sampleRate: sampleRate, frequency: audioFrequency),
                       audioInput.append(sampleBuf) else {
                     throw writer.error ?? NSError(domain: "TestMediaFactory", code: 8)
                 }
@@ -907,7 +1129,8 @@ private enum TestMediaFactory {
     private static func makeSilentAudioSampleBuffer(
         sampleCount: Int,
         startSample: Int,
-        sampleRate: Int
+        sampleRate: Int,
+        frequency: Double = 0
     ) -> CMSampleBuffer? {
         var asbd = AudioStreamBasicDescription(
             mSampleRate: Float64(sampleRate),
@@ -949,6 +1172,20 @@ private enum TestMediaFactory {
         )
         guard let blockBuffer else { return nil }
         CMBlockBufferFillDataBytes(with: 0, blockBuffer: blockBuffer, offsetIntoDestination: 0, dataLength: byteCount)
+        if frequency > 0 {
+            var samples = [Int16](repeating: 0, count: sampleCount * 2)
+            for frame in 0..<sampleCount {
+                let phase = 2 * Double.pi * frequency * Double(startSample + frame) / Double(sampleRate)
+                let value = Int16((sin(phase) * 12_000).rounded())
+                samples[frame * 2] = value
+                samples[frame * 2 + 1] = value
+            }
+            let status = samples.withUnsafeBytes {
+                CMBlockBufferReplaceDataBytes(with: $0.baseAddress!, blockBuffer: blockBuffer,
+                                              offsetIntoDestination: 0, dataLength: byteCount)
+            }
+            guard status == kCMBlockBufferNoErr else { return nil }
+        }
 
         var sampleBuffer: CMSampleBuffer?
         let pts = CMTime(value: CMTimeValue(startSample), timescale: CMTimeScale(sampleRate))
@@ -965,6 +1202,59 @@ private enum TestMediaFactory {
             sampleBufferOut: &sampleBuffer
         )
         return sampleBuffer
+    }
+
+    /// Measure a steady tone after decoding the actual exported AAC, excluding encoder/time-stretch edges.
+    static func measureToneFrequency(of url: URL, portion: ClosedRange<Double> = 0.2...0.8) async throws -> Double {
+        let samples = try await decodeAudioSamples(of: url)
+        let start = Int(Double(samples.count) * portion.lowerBound)
+        let end = Int(Double(samples.count) * portion.upperBound)
+        var crossings = 0
+        for index in start..<(end - 1) where samples[index] <= 0 && samples[index + 1] > 0 {
+            crossings += 1
+        }
+        return Double(crossings) * 48_000 / Double(end - start - 1)
+    }
+
+    static func measureAudioRMS(of url: URL, portion: ClosedRange<Double>) async throws -> Double {
+        let samples = try await decodeAudioSamples(of: url)
+        let start = Int(Double(samples.count) * portion.lowerBound)
+        let end = Int(Double(samples.count) * portion.upperBound)
+        let energy = samples[start..<end].reduce(0.0) { $0 + pow(Double($1) / 32_768, 2) }
+        return sqrt(energy / Double(end - start))
+    }
+
+    private static func decodeAudioSamples(of url: URL) async throws -> [Int16] {
+        let asset = AVURLAsset(url: url)
+        let tracks = try await asset.loadTracks(withMediaType: .audio)
+        let track = try XCTUnwrap(tracks.first)
+        let reader = try AVAssetReader(asset: asset)
+        let output = AVAssetReaderTrackOutput(track: track, outputSettings: [
+            AVFormatIDKey: kAudioFormatLinearPCM,
+            AVSampleRateKey: 48_000,
+            AVNumberOfChannelsKey: 1,
+            AVLinearPCMBitDepthKey: 16,
+            AVLinearPCMIsFloatKey: false,
+            AVLinearPCMIsBigEndianKey: false,
+            AVLinearPCMIsNonInterleaved: false
+        ])
+        reader.add(output)
+        guard reader.startReading() else { throw reader.error ?? NSError(domain: "ToneReader", code: 1) }
+        var samples: [Int16] = []
+        while let buffer = output.copyNextSampleBuffer() {
+            let block = try XCTUnwrap(CMSampleBufferGetDataBuffer(buffer))
+            let length = CMBlockBufferGetDataLength(block)
+            var decoded = [Int16](repeating: 0, count: length / MemoryLayout<Int16>.size)
+            let status = decoded.withUnsafeMutableBytes {
+                CMBlockBufferCopyDataBytes(block, atOffset: 0, dataLength: length, destination: $0.baseAddress!)
+            }
+            guard status == kCMBlockBufferNoErr else { throw NSError(domain: "ToneReader", code: 2) }
+            samples.append(contentsOf: decoded)
+        }
+        guard reader.status == .completed, samples.count > 1000 else {
+            throw reader.error ?? NSError(domain: "ToneReader", code: 3)
+        }
+        return samples
     }
 
     static func sampleCenterRGB(of url: URL) async throws -> RGB {

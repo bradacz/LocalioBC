@@ -22,6 +22,7 @@ enum CompositionBuilderError: LocalizedError {
 struct BuiltComposition: @unchecked Sendable {
     let composition: AVMutableComposition
     let videoComposition: AVMutableVideoComposition
+    let audioMix: AVAudioMix?
     let renderSize: CGSize
     let targetFPS: Float
     let totalDuration: Double
@@ -36,7 +37,7 @@ enum CompositionBuilder {
         }
 
         let outputSize = settings.resolveOutputSize(for: clips)
-        let maxFPS = clips.map(\.nominalFrameRate).max() ?? 30.0
+        let maxFPS = clips.map { $0.nominalFrameRate * Float($0.effectivePlaybackRate) }.max() ?? 30.0
         let targetFPS = max(15.0, min(60.0, maxFPS > 0 ? maxFPS : 30.0))
 
         let composition = AVMutableComposition()
@@ -70,6 +71,7 @@ enum CompositionBuilder {
             let trimStart = CMTime(seconds: startSec, preferredTimescale: 600)
             let trimEnd = CMTime(seconds: endSec, preferredTimescale: 600)
             let trimRange = CMTimeRange(start: trimStart, end: trimEnd)
+            let outputDuration = CMTimeMultiplyByFloat64(trimRange.duration, multiplier: 1 / clip.effectivePlaybackRate)
 
             guard let compVideoTrack = composition.addMutableTrack(
                 withMediaType: .video,
@@ -95,6 +97,13 @@ enum CompositionBuilder {
                 }
             }
 
+            if clip.isSpeedAdjusted {
+                let insertedRange = CMTimeRange(start: insertCursor, duration: trimRange.duration)
+                compVideoTrack.scaleTimeRange(insertedRange, toDuration: outputDuration)
+                // Scale the whole interval, including silence, to keep delayed audio in sync.
+                compositionAudioTrack?.scaleTimeRange(insertedRange, toDuration: outputDuration)
+            }
+
             let layerInstruction = makeLayerInstruction(
                 for: compVideoTrack,
                 naturalSize: naturalSize,
@@ -106,16 +115,27 @@ enum CompositionBuilder {
             )
 
             let instruction = AVMutableVideoCompositionInstruction()
-            instruction.timeRange = CMTimeRange(start: insertCursor, duration: trimRange.duration)
+            instruction.timeRange = CMTimeRange(start: insertCursor, duration: outputDuration)
             instruction.backgroundColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
             instruction.layerInstructions = [layerInstruction]
             instructions.append(instruction)
 
-            insertCursor = CMTimeAdd(insertCursor, trimRange.duration)
+            insertCursor = CMTimeAdd(insertCursor, outputDuration)
         }
 
         if !actualHasAudio, let compAudioTrack = compositionAudioTrack {
             composition.removeTrack(compAudioTrack)
+        }
+
+        let audioMix: AVMutableAudioMix?
+        if actualHasAudio, let track = compositionAudioTrack {
+            let parameters = AVMutableAudioMixInputParameters(track: track)
+            parameters.audioTimePitchAlgorithm = .varispeed
+            let mix = AVMutableAudioMix()
+            mix.inputParameters = [parameters]
+            audioMix = mix
+        } else {
+            audioMix = nil
         }
 
         let videoComposition = AVMutableVideoComposition()
@@ -129,9 +149,10 @@ enum CompositionBuilder {
         return BuiltComposition(
             composition: composition,
             videoComposition: videoComposition,
+            audioMix: audioMix,
             renderSize: outputSize,
             targetFPS: targetFPS,
-            totalDuration: max(0.05, insertCursor.seconds),
+            totalDuration: insertCursor.seconds,
             hasAudio: actualHasAudio
         )
     }
@@ -170,6 +191,8 @@ enum CompositionBuilder {
         let built = try await build(clips: clips, settings: settings)
         let item = AVPlayerItem(asset: built.composition)
         item.videoComposition = built.videoComposition
+        item.audioMix = built.audioMix
+        item.audioTimePitchAlgorithm = .varispeed
         return item
     }
 

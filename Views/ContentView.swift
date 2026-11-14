@@ -155,13 +155,15 @@ struct ContentView: View {
                         currentTime: viewModel.currentTime,
                         isPlaying: viewModel.isPlaying,
                         isPreviewingComposed: viewModel.isPreviewingComposedResult,
-                        totalTrimmedDuration: viewModel.totalTrimmedDuration,
+                        totalOutputDuration: viewModel.totalOutputDuration,
+                        onPlaybackRateChange: { viewModel.setSelectedPlaybackRate($0) },
                         onTogglePlayPause: { viewModel.togglePlayPause() },
                         onSeek: { viewModel.seek(to: $0) },
                         onTrimChange: { start, end, seekTarget in
                             viewModel.updateTrim(start: start, end: end, seekTo: seekTarget)
                         }
                     )
+                    .disabled(viewModel.isExporting || viewModel.isBuildingPreview)
                 }
                 .padding(16)
                 .frame(minWidth: 680, maxWidth: .infinity, maxHeight: .infinity)
@@ -286,10 +288,15 @@ struct ContentView: View {
                     .frame(maxWidth: 115, alignment: .leading)
 
                 HStack(spacing: 6) {
-                    Text(EditorViewModel.formatTime(clip.trimmedDuration))
+                    Text(EditorViewModel.formatTime(clip.outputDuration))
                         .font(.caption2.monospacedDigit())
                         .foregroundStyle(.secondary)
 
+                    if clip.isSpeedAdjusted {
+                        Text(tr("%g×", clip.effectivePlaybackRate))
+                            .font(.caption2.monospacedDigit().weight(.semibold))
+                            .foregroundStyle(AppDesign.accent)
+                    }
                     if clip.isCropped {
                         Image(systemName: "crop")
                             .font(.system(size: 9))

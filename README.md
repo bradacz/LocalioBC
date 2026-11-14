@@ -12,7 +12,7 @@ No subscriptions, ads, watermarks, accounts or uploads. Built with SwiftUI, AppK
 
 ## Download for macOS
 
-[**Download LocalioBC 1.0.0 for Mac**](https://github.com/bradacz/LocalioBC/releases/download/v1.0.0/LocalioBC-1.0.0-universal.dmg) · [All releases](https://github.com/bradacz/LocalioBC/releases)
+[**Download LocalioBC 1.1.0 for Mac**](https://github.com/bradacz/LocalioBC/releases/download/v1.1.0/LocalioBC-1.1.0-universal.dmg) · [All releases](https://github.com/bradacz/LocalioBC/releases)
 
 Requires **macOS 14 or later**. One universal DMG supports **Apple Silicon and Intel**. Open the disk image, drag **LocalioBC.app** into **Applications**, then eject the image and launch the app.
 
@@ -21,6 +21,7 @@ Public release builds are Developer ID signed and Apple notarized. A SHA-256 che
 ## Features
 
 - **Import:** drag and drop MP4, MOV and M4V files, or use the file picker.
+- **Speed:** slow down or speed up each clip from 0.25× to 4×. Preview and exports use the same speed, update duration/size estimates, and keep audio synchronized. Audio pitch changes with speed.
 - **Trim:** adjust clip beginnings and endings on a thumbnail timeline with precise seeking.
 - **Crop:** use 16:9, 9:16, 1:1, 4:5, 4:3 or a custom frame. Move or resize the frame, then apply or cancel your changes.
 - **Batch crop:** apply to one clip or every clip. Presets preserve aspect ratio, relative zoom and position across different dimensions and orientations; custom crops use relative image coordinates.
@@ -28,7 +29,7 @@ Public release builds are Developer ID signed and Apple notarized. A SHA-256 che
 - **Separate export:** save every clip as its own file with its own trim and crop. Files go into a new, uniquely named subfolder with numbered names to avoid collisions.
 - **Formats:** export MP4 or MOV with H.264 or HEVC, at original resolution or with 1080p, 720p or 480p long-edge limits.
 - **Compression:** choose a quality preset or a target size in decimal MB. The estimate reflects the encoder's bitrate limits; impossible size targets are rejected. In separate mode, the target applies to **each clip**.
-- **Lossless mode:** copy compatible single-clip video without re-encoding when no image crop or resolution change is needed. Trimming may depend on source keyframes. Incompatible containers fall back to encoding.
+- **Lossless mode:** copy compatible single-clip video without re-encoding when no image crop, speed edit or resolution change is needed. Trimming may depend on source keyframes. Incompatible containers fall back to encoding.
 - **Audio removal:** remove audio tracks from exported files, including compatible lossless exports, and mute playback previews.
 - **Preview:** switch between the source clip and the composed output before exporting.
 - **Export controls:** view progress, cancel, reveal output in Finder or open the result. Cancelling a batch keeps files that have already finished.
@@ -38,7 +39,7 @@ Public release builds are Developer ID signed and Apple notarized. A SHA-256 che
 ## Quick start
 
 1. Import one or more clips.
-2. Select a clip and adjust its trim range.
+2. Select a clip and adjust its trim range. Choose **Speed** beside the play controls to slow it down or speed it up.
 3. Choose a crop preset or **Edit**, adjust the frame, then select **Apply to clip** or **Apply to all**. The crop panel stays visible so opening it does not move the video preview.
 4. Choose **Merge into one video** or **Each clip separately** in the output panel.
 5. Set the container, codec, resolution, audio and compression options.
@@ -145,3 +146,15 @@ The separate `LocalioBC-AppStore` scheme archives the paid Store configuration w
 The complete [submission kit](AppStore/README.md) includes English/Czech metadata, screenshots, reviewer instructions and original demo clips, privacy/compliance answers, export options and a repeatable build script. Pricing is prepared at **EUR 4.99**, with manual release after Apple approval. Account-side pricing and review submission are not performed by the scripts.
 
 [Product website](https://localiobc.mylocalio.com/) · [Support](https://localiobc.mylocalio.com/support/) · [Privacy policy](https://localiobc.mylocalio.com/privacy/)
+
+## Proposed automatic updates
+
+This is a design for a future release; 1.1.0 still updates by downloading the DMG and replacing the app.
+
+- Use [Sparkle 2](https://sparkle-project.org/documentation/) for the direct edition, with **Check for Updates…** in the app menu, an opt-in daily check and optional automatic downloads. Keep Sparkle and its helpers out of the `APP_STORE` build: the [Mac App Store manages its own updates](https://developer.apple.com/app-store/review/guidelines/#hardware-compatibility).
+- Serve a stable HTTPS appcast at `https://localiobc.mylocalio.com/updates/appcast.xml`; link immutable, versioned DMGs in GitHub Releases and localized release notes. This endpoint is proposed, not active. Disable Sparkle profiling and document update-check connection metadata in the privacy policy.
+- Sign and notarize the universal app, staple the ticket, package and notarize the final DMG, then [sign that final payload with EdDSA](https://sparkle-project.org/documentation/publishing/). Ship the public verification key in the app; keep the private key in the Keychain or a protected release environment, with an encrypted backup. Enable feed and release-note verification supported by the selected Sparkle version.
+- Release pipeline: tests → universal Archive/Developer ID export → notarization and stapling → DMG verification → EdDSA signature → upload DMG → publish appcast and news. Publish the feed only after the download is verified. Always increase `CFBundleVersion`; correct a bad release with a higher build, using reverted code if needed.
+- Defer installation and relaunch during an export. Prompt users to finish or discard their in-memory edits before relaunch; never silently lose a session. Test first installation, upgrades, offline behavior, invalid signatures and interrupted downloads. Users of a version without Sparkle must install the first updater-enabled release manually.
+
+Implementing this design requires adding the framework, channel-specific build settings/entitlements, a key-management/release flow and integration tests. No automatic-update framework or active appcast is included yet.

@@ -117,8 +117,8 @@ final class EditorViewModel {
         clips.reduce(0) { $0 + $1.fileSizeBytes }
     }
 
-    var totalTrimmedDuration: Double {
-        clips.reduce(0.0) { $0 + $1.trimmedDuration }
+    var totalOutputDuration: Double {
+        clips.reduce(0.0) { $0 + $1.outputDuration }
     }
 
     var estimatedOutputBytes: Int64 {
@@ -133,13 +133,13 @@ final class EditorViewModel {
 
     var isPassthroughEligible: Bool {
         !clips.isEmpty && (exportMode == .separate || clips.count == 1)
-            && clips.allSatisfy { !$0.isCropped }
+            && clips.allSatisfy { !$0.isCropped && !$0.isSpeedAdjusted }
             && settings.resolutionLimit == .original
     }
 
     var activeTimelineDuration: Double {
         if isPreviewingComposedResult {
-            return max(0.1, totalTrimmedDuration)
+            return max(0.1, totalOutputDuration)
         }
         return selectedClip?.durationSeconds ?? 0.1
     }
@@ -414,6 +414,21 @@ final class EditorViewModel {
 
     // MARK: - Trimming & Playback
 
+    func setSelectedPlaybackRate(_ rate: Double) {
+        guard !isExporting, !isBuildingPreview, rate.isFinite,
+              VideoClip.supportedPlaybackRates.contains(rate),
+              let index = selectedClipIndex,
+              clips[index].playbackRate != rate else { return }
+        clips[index].playbackRate = rate
+        lastExportResult = nil
+        enforcePassthroughEligibility()
+        if isPreviewingComposedResult {
+            rebuildComposedPreview()
+        } else if isPlaying {
+            player.playImmediately(atRate: Float(clips[index].effectivePlaybackRate))
+        }
+    }
+
     func updateTrim(start: Double, end: Double, seekTo targetTime: Double?) {
         guard let index = selectedClipIndex else { return }
         let duration = clips[index].durationSeconds
@@ -436,7 +451,7 @@ final class EditorViewModel {
     }
 
     func togglePlayPause() {
-        guard !clips.isEmpty else { return }
+        guard !clips.isEmpty, !isExporting, !isBuildingPreview else { return }
 
         if isPlaying {
             pause()
@@ -444,7 +459,7 @@ final class EditorViewModel {
         }
 
         if isPreviewingComposedResult {
-            if currentTime >= totalTrimmedDuration - 0.04 {
+            if currentTime >= totalOutputDuration - 0.04 {
                 seek(to: 0)
             }
         } else if let clip = selectedClip {
@@ -453,7 +468,8 @@ final class EditorViewModel {
             }
         }
 
-        player.play()
+        let rate = isPreviewingComposedResult ? 1 : (selectedClip?.effectivePlaybackRate ?? 1)
+        player.playImmediately(atRate: Float(rate))
         isPlaying = true
     }
 
@@ -465,7 +481,7 @@ final class EditorViewModel {
     func seek(to seconds: Double) {
         let clamped: Double
         if isPreviewingComposedResult {
-            clamped = max(0, min(seconds, totalTrimmedDuration))
+            clamped = max(0, min(seconds, totalOutputDuration))
         } else if let clip = selectedClip {
             clamped = max(0, min(seconds, clip.durationSeconds))
         } else {
@@ -531,6 +547,7 @@ final class EditorViewModel {
 
     private func loadSelectedClipIntoPlayer(forceReload: Bool) {
         guard let clip = selectedClip else { return }
+        pause()
         if forceReload || activePreviewURL != clip.url {
             activePreviewURL = clip.url
             let item = AVPlayerItem(url: clip.url)
@@ -545,6 +562,7 @@ final class EditorViewModel {
             self.endObserver = nil
         }
 
+        item.audioTimePitchAlgorithm = .varispeed
         player.replaceCurrentItem(with: item)
         endObserver = NotificationCenter.default.addObserver(
             forName: .AVPlayerItemDidPlayToEndTime,

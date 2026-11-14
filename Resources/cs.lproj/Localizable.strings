@@ -178,3 +178,12 @@
 "Pokud nás kontaktujete e-mailem, použijeme údaje z vaší zprávy k vyřízení dotazu. Provozovatel: Localio Labs s.r.o. Kontakt: info@mylocalio.com. Aktualizováno: 12. listopadu 2026." = "Pokud nás kontaktujete e-mailem, použijeme údaje z vaší zprávy k vyřízení dotazu. Provozovatel: Localio Labs s.r.o. Kontakt: info@mylocalio.com. Aktualizováno: 12. listopadu 2026.";
 
 "Licence MIT" = "Licence MIT";
+
+"Rychlost" = "Rychlost";
+"Rychlost videa" = "Rychlost videa";
+"%g×" = "%g×";
+"Čas výsledného videa" = "Čas výsledného videa";
+"Čas v původním klipu" = "Čas v původním klipu";
+"Rychlost vybraného klipu se použije v náhledu i při exportu. Tón zvuku se mění s rychlostí." = "Rychlost vybraného klipu se použije v náhledu i při exportu. Tón zvuku se mění s rychlostí.";
+
+"Zpomalení i zrychlení každého klipu od 0,25× do 4×, včetně exportu." = "Zpomalení i zrychlení každého klipu od 0,25× do 4×, včetně exportu.";

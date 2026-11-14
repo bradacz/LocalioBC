@@ -136,6 +136,7 @@ struct ExportSettings: Equatable {
               clips.count == 1,
               let clip = clips.first,
               !clip.isCropped,
+              !clip.isSpeedAdjusted,
               resolutionLimit == .original else {
             return false
         }
@@ -216,7 +217,7 @@ struct ExportSettings: Equatable {
 
     func validateTargetSize(for clips: [VideoClip]) throws {
         guard compressionMode == .targetSize, !clips.isEmpty else { return }
-        let duration = clips.reduce(0.0) { $0 + $1.trimmedDuration }
+        let duration = clips.reduce(0.0) { $0 + $1.outputDuration }
         let audioBps = includesAudio(for: clips) ? resolvedAudioBitrate(totalDuration: duration) : 0
         let minimumMB = Double(Self.minimumVideoBitrate + audioBps) * max(0.5, duration)
             / (8 * Self.targetMediaBudgetFraction * 1_000_000)
@@ -226,7 +227,7 @@ struct ExportSettings: Equatable {
     }
 
     func estimatedOutputBytes(for clips: [VideoClip]) -> Int64 {
-        let totalDuration = clips.reduce(0.0) { $0 + $1.trimmedDuration }
+        let totalDuration = clips.reduce(0.0) { $0 + $1.outputDuration }
         guard totalDuration > 0 else { return 0 }
 
         if canUsePassthrough(for: clips), let clip = clips.first {
@@ -235,7 +236,7 @@ struct ExportSettings: Equatable {
         }
 
         let outputSize = resolveOutputSize(for: clips)
-        let fps = clips.map(\.nominalFrameRate).max() ?? 30
+        let fps = clips.map { $0.nominalFrameRate * Float($0.effectivePlaybackRate) }.max() ?? 30
         let hasAudio = includesAudio(for: clips)
         let videoBps = resolvedVideoBitrate(
             outputSize: outputSize,

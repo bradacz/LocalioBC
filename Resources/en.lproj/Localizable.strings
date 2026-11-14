@@ -178,3 +178,12 @@
 "Pokud nás kontaktujete e-mailem, použijeme údaje z vaší zprávy k vyřízení dotazu. Provozovatel: Localio Labs s.r.o. Kontakt: info@mylocalio.com. Aktualizováno: 12. listopadu 2026." = "If you contact us by email, we use the information in your message to respond to your request. Provider: Localio Labs s.r.o. Contact: info@mylocalio.com. Updated: November 12, 2026.";
 
 "Licence MIT" = "MIT License";
+
+"Rychlost" = "Speed";
+"Rychlost videa" = "Video speed";
+"%g×" = "%g×";
+"Čas výsledného videa" = "Output video time";
+"Čas v původním klipu" = "Source clip time";
+"Rychlost vybraného klipu se použije v náhledu i při exportu. Tón zvuku se mění s rychlostí." = "The selected clip speed applies to preview and export. Audio pitch changes with speed.";
+
+"Zpomalení i zrychlení každého klipu od 0,25× do 4×, včetně exportu." = "Slow down or speed up each clip from 0.25× to 4×, including exports.";

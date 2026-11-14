@@ -228,6 +228,7 @@ struct SettingsView: View {
     static let features = [
         "Import MP4, MOV a M4V z disku nebo přetažením.",
         "Střih začátku a konce klipů s časovou osou a náhledy.",
+        "Zpomalení i zrychlení každého klipu od 0,25× do 4×, včetně exportu.",
         "Ořez 16:9, 9:16, 1:1, 4:5, 4:3 nebo vlastní výřez.",
         "Stejný ořez na jeden klip nebo na všechny klipy najednou.",
         "Změna pořadí a spojení klipů, i s různými rozměry a orientací.",

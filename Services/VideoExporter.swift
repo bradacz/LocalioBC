@@ -231,6 +231,20 @@ enum VideoExporter {
             hasAudio: built.hasAudio
         )
         let audioBitrate = settings.resolvedAudioBitrate(totalDuration: built.totalDuration)
+        let renderedAudioURL: URL?
+        if built.hasAudio && clips.contains(where: \.isSpeedAdjusted) {
+            let url = FileManager.default.temporaryDirectory.appendingPathComponent("LocalioBC-audio-\(UUID().uuidString).caf")
+            do {
+                try await VarispeedAudioRenderer.render(clips: clips, built: built, to: url)
+                renderedAudioURL = url
+            } catch {
+                try? FileManager.default.removeItem(at: url)
+                throw error
+            }
+        } else {
+            renderedAudioURL = nil
+        }
+        defer { if let renderedAudioURL { try? FileManager.default.removeItem(at: renderedAudioURL) } }
 
         let reader: AVAssetReader
         do {
@@ -286,10 +300,12 @@ enum VideoExporter {
         }
         writer.add(videoInput)
 
-        var audioOutput: AVAssetReaderAudioMixOutput?
+        var audioOutput: AVAssetReaderTrackOutput?
+        var audioReader: AVAssetReader?
         var audioInput: AVAssetWriterInput?
 
-        let compAudioTracks = built.composition.tracks(withMediaType: .audio)
+        let audioAsset: AVAsset = renderedAudioURL.map { AVURLAsset(url: $0) } ?? built.composition
+        let compAudioTracks = try await audioAsset.loadTracks(withMediaType: .audio)
         if !compAudioTracks.isEmpty {
             let pcmSettings: [String: Any] = [
                 AVFormatIDKey: kAudioFormatLinearPCM,
@@ -300,7 +316,8 @@ enum VideoExporter {
                 AVLinearPCMIsBigEndianKey: false,
                 AVLinearPCMIsNonInterleaved: false
             ]
-            let aOut = AVAssetReaderAudioMixOutput(audioTracks: compAudioTracks, audioSettings: pcmSettings)
+            let dedicatedAudioReader = try AVAssetReader(asset: audioAsset)
+            let aOut = AVAssetReaderTrackOutput(track: compAudioTracks[0], outputSettings: pcmSettings)
             aOut.alwaysCopiesSampleData = false
 
             let aacSettings: [String: Any] = [
@@ -312,9 +329,10 @@ enum VideoExporter {
             let aIn = AVAssetWriterInput(mediaType: .audio, outputSettings: aacSettings)
             aIn.expectsMediaDataInRealTime = false
 
-            if reader.canAdd(aOut) && writer.canAdd(aIn) {
-                reader.add(aOut)
+            if dedicatedAudioReader.canAdd(aOut) && writer.canAdd(aIn) {
+                dedicatedAudioReader.add(aOut)
                 writer.add(aIn)
+                audioReader = dedicatedAudioReader
                 audioOutput = aOut
                 audioInput = aIn
             }
@@ -322,6 +340,7 @@ enum VideoExporter {
 
         let pump = ReaderWriterPump(
             reader: reader,
+            audioReader: audioReader,
             writer: writer,
             videoOutput: videoOutput,
             videoInput: videoInput,
@@ -352,6 +371,189 @@ enum VideoExporter {
     }
 }
 
+/// Decode original (unscaled) media and use sample-rate conversion for natural varispeed.
+/// This avoids AVAssetReader's scaled-audio time-pitch buffering and keeps memory bounded.
+private enum VarispeedAudioRenderer {
+    private static let sampleRate = 48_000.0
+
+    static func render(clips: [VideoClip], built: BuiltComposition, to url: URL) async throws {
+        let format = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: sampleRate, channels: 2, interleaved: true)!
+        let file = try AVAudioFile(forWriting: url, settings: format.settings, commonFormat: .pcmFormatFloat32, interleaved: true)
+        for (index, clip) in clips.enumerated() {
+            try Task.checkCancellation()
+            let targetRange = built.videoComposition.instructions[index].timeRange
+            let clipStart = AVAudioFramePosition((targetRange.start.seconds * sampleRate).rounded())
+            let clipEnd = AVAudioFramePosition((targetRange.end.seconds * sampleRate).rounded())
+            try writeSilence(until: clipStart, into: file, format: format)
+            let asset = AVURLAsset(url: clip.url)
+            let audioTracks = try await asset.loadTracks(withMediaType: .audio)
+            if let track = audioTracks.first {
+                let videoTracks = try await asset.loadTracks(withMediaType: .video)
+                let videoRange = try await videoTracks[0].load(.timeRange)
+                let sourceStartTime = CMTime(seconds: max(videoRange.start.seconds, clip.trimStart), preferredTimescale: 600)
+                let sourceEndTime = CMTime(seconds: min(videoRange.end.seconds, clip.trimEnd), preferredTimescale: 600)
+                let sourceStart = sourceStartTime.seconds
+                let trim = CMTimeRange(start: sourceStartTime, end: sourceEndTime)
+                let available = try await track.load(.timeRange)
+                let range = trim.intersection(available)
+                if range.isValid, !range.isEmpty, range.duration.seconds > 0 {
+                    let lead = AVAudioFramePosition(((range.start.seconds - sourceStart) / clip.effectivePlaybackRate * sampleRate).rounded())
+                    try writeSilence(until: min(clipEnd, clipStart + lead), into: file, format: format)
+                    let intendedFrames = AVAudioFramePosition((range.duration.seconds / clip.effectivePlaybackRate * sampleRate).rounded())
+                    let audioEnd = min(clipEnd, file.length + intendedFrames)
+                    try renderTrack(track, asset: asset, range: range, rate: clip.effectivePlaybackRate,
+                                    until: audioEnd, into: file, format: format)
+                }
+            }
+            try writeSilence(until: clipEnd, into: file, format: format)
+        }
+    }
+
+    private static func renderTrack(_ track: AVAssetTrack, asset: AVAsset, range: CMTimeRange, rate: Double,
+                                    until audioEnd: AVAudioFramePosition, into file: AVAudioFile, format: AVAudioFormat) throws {
+        let input = try VarispeedPCMInput(track: track, asset: asset, range: range, rate: rate)
+        defer { input.cancel() }
+        guard let converter = AVAudioConverter(from: input.format, to: format),
+              let output = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: 4096) else {
+            throw VideoExporterError.readerFailed(tr("Nelze spustit čtení."))
+        }
+        converter.sampleRateConverterQuality = AVAudioQuality.max.rawValue
+        while file.length < audioEnd {
+            try Task.checkCancellation()
+            var error: NSError?
+            let status = converter.convert(to: output, error: &error) { count, state in
+                input.nextBuffer(maxFrames: count, state: state)
+            }
+            if let error = input.error ?? error { throw VideoExporterError.readerFailed(error.localizedDescription) }
+            guard status != .error else { throw VideoExporterError.readerFailed(tr("Čtení audio stopy selhalo.")) }
+            let remaining = AVAudioFrameCount(min(AVAudioFramePosition(output.frameCapacity), audioEnd - file.length))
+            if output.frameLength > remaining { output.frameLength = remaining }
+            if output.frameLength > 0 { try file.write(from: output) }
+            if status == .endOfStream { break }
+        }
+        // Only sample rounding is tolerated; never replace a missing source tail with silence.
+        if audioEnd - file.length > 64 {
+            throw VideoExporterError.readerFailed(tr("Čtení audio stopy selhalo."))
+        }
+    }
+
+    private static func writeSilence(until frame: AVAudioFramePosition, into file: AVAudioFile, format: AVAudioFormat) throws {
+        guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: 4096) else { return }
+        while file.length < frame {
+            try Task.checkCancellation()
+            buffer.frameLength = AVAudioFrameCount(min(4096, frame - file.length))
+            let audioBuffer = buffer.mutableAudioBufferList.pointee.mBuffers
+            memset(audioBuffer.mData, 0, Int(audioBuffer.mDataByteSize))
+            try file.write(from: buffer)
+        }
+    }
+}
+
+// AVAudioConverter invokes its input block synchronously. This object is created,
+// consumed and cancelled by one renderer operation; it is never shared between exports.
+private final class VarispeedPCMInput: @unchecked Sendable {
+    let format: AVAudioFormat
+    private let reader: AVAssetReader
+    private let output: AVAssetReaderTrackOutput
+    private let range: CMTimeRange
+    private var current: CMSampleBuffer?
+    private var currentOffset = 0
+    private var currentEnd = 0
+    private var retainedInput: AVAudioPCMBuffer?
+    private var nextSourceFrame: Int64
+    private let sourceEndFrame: Int64
+    private var reachedEnd = false
+    private(set) var error: NSError?
+
+    init(track: AVAssetTrack, asset: AVAsset, range: CMTimeRange, rate: Double) throws {
+        self.range = range
+        nextSourceFrame = Int64((range.start.seconds * 48_000).rounded())
+        sourceEndFrame = Int64((range.end.seconds * 48_000).rounded())
+        format = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 48_000 * rate, channels: 2, interleaved: true)!
+        reader = try AVAssetReader(asset: asset)
+        reader.timeRange = range
+        output = AVAssetReaderTrackOutput(track: track, outputSettings: [
+            AVFormatIDKey: kAudioFormatLinearPCM, AVSampleRateKey: 48_000, AVNumberOfChannelsKey: 2,
+            AVLinearPCMBitDepthKey: 32, AVLinearPCMIsFloatKey: true,
+            AVLinearPCMIsBigEndianKey: false, AVLinearPCMIsNonInterleaved: false
+        ])
+        reader.add(output)
+        if !reader.startReading() { throw reader.error ?? NSError(domain: "VarispeedPCM", code: 1) }
+    }
+
+    func cancel() { reader.cancelReading() }
+
+    func nextBuffer(maxFrames: AVAudioPacketCount, state: UnsafeMutablePointer<AVAudioConverterInputStatus>) -> AVAudioBuffer? {
+        while current == nil || currentOffset >= currentEnd {
+            if reachedEnd {
+                return silence(maxFrames: maxFrames, until: sourceEndFrame, state: state)
+            }
+            guard let sample = output.copyNextSampleBuffer() else {
+                error = reader.error as NSError?
+                reachedEnd = true
+                if error != nil { state.pointee = .endOfStream; return nil }
+                continue
+            }
+            current = sample
+            let pts = CMSampleBufferGetPresentationTimeStamp(sample).seconds
+            guard pts.isFinite else {
+                error = NSError(domain: "VarispeedPCM", code: 4)
+                state.pointee = .endOfStream
+                return nil
+            }
+            currentOffset = max(0, Int(nextSourceFrame - Int64((pts * 48_000).rounded())))
+            currentEnd = min(CMSampleBufferGetNumSamples(sample), Int(((range.end.seconds - pts) * 48_000).rounded()))
+        }
+        guard let current, let block = CMSampleBufferGetDataBuffer(current) else {
+            error = NSError(domain: "VarispeedPCM", code: 2)
+            state.pointee = .endOfStream
+            return nil
+        }
+        let bufferFrame = Int64((CMSampleBufferGetPresentationTimeStamp(current).seconds * 48_000).rounded()) + Int64(currentOffset)
+        if bufferFrame > nextSourceFrame {
+            return silence(maxFrames: maxFrames, until: min(bufferFrame, sourceEndFrame), state: state)
+        }
+        let count = min(Int(maxFrames), currentEnd - currentOffset)
+        guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: AVAudioFrameCount(count)) else {
+            error = NSError(domain: "VarispeedPCM", code: 3)
+            state.pointee = .endOfStream
+            return nil
+        }
+        buffer.frameLength = AVAudioFrameCount(count)
+        let audioBuffer = buffer.mutableAudioBufferList.pointee.mBuffers
+        let status = CMBlockBufferCopyDataBytes(block, atOffset: currentOffset * 8, dataLength: count * 8,
+                                               destination: audioBuffer.mData!)
+        if status != noErr {
+            error = NSError(domain: NSOSStatusErrorDomain, code: Int(status))
+            state.pointee = .endOfStream
+            return nil
+        }
+        currentOffset += count
+        nextSourceFrame += Int64(count)
+        retainedInput = buffer
+        state.pointee = .haveData
+        return buffer
+    }
+
+    private func silence(maxFrames: AVAudioPacketCount, until end: Int64,
+                         state: UnsafeMutablePointer<AVAudioConverterInputStatus>) -> AVAudioBuffer? {
+        let count = min(Int64(maxFrames), end - nextSourceFrame)
+        guard count > 0 else { state.pointee = .endOfStream; return nil }
+        guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: AVAudioFrameCount(count)) else {
+            error = NSError(domain: "VarispeedPCM", code: 5)
+            state.pointee = .endOfStream
+            return nil
+        }
+        buffer.frameLength = AVAudioFrameCount(count)
+        let audioBuffer = buffer.mutableAudioBufferList.pointee.mBuffers
+        memset(audioBuffer.mData, 0, Int(audioBuffer.mDataByteSize))
+        nextSourceFrame += count
+        retainedInput = buffer
+        state.pointee = .haveData
+        return buffer
+    }
+}
+
 private final class UncheckedExportSessionBox: @unchecked Sendable {
     let session: AVAssetExportSession
 
@@ -362,6 +564,7 @@ private final class UncheckedExportSessionBox: @unchecked Sendable {
 
 private final class ReaderWriterPump: @unchecked Sendable {
     private let reader: AVAssetReader
+    private let audioReader: AVAssetReader?
     private let writer: AVAssetWriter
     private let videoOutput: AVAssetReaderOutput
     private let videoInput: AVAssetWriterInput
@@ -384,6 +587,7 @@ private final class ReaderWriterPump: @unchecked Sendable {
 
     init(
         reader: AVAssetReader,
+        audioReader: AVAssetReader?,
         writer: AVAssetWriter,
         videoOutput: AVAssetReaderOutput,
         videoInput: AVAssetWriterInput,
@@ -393,6 +597,7 @@ private final class ReaderWriterPump: @unchecked Sendable {
         onProgress: @escaping @Sendable (Double) -> Void
     ) {
         self.reader = reader
+        self.audioReader = audioReader
         self.writer = writer
         self.videoOutput = videoOutput
         self.videoInput = videoInput
@@ -427,6 +632,12 @@ private final class ReaderWriterPump: @unchecked Sendable {
                 return
             }
 
+            if let audioReader, !audioReader.startReading() {
+                reader.cancelReading()
+                writer.cancelWriting()
+                failAndResume(with: VideoExporterError.readerFailed(audioReader.error?.localizedDescription ?? tr("Nelze spustit čtení.")))
+                return
+            }
             writer.startSession(atSourceTime: .zero)
 
             let group = DispatchGroup()
@@ -459,7 +670,10 @@ private final class ReaderWriterPump: @unchecked Sendable {
 
         if !alreadyCancelled {
             reader.cancelReading()
+            audioReader?.cancelReading()
             writer.cancelWriting()
+            // Readiness callbacks may stop after cancelWriting; do not depend on their group.leave.
+            failAndResume(with: VideoExporterError.cancelled)
         }
     }
 
@@ -512,8 +726,8 @@ private final class ReaderWriterPump: @unchecked Sendable {
                     return
                 }
             } else {
-                if reader.status == .failed {
-                    let err = reader.error.map { VideoExporterError.readerFailed($0.localizedDescription) }
+                if audioReader?.status == .failed {
+                    let err = audioReader?.error.map { VideoExporterError.readerFailed($0.localizedDescription) }
                         ?? VideoExporterError.readerFailed(tr("Čtení audio stopy selhalo."))
                     recordErrorAndAbort(err)
                 }
@@ -559,8 +773,13 @@ private final class ReaderWriterPump: @unchecked Sendable {
         if capturedError == nil {
             capturedError = error
         }
+        let failure = capturedError ?? error
         stateLock.unlock()
         reader.cancelReading()
+        audioReader?.cancelReading()
+        writer.cancelWriting()
+        // A failed writer can stop both readiness callbacks just like cancellation.
+        failAndResume(with: failure)
     }
 
     private func reportProgressIfNeeded(_ fraction: Double) {

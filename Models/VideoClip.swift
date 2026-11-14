@@ -4,6 +4,8 @@ import Foundation
 
 /// Reprezentuje jeden načtený videoklip včetně jeho časového a obrazového ořezu.
 struct VideoClip: Identifiable, Equatable {
+    static let supportedPlaybackRates: [Double] = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 3, 4]
+
     let id: UUID
     let url: URL
     let fileName: String
@@ -20,6 +22,7 @@ struct VideoClip: Identifiable, Equatable {
     var trimEnd: Double
     var cropRect: CGRect
     var cropAspectRatio: AspectRatioPreset = .original
+    var playbackRate: Double = 1
     var thumbnails: [NSImage]
 
     init(
@@ -59,6 +62,19 @@ struct VideoClip: Identifiable, Equatable {
 
     var trimmedDuration: Double {
         max(0.1, trimEnd - trimStart)
+    }
+
+    /// Source times remain unchanged; only the edited output timeline is scaled.
+    var effectivePlaybackRate: Double {
+        playbackRate.isFinite ? min(4, max(0.25, playbackRate)) : 1
+    }
+
+    var outputDuration: Double {
+        trimmedDuration / effectivePlaybackRate
+    }
+
+    var isSpeedAdjusted: Bool {
+        abs(effectivePlaybackRate - 1) > 0.000_001
     }
 
     var croppedDisplaySize: CGSize {

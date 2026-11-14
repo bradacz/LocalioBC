@@ -7,7 +7,8 @@ struct TimelineTrimView: View {
     let currentTime: Double
     let isPlaying: Bool
     let isPreviewingComposed: Bool
-    let totalTrimmedDuration: Double
+    let totalOutputDuration: Double
+    let onPlaybackRateChange: (Double) -> Void
     let onTogglePlayPause: () -> Void
     let onSeek: (Double) -> Void
     let onTrimChange: (Double, Double, Double?) -> Void
@@ -32,37 +33,18 @@ struct TimelineTrimView: View {
     }
 
     private var controlsHeader: some View {
-        HStack(spacing: 12) {
-            Button(action: onTogglePlayPause) {
-                Image(systemName: isPlaying ? "pause.fill" : "play.fill")
-                    .font(.system(size: 13, weight: .semibold))
-                    .frame(width: 30, height: 30)
+        VStack(spacing: 8) {
+            HStack(spacing: 12) {
+                playbackControls
+                Spacer(minLength: 8)
             }
-            .buttonStyle(AppButtonStyle(primary: true, compact: true))
-            .help(isPlaying ? tr("Pozastavit") : tr("Přehrát"))
-
-            if isPreviewingComposed {
-                Text("\(EditorViewModel.formatTime(currentTime)) / \(EditorViewModel.formatTime(totalTrimmedDuration))")
-                    .font(.system(.callout, design: .monospaced).weight(.medium))
-                    .foregroundStyle(.primary)
-
-                Spacer()
-
-                Text(tr("Náhled výsledku (%d klipů)", allClips.count))
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            } else if let clip {
-                Text("\(EditorViewModel.formatTime(currentTime)) / \(EditorViewModel.formatTime(clip.durationSeconds))")
-                    .font(.system(.callout, design: .monospaced).weight(.medium))
-                    .foregroundStyle(.primary)
-
-                Spacer()
-
-                HStack(spacing: 12) {
+            .frame(height: 32)
+            if !isPreviewingComposed, let clip {
+                HStack(spacing: 8) {
                     timeTag(title: tr("Od"), value: EditorViewModel.formatTime(clip.trimStart))
                     timeTag(title: tr("Do"), value: EditorViewModel.formatTime(clip.trimEnd))
-                    timeTag(title: tr("Výběr"), value: EditorViewModel.formatTime(clip.trimmedDuration), highlight: true)
-
+                    timeTag(title: tr("Výstup"), value: EditorViewModel.formatTime(clip.outputDuration), highlight: true)
+                    Spacer(minLength: 0)
                     if clip.isTrimmed {
                         Button(tr("Celý klip")) {
                             onTrimChange(0, clip.durationSeconds, 0)
@@ -71,10 +53,69 @@ struct TimelineTrimView: View {
                         .controlSize(.small)
                     }
                 }
+                .frame(height: 24)
+            } else if isPreviewingComposed {
+                HStack {
+                    selectionSummary
+                    Spacer(minLength: 0)
+                    timeTag(title: tr("Výstup"), value: EditorViewModel.formatTime(totalOutputDuration), highlight: true)
+                }
+                .frame(height: 24)
             }
         }
-        .lineLimit(1)
-        .frame(height: 32)
+    }
+
+    private var playbackControls: some View {
+        HStack(spacing: 10) {
+            Button(action: onTogglePlayPause) {
+                Image(systemName: isPlaying ? "pause.fill" : "play.fill")
+                    .font(.system(size: 13, weight: .semibold))
+                    .frame(width: 30, height: 30)
+            }
+            .buttonStyle(AppButtonStyle(primary: true, compact: true))
+            .help(isPlaying ? tr("Pozastavit") : tr("Přehrát"))
+            .accessibilityLabel(isPlaying ? tr("Pozastavit") : tr("Přehrát"))
+
+            Text("\(EditorViewModel.formatTime(currentTime)) / \(EditorViewModel.formatTime(isPreviewingComposed ? totalOutputDuration : (clip?.durationSeconds ?? 0)))")
+                .font(.system(.callout, design: .monospaced).weight(.medium))
+                .foregroundStyle(.primary)
+                .fixedSize()
+                .help(isPreviewingComposed ? tr("Čas výsledného videa") : tr("Čas v původním klipu"))
+
+            if !isPreviewingComposed, let clip {
+                HStack(spacing: 4) {
+                    Label(tr("Rychlost"), systemImage: "speedometer")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Picker(tr("Rychlost videa"), selection: Binding(
+                        get: { clip.effectivePlaybackRate },
+                        set: { onPlaybackRateChange($0) }
+                    )) {
+                        ForEach(VideoClip.supportedPlaybackRates, id: \.self) { rate in
+                            Text(tr("%g×", rate)).tag(rate)
+                        }
+                    }
+                    .labelsHidden()
+                    .pickerStyle(.menu)
+                    .controlSize(.small)
+                    .frame(width: 76)
+                    .accessibilityLabel(tr("Rychlost videa"))
+                    .accessibilityIdentifier("clipPlaybackRate")
+                    .help(tr("Rychlost vybraného klipu se použije v náhledu i při exportu. Tón zvuku se mění s rychlostí."))
+                }
+            }
+        }
+        .fixedSize(horizontal: true, vertical: false)
+    }
+
+    @ViewBuilder
+    private var selectionSummary: some View {
+        if isPreviewingComposed {
+            Text(tr("Náhled výsledku (%d klipů)", allClips.count))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .fixedSize()
+        }
     }
 
     private func timeTag(title: String, value: String, highlight: Bool = false) -> some View {
@@ -243,7 +284,7 @@ struct TimelineTrimView: View {
     private var composedScrubBar: some View {
         GeometryReader { geometry in
             let width = max(40, geometry.size.width)
-            let total = max(0.1, totalTrimmedDuration)
+            let total = max(0.1, totalOutputDuration)
             let ratio = CGFloat(max(0, min(1, currentTime / total)))
 
             ZStack(alignment: .leading) {
@@ -253,7 +294,7 @@ struct TimelineTrimView: View {
                 // Jednotlivé úseky klipů ve spojeném videu
                 HStack(spacing: 2) {
                     ForEach(allClips) { item in
-                        let proportion = CGFloat(item.trimmedDuration / total)
+                        let proportion = CGFloat(item.outputDuration / total)
                         ZStack {
                             RoundedRectangle(cornerRadius: 6)
                                 .fill(AppDesign.accent.opacity(0.24))

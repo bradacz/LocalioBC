@@ -8,7 +8,7 @@ output_dir="${1:-$project_dir/dist}"
 identity="${SIGN_IDENTITY:--}"
 dmgbuild_bin="${DMGBUILD_BIN:-dmgbuild}"
 # Xcode resolves the version from MARKETING_VERSION when building.
-version="${RELEASE_VERSION:-1.0.0}"
+version="${RELEASE_VERSION:-1.1.0}"
 timestamp_flag="--timestamp"
 if [[ "$identity" == "-" ]]; then timestamp_flag="--timestamp=none"; fi
 mkdir -p "$output_dir"

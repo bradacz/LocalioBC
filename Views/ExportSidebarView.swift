@@ -243,7 +243,7 @@ struct ExportSidebarView: View {
                 .lineLimit(1).minimumScaleFactor(0.8)
             Divider()
             VStack(spacing: 8) {
-                summaryRow(tr("Výsledná délka"), EditorViewModel.formatTime(viewModel.totalTrimmedDuration))
+                summaryRow(tr("Výsledná délka"), EditorViewModel.formatTime(viewModel.totalOutputDuration))
                 summaryRow(tr("Rozměry"), viewModel.exportMode == .separate ? tr("Podle klipu") : "\(Int(res.width)) × \(Int(res.height)) px")
                 summaryRow(tr("Původní velikost"), EditorViewModel.formatBytes(viewModel.totalSourceSizeBytes))
             }
@@ -281,7 +281,7 @@ struct ExportSidebarView: View {
         return viewModel.settings.resolvedVideoBitrate(
             outputSize: res,
             fps: fps,
-            totalDuration: viewModel.totalTrimmedDuration,
+            totalDuration: viewModel.totalOutputDuration,
             hasAudio: hasAudio
         )
     }
