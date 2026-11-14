@@ -31,7 +31,7 @@ Only records for the new `localiobc` hostname were added in the mylocalio.com Cl
 
 The two TXT records above belong to the historical Sites hosting. Do not remove unrelated DNS records. Verify the Pages custom-domain status and HTTPS after cutover.
 
-The page advertises the App Store edition as coming soon at EUR 4.99. App Store Connect was rechecked on 15 November 2026 at 00:13 CET: Store version 1.0.0 (3) remains Waiting for Review with manual release; Store 1.2.0 has not been uploaded or submitted. See [Store status](../AppStore/STATUS.md). It links to the full free direct download, explicitly stating that all features are included with no time limits, paid unlocks or watermarks. A GitHub source link is available in the footer. Add a genuine App Store product URL after Apple approves and releases the listing; do not insert a guessed app ID or non-working store badge.
+The page advertises the App Store edition as coming soon at EUR 4.99. App Store Connect was rechecked on 15 November 2026 at 00:39 CET: Store version 1.2.0 (6) was submitted at 00:38 CET and is Waiting for Review with manual release. It replaces the withdrawn 1.0.0 (3) submission. See [Store status](../AppStore/STATUS.md). It links to the full free direct download, explicitly stating that all features are included with no time limits, paid unlocks or watermarks. A GitHub source link is available in the footer. Add a genuine App Store product URL after Apple approves and releases the listing; do not insert a guessed app ID or non-working store badge.
 
 ## Scroll effects
 

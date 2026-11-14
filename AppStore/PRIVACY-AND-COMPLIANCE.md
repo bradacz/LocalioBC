@@ -1,6 +1,6 @@
 # App privacy and submission answers
 
-Prepared for the submitted **Mac App Store edition 1.0.0 (3)** on 12 November 2026. Its review status was rechecked on 15 November 2026; see [STATUS.md](STATUS.md). These answers describe the submitted Store binary, not the newer direct/GitHub release. The current Store target is 1.2.0 (6), excludes Sparkle and has not been uploaded; re-check these answers against its final exported package before submission.
+Checked against the exported and submitted **Mac App Store edition 1.2.0 (6)** on 15 November 2026. The final package excludes Sparkle, updater settings/helpers and network-client access, and includes the privacy manifest and `ITSAppUsesNonExemptEncryption = NO`. These answers describe the Store binary; optional direct-edition update connections are documented separately. Apple accepted the submission and it is Waiting for Review; see [STATUS.md](STATUS.md).
 
 ## App Privacy
 
@@ -35,7 +35,7 @@ Use the standard Apple EULA unless the Account Holder has a reviewed custom EULA
 
 ## Paid distribution and EU trader information
 
-The Account Holder must confirm an active Paid Apps Agreement, bank and tax details. For the seller Localio Labs s.r.o., complete the EU trader declaration and verify the legal address, contact email and telephone in App Store Connect. The App Review phone number is not automatically the public EU trader number; confirm the public business contact separately. Do not copy personal/private contact data into the repository.
+The updated Paid Apps Agreement was accepted with explicit owner approval on 15 November 2026 and verified Active before successful submission. Bank/tax forms and Digital Services Act showed Active. The separate DAC7 item showed Missing Info and remains an Account Holder follow-up; it did not block this review submission. For future submissions, confirm an active agreement, bank and tax details. For the seller Localio Labs s.r.o., complete the EU trader declaration and verify the legal address, contact email and telephone in App Store Connect. The App Review phone number is not automatically the public EU trader number; confirm the public business contact separately. Do not copy personal/private contact data into the repository.
 
 ## Sources checked
 

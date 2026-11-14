@@ -1,1 +1,1 @@
-První vydání v Mac App Storu: jednoduchý ořez a střih videa, hromadný ořez, samostatný či společný export, odebrání zvuku, komprese a české i anglické rozhraní.
+První vydání v Mac App Storu: plynulá rychlost 0,25×–4× s návratem na 1×, ořez a střih videa, hromadný ořez, samostatný či společný export, odebrání zvuku a české i anglické rozhraní.

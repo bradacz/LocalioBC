@@ -50,7 +50,10 @@ assert len((root / 'AppStore/review/notes-en.txt').read_text()) <= 4000
 assert (root / 'AppStore/review/demo-clips.zip').stat().st_size > 0
 submission = json.loads((root / 'AppStore/submission.json').read_text())
 assert submission['price']['amount'] == '4.99' and submission['price']['currency'] == 'EUR'
-assert submission['build'] == '3' and submission['release_mode'] == 'manual'
+assert submission['build'].isdigit() and int(submission['build']) > 0
+assert submission['review_submission']['selected_version'] == submission['version']
+assert submission['review_submission']['selected_build'] == submission['build']
+assert submission['release_mode'] == 'manual'
 assert submission['review_contact']['phone'] is None, 'Private phone must remain outside public metadata'
 report['status'] = 'passed'
 print(json.dumps(report, ensure_ascii=False, indent=2))

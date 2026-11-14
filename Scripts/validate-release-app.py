@@ -32,7 +32,8 @@ def macho_files(app):
                     yield path
 
 
-def validate(app, channel, version=None, build=None):
+def validate(app, channel, version=None, build=None, store_archive=False):
+    assert not store_archive or channel == 'store', '--store-archive requires the Store channel'
     info = plistlib.loads((app / 'Contents/Info.plist').read_bytes())
     assert info['CFBundleDevelopmentRegion'] == 'en', 'English must be the fallback language'
     if version:
@@ -55,7 +56,10 @@ def validate(app, channel, version=None, build=None):
         assert not any(key.startswith('SU') for key in info), 'Store contains updater configuration'
         assert not grants.get(exception), 'Store contains updater sandbox exceptions'
         assert not grants.get('com.apple.security.network.client'), 'Store unexpectedly has network access'
-        assert (app / 'Contents/embedded.provisionprofile').is_file(), 'Store profile is missing'
+        # Automatic signing can omit the profile in the development-signed archive.
+        # Export adds it; the final package must always pass the default strict check.
+        if not store_archive:
+            assert (app / 'Contents/embedded.provisionprofile').is_file(), 'Store profile is missing'
         for path in app.rglob('*'):
             assert 'sparkle' not in path.name.lower(), 'Store contains Sparkle files'
             if path.name == 'Info.plist' and path.is_file():
@@ -104,8 +108,10 @@ if __name__ == '__main__':
     parser.add_argument('app', type=Path)
     parser.add_argument('--version')
     parser.add_argument('--build')
+    parser.add_argument('--store-archive', action='store_true',
+                        help='Validate a pre-export Store archive; require its profile after export')
     arguments = parser.parse_args()
     try:
-        validate(arguments.app, arguments.channel, arguments.version, arguments.build)
+        validate(arguments.app, arguments.channel, arguments.version, arguments.build, arguments.store_archive)
     except (AssertionError, KeyError, ValueError, OSError, subprocess.CalledProcessError) as error:
         parser.exit(1, f'Release validation failed: {error}\n')

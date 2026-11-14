@@ -1,49 +1,54 @@
 # Mac App Store status
 
-Last verified directly in App Store Connect on **15 November 2026 at 00:13 CET (Europe/Prague)**.
+Last verified directly in App Store Connect on **15 November 2026 at 00:39 CET (Europe/Prague)**.
 
-**Version 1.0.0, build 3 is still Waiting for Review.** It was submitted on 13 November 2026. It has not been approved or publicly released. Release is configured as **manual after approval**.
+**Version 1.2.0, build 6 is Waiting for Review.** Apple accepted the new submission on **15 November 2026 at 00:38 CET**. The owner authorized withdrawing the pending 1.0.0 (3) submission and replacing it with 1.2.0 (6). The app has not been approved or publicly released. Release remains **manual after approval**.
 
 | Distribution channel | Current state |
 | --- | --- |
-| Mac App Store submission | **1.0.0 (3)** — Waiting for Review |
-| App Store Connect uploads | Only **1.0.0 (3)** is listed; upload status **Complete** |
-| TestFlight | **1.0.0 (3)** — Ready to Submit; this is the beta-testing status, separate from the App Store review status |
-| Current Store source | **1.2.0 (6)** in the `LocalioBC-AppStore` target; local Release build passed, but no 1.2.0 Store archive/package has been exported, uploaded or submitted |
-| Free direct/GitHub edition | **1.2.0 (6)** published; signed/notarized DMG, signed update feed and English/Czech website verified on 15 November 2026 |
+| Mac App Store submission | **1.2.0 (6)** — Waiting for Review |
+| App Store Connect upload | **1.2.0 (6)** delivered through Transporter, processed and selected for review; upload listed at 00:24 CET |
+| TestFlight | Build **6**, version **1.2.0**, showed Ready to Submit after processing; this is the beta-testing status, separate from App Store review |
+| Previous Store submission | **1.0.0 (3)**, originally submitted on 13 November, withdrawn and replaced on 15 November |
+| Current Store source/package | **1.2.0 (6)**, universal archive and signed distribution package validated and uploaded |
+| Free direct/GitHub edition | **1.2.0 (6)** published; signed/notarized DMG, signed update feed and English/Czech website verified on 15 November |
 
-The 1.2.0 direct release did **not** replace or update the pending App Store submission. Sparkle is included only in the direct edition; the Store target excludes it. Store customers receive updates through Apple.
+Sparkle, its helpers, update configuration and sandbox exceptions are physically excluded from the Store package. Store customers receive updates through Apple. The separately released direct edition includes Sparkle.
 
 Private App Store Connect identifiers and the review URL are stored only in ignored `SubmissionStatus.local.json`.
 
-## Submitted 1.0.0 package and preparation
-
-The preparation results below belong to the submitted 1.0.0 (3) package. Account configuration was recorded during submission on 13 November; review status, selected build, upload list and manual release were rechecked on 15 November.
+## Submitted 1.2.0 package and validation
 
 | Item | Result |
 | --- | --- |
-| Store build | LocalioBC 1.0.0 (3), universal arm64/x86_64 |
-| Package export | Passed, with Mac App Store installer/distribution signing |
-| Packaged application checks | Strict signature, both CPU architectures, sandbox, user-selected file access, no debugger entitlement, embedded provisioning profile, privacy manifest and MIT licence passed |
-| Regression suite | 24 passed, 0 failed, on Apple Silicon/macOS 26.5.1 |
-| Native smoke test | File-picker import, batch crop and separate export of two clips succeeded in the sandboxed Store-configuration preview |
-| Localizations | English and Czech; Czech system language uses Czech, all others use English; manual override verified |
-| Listing | English and Czech metadata saved, emphasizing quick and simple video cropping |
-| Price | EUR 4.99 one-time purchase configured; Germany base, Apple local equivalents (Czech Republic CZK 99) |
-| Screenshots | Six RGB PNGs, 1280 × 800, three per language, uploaded |
-| Review contact | Saved in App Store Connect from ignored private local JSON; absent from public source |
-| Product/support/privacy site | Public on https://localiobc.mylocalio.com/; TLS active; all six English/Czech pages verified |
-| Apple upload/review | Package delivered and processed; build 3 selected; submission accepted, Waiting for Review |
+| Store build | LocalioBC 1.2.0 (6), universal arm64/x86_64, macOS 14 minimum |
+| Archive/export | Passed; Xcode automatically re-signed the development archive for App Store distribution during export |
+| Final package checks | Valid installer signature; packaged app strict signature, both CPU architectures, sandbox, user-selected file access, no debugger entitlement, embedded profile, privacy manifest and MIT licence passed |
+| Store isolation | No Sparkle files, linked framework, updater Info.plist keys, network-client entitlement or updater Mach exceptions |
+| Shared release regression suite | 38 tests passed on the direct target; see [1.2.0 validation](../docs/releases/v1.2.0-validation.md). Store-specific compilation/package checks are recorded separately above |
+| Store native verification | Isolated sandboxed Store preview imported two original clips; continuous speed at 1.32×, crop controls and separate-export UI verified in Czech and English |
+| Listing | English/Czech descriptions updated for continuous 0.25×–4× speed; reviewer notes identify 1.2.0 (6) and Store updater isolation |
+| Screenshots | Six fresh RGB PNGs, 1280 × 800, three per language, uploaded in editor/crop/export order |
+| Review information | Existing private contact and demo-clips.zip retained; sign-in not required |
+| Public URLs | English/Czech product, support and privacy URLs returned HTTPS 200 during submission preparation |
+| Apple result | 1 Item Submitted; App Review shows 1.2.0 (6), Waiting for Review, submitted 00:38 CET |
 
-Intel slices are verified in the exported package; no runtime test on physical Intel hardware is claimed. The declared minimum OS is macOS 14; the runtime tests were performed on macOS 26.5.1.
+Local package: `dist/app-store-1.2.0-build6/export/LocalioBC.pkg` (2,090,268 bytes).
 
-Configured in App Store Connect: Photo & Video category, English/Czech subtitles and URLs, Data Not Collected privacy responses, calculated age rating 4+, no third-party catalogue content, no sign-in, review notes and demo-clips.zip, all 175 countries/regions after release, manual release after approval. The branded app icon was visually verified in the selected build's Included Assets.
+SHA-256: `6a32847386b34a73198a70f8a16a9715ceb1c80ec5c0f624a97d07c01e87bee1`.
+
+Intel slices are verified in the package; no runtime test on physical Intel hardware or macOS 14 is claimed. Runtime checks used Apple Silicon on macOS 26.5.1. The isolated screenshot preview used a separate bundle identifier and ad-hoc signature; the uploaded package retains its production identity and Apple distribution signing.
+
+## Account configuration
+
+Photo & Video category, English/Czech subtitles and URLs, Data Not Collected, age rating 4+, no third-party catalogue content, no sign-in, EUR 4.99 one-time price (Germany base; Czech equivalent CZK 99), 175 countries/regions and manual release are retained.
+
+Apple initially blocked submission because the Paid Apps Agreement was outdated. The owner explicitly authorized accepting the updated Schedule 2 and 3; the agreement was accepted and verified **Active** on 15 November before submission succeeded. Bank/tax forms and Digital Services Act showed Active. The separate **DAC7** account item showed **Missing Info**; it did not block this review submission and remains an Account Holder follow-up. No banking or tax details were changed.
 
 ## Remaining work
 
-1. Await Apple's review of 1.0.0 (3) and address any feedback; release manually only after approval.
-2. Prepare 1.2.0 (6) separately for the Store: create and validate a signed Store archive/package, update Store metadata/screenshots/reviewer notes for the newer features, upload and submit it for review. A successful local build or the GitHub DMG is not an App Store upload.
-3. If 1.2.0 should replace the version currently waiting for review, App Store Connect explicitly requires removing 1.0.0 from review before selecting a new build. The current submission was left unchanged during this status check.
-4. Add the actual public App Store link to the website only after the Store release is available. Public GitHub/direct distribution stays free.
+1. Await Apple's review of **1.2.0 (6)** and respond to any feedback.
+2. Release manually after approval, then add the working public App Store URL to the website. Until release, the website correctly says the paid Store edition is coming soon; direct distribution is already available free.
+3. Account Holder: resolve the separate DAC7 Missing Info item in App Store Connect Business.
 
-Current evidence (local, ignored): `dist/app-store-status-2026-11-15.png` and `dist/app-store-builds-2026-11-15.png`. Historical evidence: `dist/app-store-waiting-for-review.png` and `dist/app-store-icon-confirmed.png`. The screenshot of the review page contains account context and is not added to the public repository.
+Evidence (local, ignored): `dist/app-store-1.2.0-build6/submitted.png`, `transporter-delivered.png`, `paid-agreement-active.png` and `listing-validation.json` in the same directory. Account screenshots are not committed to the public repository. Historical package: `dist/app-store-final/` (1.0.0 build 3); it must not be mistaken for the current upload.

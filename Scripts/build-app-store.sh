@@ -21,7 +21,7 @@ app="$archive/Products/Applications/LocalioBC.app"
 lipo "$app/Contents/MacOS/LocalioBC" -verify_arch arm64 x86_64
 plutil -lint "$app/Contents/Resources/PrivacyInfo.xcprivacy"
 test -s "$app/Contents/Resources/LICENSE"
-python3 "$project_dir/Scripts/validate-release-app.py" store "$app" --version "$version" --build "$build_number"
+python3 "$project_dir/Scripts/validate-release-app.py" store "$app" --version "$version" --build "$build_number" --store-archive
 xcodebuild -exportArchive -archivePath "$archive" -exportPath "$output_dir/export" \
     -exportOptionsPlist "$project_dir/AppStore/ExportOptions.plist" -allowProvisioningUpdates \
     > "$output_dir/export.log" 2>&1

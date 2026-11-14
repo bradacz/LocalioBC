@@ -1,4 +1,6 @@
-LocalioBC is a simple, quick, offline video-cropping utility for macOS. The Mac App Store edition is a one-time paid purchase (EUR 4.99 in the selected euro storefront), with no subscriptions, in-app purchases, account, ads, tracking or media uploads. It is open source under MIT; the complete license is included and available in About. The free direct-distribution build is a separate distribution channel, not an unlock or alternative payment flow inside this app. No GitHub link is present in the app.
+LocalioBC 1.2.0 (6) is a simple, quick, offline video-cropping utility for macOS. The Mac App Store edition is a one-time paid purchase (EUR 4.99 in the selected euro storefront), with no subscriptions, in-app purchases, account, ads, tracking or media uploads. It is open source under MIT; the complete license is included and available in About. The free direct-distribution build is a separate distribution channel, not an unlock or alternative payment flow inside this app. No GitHub link is present in the app.
+
+This build replaces the initial 1.0.0 submission and includes continuous clip speed controls. Sparkle and its update helpers are physically excluded from this Store build; updates are handled by Apple.
 
 No sign-in or demo account is required. All features are available immediately after the App Store purchase. A network connection is not required for import, editing, previews or export. Web and support links open in the system's default browser/mail application.
 
@@ -6,7 +8,7 @@ Review attachment: demo-clips.zip contains two original five-second 1280x720 Qui
 
 Suggested review steps:
 1. Import both demo clips using the file picker, or drag files from Finder into the window.
-2. Select a clip. Set a shorter start/end interval using the thumbnail timeline.
+2. Select a clip. Set a shorter start/end interval using the thumbnail timeline. Adjust speed from 0.25x to 4x beside playback; the exact value and output duration update. The 1x button resets speed. Preview and export use the same speed; audio pitch changes with speed.
 3. Choose 9:16 or another aspect ratio. Move/resize the crop frame as desired. Click Apply to clip, or Apply to all. Pending crops must be confirmed/cancelled before export.
 4. Switch between Clip and Output to inspect source footage and the composed result.
 5. Choose Merge into one video; select MP4/H.264 and a quality preset. Export through the save panel to a user-selected location.

@@ -142,7 +142,7 @@ The script archives both architectures in Release mode and performs a Developer 
 
 ## Mac App Store edition
 
-**Status verified 15 November 2026, 00:13 CET:** Store version **1.0.0 (3)** is **Waiting for Review**, with manual release after approval. The public direct edition is **1.2.0 (6)**. Store source 1.2.0 (6) builds locally but has not been packaged, uploaded or submitted to Apple. See [current Store status](AppStore/STATUS.md).
+**Status verified 15 November 2026, 00:39 CET:** Store version **1.2.0 (6)** was uploaded and submitted at 00:38 CET and is **Waiting for Review**, with manual release after approval. It replaces the withdrawn 1.0.0 (3) submission. The free direct edition **1.2.0 (6)** is already public. See [current Store status](AppStore/STATUS.md) for validation and remaining account follow-up.
 
 The separate `LocalioBC-AppStore` target/scheme archives the paid Store configuration with sandboxing, a bundled privacy manifest and licence, and copy appropriate for a one-time purchase. It shares editing sources with the direct target, while physically excluding Sparkle, its helpers, update configuration and sandbox exceptions. Both archives and exported Store packages are checked for updater isolation. The public GitHub DMG remains the free direct edition.
 

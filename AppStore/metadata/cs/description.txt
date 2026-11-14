@@ -6,6 +6,9 @@ Vyberte poměr stran 16:9, 9:16, 1:1, 4:5 nebo 4:3, případně nastavte vlastn�
 ZKRÁCENÍ A EXPORT
 Zkraťte začátek či konec pomocí časové osy s náhledy. Změňte pořadí a spojte klipy do jednoho videa nebo každý exportujte jako samostatný očíslovaný soubor. Pokud potřebujete jen obraz, odeberte zvuk.
 
+VAŠE TEMPO
+Plynule nastavte rychlost každého klipu od 0,25× do 4×, sledujte přesnou hodnotu a jedním kliknutím ji vraťte na 1×. Náhled i export používají stejnou rychlost; tón zvuku se mění s rychlostí.
+
 KONTROLA VELIKOSTI
 Exportujte MP4 či MOV s kodekem H.264 nebo HEVC. Vyberte předvolbu kvality, omezte rozlišení nebo zadejte orientační cílovou velikost. Kompatibilní klipy lze exportovat bezeztrátově bez změny obrazu.
 

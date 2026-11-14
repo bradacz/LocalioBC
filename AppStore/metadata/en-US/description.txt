@@ -6,6 +6,9 @@ Choose a familiar aspect ratio — 16:9, 9:16, 1:1, 4:5 or 4:3 — or adjust a c
 TRIM AND EXPORT
 Shorten the beginning or end using a thumbnail timeline. Reorder and merge clips into one video, or export each clip as a separate numbered file. Remove audio when you only need the picture.
 
+SET THE PACE
+Adjust each clip smoothly from 0.25× to 4×, check the exact speed and reset to 1× with one click. Preview and export use the same speed; audio pitch changes with speed.
+
 CONTROL FILE SIZE
 Export MP4 or MOV with H.264 or HEVC. Choose a quality preset, set a resolution limit or enter an estimated target size. Eligible clips can use lossless export without changing the image.
 
