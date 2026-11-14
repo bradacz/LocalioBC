@@ -64,8 +64,7 @@
   "owner_actions": [
     "Await review of 1.2.0 (6) and respond to Apple feedback",
     "Release manually after approval",
-    "Add the actual public App Store link to the website after release",
-    "Account Holder: resolve the separate DAC7 Missing Info item in App Store Connect Business"
+    "Add the actual public App Store link to the website after release"
   ],
   "website": {
     "url": "https://localiobc.mylocalio.com/",
@@ -119,6 +118,12 @@
   },
   "account_follow_up": {
     "paid_apps_agreement": "Updated with explicit owner approval and verified ACTIVE on 2026-11-15",
-    "dac7": "MISSING_INFO observed in Business; review submission accepted; Account Holder follow-up remains"
+    "dac7": "ACTIVE, verified 2026-11-15 at 00:48 CET; owner confirmed no apps provide personal services and No was saved"
+  },
+  "dac7": {
+    "status": "ACTIVE",
+    "any_apps_provide_personal_services": false,
+    "basis": "Owner confirmed no apps in the account provide personal services",
+    "last_verified_at": "2026-11-15T00:48:00+01:00"
   }
 }

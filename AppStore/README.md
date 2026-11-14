@@ -6,7 +6,7 @@ LocalioBC **1.2.0 (6)** is submitted and waiting for review as a one-time paid M
 
 **Verified in App Store Connect on 15 November 2026 at 00:39 CET (Europe/Prague):** version **1.2.0 (6)** is **Waiting for Review**, submitted at 00:38 CET. The owner authorized replacing the pending 1.0.0 (3) submission. The new package was delivered through Transporter, processed and selected; English/Czech descriptions, six screenshots and reviewer notes now reflect 1.2.0. Release remains manual after approval. The free direct edition 1.2.0 (6) is already published.
 
-The outdated Paid Apps Agreement initially blocked submission. It was updated with explicit owner approval and verified Active; submission then succeeded. The separate DAC7 account item remains Missing Info. See [current status and next steps](STATUS.md). Private identifiers and account URLs remain in ignored `SubmissionStatus.local.json`.
+The outdated Paid Apps Agreement initially blocked submission. It was updated with explicit owner approval and verified Active; submission then succeeded. DAC7 was completed at 00:48 CET on 15 November and is Active: the owner confirmed that no apps in the account provide personal services, and the answer No was saved. See [current status and next steps](STATUS.md). Private identifiers and account URLs remain in ignored `SubmissionStatus.local.json`.
 
 ## Submitted 1.2.0 artifacts
 
@@ -41,7 +41,7 @@ Use the existing Localio Labs s.r.o. team **4RY8J45UR3**. Register/select the ex
 | Monetization | Paid upfront, one-time purchase; no IAP/subscription |
 | Release | Manual release after approval |
 
-For future submissions, the Account Holder must confirm active developer membership, the **Paid Apps Agreement**, bank/tax details and EU trader information; the current verified state and remaining DAC7 item are recorded in `STATUS.md`. These account/legal actions are not automatically accepted by the build scripts. Enter the private review contact from `ReviewContact.local.json`; no demo account is needed.
+For future submissions, the Account Holder must confirm active developer membership, the **Paid Apps Agreement**, bank/tax details and EU trader information; the current verified state, including completed DAC7, is recorded in `STATUS.md`. These account/legal actions are not automatically accepted by the build scripts. Enter the private review contact from `ReviewContact.local.json`; no demo account is needed.
 
 ## Set the EUR 4.99 price
 

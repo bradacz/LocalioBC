@@ -35,7 +35,7 @@ Use the standard Apple EULA unless the Account Holder has a reviewed custom EULA
 
 ## Paid distribution and EU trader information
 
-The updated Paid Apps Agreement was accepted with explicit owner approval on 15 November 2026 and verified Active before successful submission. Bank/tax forms and Digital Services Act showed Active. The separate DAC7 item showed Missing Info and remains an Account Holder follow-up; it did not block this review submission. For future submissions, confirm an active agreement, bank and tax details. For the seller Localio Labs s.r.o., complete the EU trader declaration and verify the legal address, contact email and telephone in App Store Connect. The App Review phone number is not automatically the public EU trader number; confirm the public business contact separately. Do not copy personal/private contact data into the repository.
+The updated Paid Apps Agreement was accepted with explicit owner approval on 15 November 2026 and verified Active before successful submission. Bank/tax forms and Digital Services Act showed Active. DAC7 was completed and verified Active at 00:48 CET the same day: the owner confirmed that none of the account's apps provide personal services, and No was saved. Reassess this account-wide answer if the services offered change. For future submissions, confirm an active agreement, bank and tax details. For the seller Localio Labs s.r.o., maintain the EU trader declaration and verify the legal address, contact email and telephone in App Store Connect. The App Review phone number is not automatically the public EU trader number; confirm the public business contact separately. Do not copy personal/private contact data into the repository.
 
 ## Sources checked
 
@@ -43,4 +43,5 @@ The updated Paid Apps Agreement was accepted with explicit owner approval on 15 
 - [App privacy details](https://developer.apple.com/app-store/app-privacy-details/)
 - [Current App Store requirements](https://developer.apple.com/news/upcoming-requirements/)
 - [EU trader requirements](https://developer.apple.com/help/app-store-connect/manage-compliance-information/manage-european-union-digital-services-act-trader-requirements/)
+- [DAC7 declaration and personal services](https://developer.apple.com/help/app-store-connect/manage-compliance-information/manage-information-for-directive-on-administrative-cooperation-7th-amendment)
 - [MIT license](https://opensource.org/license/mit)

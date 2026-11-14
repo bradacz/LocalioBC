@@ -1,6 +1,6 @@
 # Mac App Store status
 
-Last verified directly in App Store Connect on **15 November 2026 at 00:39 CET (Europe/Prague)**.
+Review submission verified directly in App Store Connect on **15 November 2026 at 00:39 CET (Europe/Prague)**. Account DAC7 completion verified at **00:48 CET** the same day.
 
 **Version 1.2.0, build 6 is Waiting for Review.** Apple accepted the new submission on **15 November 2026 at 00:38 CET**. The owner authorized withdrawing the pending 1.0.0 (3) submission and replacing it with 1.2.0 (6). The app has not been approved or publicly released. Release remains **manual after approval**.
 
@@ -43,12 +43,13 @@ Intel slices are verified in the package; no runtime test on physical Intel hard
 
 Photo & Video category, English/Czech subtitles and URLs, Data Not Collected, age rating 4+, no third-party catalogue content, no sign-in, EUR 4.99 one-time price (Germany base; Czech equivalent CZK 99), 175 countries/regions and manual release are retained.
 
-Apple initially blocked submission because the Paid Apps Agreement was outdated. The owner explicitly authorized accepting the updated Schedule 2 and 3; the agreement was accepted and verified **Active** on 15 November before submission succeeded. Bank/tax forms and Digital Services Act showed Active. The separate **DAC7** account item showed **Missing Info**; it did not block this review submission and remains an Account Holder follow-up. No banking or tax details were changed.
+Apple initially blocked submission because the Paid Apps Agreement was outdated. The owner explicitly authorized accepting the updated Schedule 2 and 3; the agreement was accepted and verified **Active** on 15 November before submission succeeded. Bank/tax forms and Digital Services Act showed Active.
+
+**DAC7 is Active**, completed and verified on 15 November at 00:48 CET. In Business → Compliance → DAC7 → Add Info, the answer to whether any apps provide personal services was saved as **No**, after the owner confirmed that none of the account's apps offer such services. The previous Missing Info item is resolved. No banking or tax identification details were changed. Reassess the declaration if the account's apps begin offering paid personal services.
 
 ## Remaining work
 
 1. Await Apple's review of **1.2.0 (6)** and respond to any feedback.
 2. Release manually after approval, then add the working public App Store URL to the website. Until release, the website correctly says the paid Store edition is coming soon; direct distribution is already available free.
-3. Account Holder: resolve the separate DAC7 Missing Info item in App Store Connect Business.
 
-Evidence (local, ignored): `dist/app-store-1.2.0-build6/submitted.png`, `transporter-delivered.png`, `paid-agreement-active.png` and `listing-validation.json` in the same directory. Account screenshots are not committed to the public repository. Historical package: `dist/app-store-final/` (1.0.0 build 3); it must not be mistaken for the current upload.
+Evidence (local, ignored): `dist/app-store-1.2.0-build6/submitted.png`, `transporter-delivered.png`, `paid-agreement-active.png`, `dac7-completed.png` and `listing-validation.json` in the same directory. Account screenshots are not committed to the public repository. Historical package: `dist/app-store-final/` (1.0.0 build 3); it must not be mistaken for the current upload.
