@@ -77,6 +77,7 @@ private struct EditorRootView: View {
     @Bindable var preferences: AppPreferences
     @State private var showSettings = false
     @State private var showAbout = false
+    @State private var pendingUpdateAction: (@MainActor () -> Void)?
 
     var body: some View {
         ContentView(viewModel: viewModel, onOpenSettings: { showAbout = false; showSettings = true })
@@ -85,7 +86,17 @@ private struct EditorRootView: View {
             .environment(\.locale, Locale(identifier: preferences.language.resolvedCode))
             .tint(AppDesign.accent)
             .preferredColorScheme(preferences.appearance.colorScheme)
-            .sheet(isPresented: $showSettings) { SettingsView(preferences: preferences, initialTab: showAbout ? 1 : 0) }
+            .sheet(isPresented: $showSettings, onDismiss: {
+                let action = pendingUpdateAction
+                pendingUpdateAction = nil
+                action?()
+            }) {
+                SettingsView(preferences: preferences, initialTab: showAbout ? 1 : 0,
+                    performUpdateAction: { action in
+                        pendingUpdateAction = action
+                        showSettings = false
+                    })
+            }
             .onReceive(NotificationCenter.default.publisher(for: .showLocalioSettings)) { _ in showAbout = true; showSettings = true }
             .onChange(of: preferences.appearance, initial: true) {
                 switch preferences.appearance {

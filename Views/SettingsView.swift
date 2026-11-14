@@ -6,6 +6,9 @@ struct SettingsView: View {
     @EnvironmentObject private var updates: AppUpdateController
     #endif
     var initialTab = 0
+    // Sheet presentations must finish dismissing before Sparkle can terminate.
+    // The standalone Settings scene can execute these actions directly.
+    var performUpdateAction: (@MainActor (@escaping @MainActor () -> Void) -> Void)?
     @State private var selectedTab = 0
     @State private var showPrivacy = false
     @State private var showLicense = false
@@ -154,7 +157,9 @@ struct SettingsView: View {
                 .accessibilityIdentifier("automaticUpdateDownloads")
                 Divider()
                 HStack {
-                    Button(tr("Zkontrolovat aktualizace…")) { updates.checkForUpdates() }
+                    Button(tr("Zkontrolovat aktualizace…")) {
+                        runUpdateAction { updates.checkForUpdates() }
+                    }
                         .disabled(!updates.canCheckForUpdates || updates.isBusy)
                         .accessibilityIdentifier("checkForUpdates")
                     Spacer(minLength: 8)
@@ -168,7 +173,9 @@ struct SettingsView: View {
                     Divider()
                     Label(tr("Aktualizace je připravená k instalaci."), systemImage: "arrow.down.circle.fill")
                         .foregroundStyle(accent)
-                    Button(tr("Restartovat a aktualizovat")) { updates.installPendingUpdate() }
+                    Button(tr("Restartovat a aktualizovat")) {
+                        runUpdateAction { updates.installPendingUpdate() }
+                    }
                         .disabled(!updates.canInstallUpdate)
                 }
             }
@@ -187,6 +194,11 @@ struct SettingsView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
+    }
+
+    private func runUpdateAction(_ action: @escaping @MainActor () -> Void) {
+        if let performUpdateAction { performUpdateAction(action) }
+        else { action() }
     }
     #endif
 
