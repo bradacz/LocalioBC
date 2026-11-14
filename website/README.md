@@ -39,8 +39,12 @@ A local `motion.js` progressively adds staggered content reveals, a subtle scree
 
 ## Hero section
 
-The introduction uses the white page canvas without a background video or external media requests. The supplied app screenshot remains undistorted and is lazy-loaded below the text.
+The introduction uses the white page canvas with a decorative LocalioBC-blue crop motif and soft glow. Fine-pointer movement gently offsets the artwork through CSS custom properties, with requestAnimationFrame updates only while pointer events arrive. The artwork stays static for touch/coarse pointers, without JavaScript, or when reduced motion is requested. It never blocks links or obscures text; no background video or external media is loaded. The supplied app screenshot remains undistorted and is lazy-loaded below the text.
 
 ### Final cutover check — 14 November 2026
 
 The production CNAME points to localiobc-web.pages.dev. Cloudflare domain and certificate validation are active, HTTPS serves the GitHub build, Search Console ownership is verified and GA Realtime receives consented page views. See GOOGLE.md.
+
+## Release news
+
+Both homepages include a dated semantic release article for LocalioBC 1.1.0, describing 0.25×–4× clip speed, preview/export consistency, synchronized picture/sound and updated duration estimates. Audio pitch follows the selected speed. The primary CTA and release article link to the 1.1.0 universal DMG on GitHub Releases. Publish only after that signed, notarized release asset is available.
