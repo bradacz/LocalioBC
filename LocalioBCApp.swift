@@ -41,8 +41,7 @@ struct LocalioBCApp: App {
             }
             #if !APP_STORE
             CommandGroup(after: .appInfo) {
-                Button(tr("Zkontrolovat aktualizace…")) { updates.checkForUpdates() }
-                    .disabled(!updates.canCheckForUpdates || updates.isBusy)
+                CheckForUpdatesCommand(updates: updates)
             }
             #endif
         }
@@ -55,6 +54,19 @@ struct LocalioBCApp: App {
         }
     }
 }
+
+#if !APP_STORE
+/// Command content needs its own observation; an App delegate adaptor alone does
+/// not invalidate the native menu when Sparkle finishes starting asynchronously.
+private struct CheckForUpdatesCommand: View {
+    @ObservedObject var updates: AppUpdateController
+
+    var body: some View {
+        Button(tr("Zkontrolovat aktualizace…")) { updates.checkForUpdates() }
+            .disabled(!updates.canCheckForUpdates || updates.isBusy)
+    }
+}
+#endif
 
 extension Notification.Name {
     static let showLocalioSettings = Notification.Name("showLocalioSettings")
