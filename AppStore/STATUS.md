@@ -1,8 +1,24 @@
-# Submission preparation status
+# Mac App Store status
 
-Submitted on November 13, 2026. **Waiting for Review** in App Store Connect. Version 1.0.0, build 3.
+Last verified directly in App Store Connect on **15 November 2026 at 00:13 CET (Europe/Prague)**.
+
+**Version 1.0.0, build 3 is still Waiting for Review.** It was submitted on 13 November 2026. It has not been approved or publicly released. Release is configured as **manual after approval**.
+
+| Distribution channel | Current state |
+| --- | --- |
+| Mac App Store submission | **1.0.0 (3)** — Waiting for Review |
+| App Store Connect uploads | Only **1.0.0 (3)** is listed; upload status **Complete** |
+| TestFlight | **1.0.0 (3)** — Ready to Submit; this is the beta-testing status, separate from the App Store review status |
+| Current Store source | **1.2.0 (6)** in the `LocalioBC-AppStore` target; local Release build passed, but no 1.2.0 Store archive/package has been exported, uploaded or submitted |
+| Free direct/GitHub edition | **1.2.0 (6)** published; signed/notarized DMG, signed update feed and English/Czech website verified on 15 November 2026 |
+
+The 1.2.0 direct release did **not** replace or update the pending App Store submission. Sparkle is included only in the direct edition; the Store target excludes it. Store customers receive updates through Apple.
 
 Private App Store Connect identifiers and the review URL are stored only in ignored `SubmissionStatus.local.json`.
+
+## Submitted 1.0.0 package and preparation
+
+The preparation results below belong to the submitted 1.0.0 (3) package. Account configuration was recorded during submission on 13 November; review status, selected build, upload list and manual release were rechecked on 15 November.
 
 | Item | Result |
 | --- | --- |
@@ -23,6 +39,11 @@ Intel slices are verified in the exported package; no runtime test on physical I
 
 Configured in App Store Connect: Photo & Video category, English/Czech subtitles and URLs, Data Not Collected privacy responses, calculated age rating 4+, no third-party catalogue content, no sign-in, review notes and demo-clips.zip, all 175 countries/regions after release, manual release after approval. The branded app icon was visually verified in the selected build's Included Assets.
 
-Apple accepted the submission. Approval is still pending; no public App Store release has occurred. Wait for Apple's decision, address any review feedback, then release manually. Do not change the website to claim App Store availability before release. Public GitHub/direct distribution stays free.
+## Remaining work
 
-Evidence (local, ignored): `dist/app-store-waiting-for-review.png`, `dist/app-store-icon-confirmed.png`. The screenshot of the review page contains account context and is not added to the public repository.
+1. Await Apple's review of 1.0.0 (3) and address any feedback; release manually only after approval.
+2. Prepare 1.2.0 (6) separately for the Store: create and validate a signed Store archive/package, update Store metadata/screenshots/reviewer notes for the newer features, upload and submit it for review. A successful local build or the GitHub DMG is not an App Store upload.
+3. If 1.2.0 should replace the version currently waiting for review, App Store Connect explicitly requires removing 1.0.0 from review before selecting a new build. The current submission was left unchanged during this status check.
+4. Add the actual public App Store link to the website only after the Store release is available. Public GitHub/direct distribution stays free.
+
+Current evidence (local, ignored): `dist/app-store-status-2026-11-15.png` and `dist/app-store-builds-2026-11-15.png`. Historical evidence: `dist/app-store-waiting-for-review.png` and `dist/app-store-icon-confirmed.png`. The screenshot of the review page contains account context and is not added to the public repository.

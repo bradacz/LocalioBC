@@ -1,12 +1,14 @@
 # Mac App Store submission kit
 
-LocalioBC **1.0.0 (3)** is prepared as a one-time paid Mac App Store app at **EUR 4.99**. The product positioning is **simple, quick video cropping**, with trimming, compression and batch export as supporting features. The public GitHub/direct edition remains free. Store builds do not claim to be free and contain no GitHub link.
+LocalioBC **1.0.0 (3)** is submitted and waiting for review as a one-time paid Mac App Store app at **EUR 4.99**. The product positioning is **simple, quick video cropping**, with trimming, compression and batch export as supporting features. The public GitHub/direct edition remains free. Store builds do not claim to be free and contain no GitHub link.
 
 ## Current submission
 
-Submitted November 13, 2026 as version **1.0.0 (3)**. Status: **Waiting for Review**. The branded icon, English/Czech metadata and screenshots, review attachment/contact, age rating 4+, privacy answers, EUR 4.99 Germany base price and availability in all 175 countries/regions are configured. Release remains manual after approval. See `STATUS.md` for the submission status; private identifiers and account URLs remain in ignored `SubmissionStatus.local.json`.
+**Verified in App Store Connect on 15 November 2026 at 00:13 CET (Europe/Prague):** version **1.0.0 (3)** is still **Waiting for Review**, submitted on 13 November. Only this build is listed under macOS uploads (Complete). TestFlight's Ready to Submit label refers to beta testing, not the App Store review. The branded icon, English/Czech metadata and screenshots, review attachment/contact, age rating 4+, privacy answers, EUR 4.99 Germany base price and availability in all 175 countries/regions are configured. Release remains manual after approval. See `STATUS.md` for the submission status; private identifiers and account URLs remain in ignored `SubmissionStatus.local.json`.
 
-## Prepared artifacts
+The free direct edition **1.2.0 (6)** is already published. The separate Store target also has source version **1.2.0 (6)** and passed a local Release build, but its Store archive/package has not been exported or uploaded and 1.2.0 has not been submitted. The pending Store submission remains 1.0.0 (3). [Current status and next steps](STATUS.md).
+
+## Submitted 1.0.0 artifacts
 
 - `dist/app-store-final/export/LocalioBC.pkg`: signed Mac App Store upload package.
 - `dist/app-store-final/LocalioBC-1.0.0-3.xcarchive`: universal archive with symbols for Xcode Organizer.
@@ -47,12 +49,12 @@ In Pricing and Availability, choose an EUR base storefront (suggested: **Germany
 
 Pricing is saved in App Store Connect: Germany EUR 4.99, with Apple-generated equivalents (Czech Republic CZK 99). The store listing must not claim the App Store download is free.
 
-## Upload and submit
+## Upload and submit a future Store build
 
 1. Confirm the live marketing/support/privacy URLs in `metadata/` are publicly accessible over HTTPS, without sign-in.
-2. Open the archive in Xcode Organizer and choose Distribute App → App Store Connect, or upload the already exported `.pkg` with Apple's Transporter. Use the Localio Labs team. Preserve version 1.0.0 and build 3.
-3. Wait for Apple processing. Resolve validation issues, then select build 3 for the macOS version. A successful local export does not mean Apple has reviewed or accepted the app.
-4. Paste the English and Czech fields from their respective metadata directories. Upload the three numbered screenshots for each language.
+2. Create and validate a fresh `LocalioBC-AppStore` archive/package for the intended version/build (current source: 1.2.0 / 6). Open it in Xcode Organizer and choose Distribute App → App Store Connect, or upload the exported `.pkg` with Apple's Transporter. Use the Localio Labs team. The existing `dist/app-store-final` package is the historical 1.0.0 (3) upload, not 1.2.0.
+3. Wait for Apple processing. Resolve validation issues, then select the matching build for the macOS version. If replacing the current pending submission, remove 1.0.0 from review first as required by App Store Connect. A successful local export does not mean a build was uploaded, reviewed or approved.
+4. Update the English and Czech metadata, screenshots and review notes for the intended release before uploading them. The existing prepared kit describes the submitted 1.0.0 feature set.
 5. Select Data Not Collected and enter the localized privacy URLs. Complete the current age-rating and export-compliance questionnaires using `PRIVACY-AND-COMPLIANCE.md` as the source-specific preparation.
 6. Paste the reviewer notes, attach `review/demo-clips.zip`, set Sign-in required to No and enter the private contact.
 7. Confirm price, regions, copyright, content rights, company/trader information and manual release. Submit for review after checking all required fields.
@@ -65,11 +67,11 @@ The scripts do not upload or submit automatically. The prepared package was uplo
 Xcode 26.3 was used for this preparation. Automatic signing is configured for the Localio Labs team; Xcode archives with a managed development identity and re-signs for App Store distribution during export. Required Store/installer profiles and certificates are managed by Xcode when the signed-in account permits it. Secrets remain in the Keychain/Xcode account, not this repository.
 
 ```sh
-python3 Scripts/validate-app-store.py
-bash Scripts/build-app-store.sh dist/app-store-next
+python3 Scripts/validate-app-store.py  # validates the existing 1.0.0 listing kit
+bash Scripts/build-app-store.sh dist/app-store-1.2.0-build6
 ```
 
-Use a new output directory on each build. `RELEASE_VERSION` and `BUILD_NUMBER` can override the defaults (1.0.0 and 3). The script verifies both CPU architectures, package signing, the packaged app's strict signature, sandbox/file grants, disabled debugger attachment, embedded profile, bundled privacy manifest/license and SHA-256. It never uploads or submits review.
+Use a new output directory on each build. `RELEASE_VERSION` and `BUILD_NUMBER` can override the defaults read from the `LocalioBC-AppStore` target (currently **1.2.0 and 6**). To reproduce the historical submission, explicitly set `RELEASE_VERSION=1.0.0 BUILD_NUMBER=3` and use the matching historical source; changing version strings alone does not reproduce that binary. The script verifies both CPU architectures, package signing, the packaged app's strict signature, sandbox/file grants, disabled debugger attachment, embedded profile, bundled privacy manifest/license and SHA-256. It never uploads or submits review.
 
 ```sh
 xcodebuild -project LocalioBC.xcodeproj -scheme LocalioBC \

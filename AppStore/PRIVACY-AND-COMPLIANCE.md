@@ -1,6 +1,6 @@
 # App privacy and submission answers
 
-Prepared for LocalioBC 1.0.0 (3), November 12, 2026. These are answers based on the current source and bundled Apple frameworks; re-check them when adding any SDK or online functionality.
+Prepared for the submitted **Mac App Store edition 1.0.0 (3)** on 12 November 2026. Its review status was rechecked on 15 November 2026; see [STATUS.md](STATUS.md). These answers describe the submitted Store binary, not the newer direct/GitHub release. The current Store target is 1.2.0 (6), excludes Sparkle and has not been uploaded; re-check these answers against its final exported package before submission.
 
 ## App Privacy
 
