@@ -107,8 +107,38 @@ header.is-scrolled { border-color: #e4e7f0; box-shadow: 0 7px 22px #1c2b5407; }
 .full-version-note { color: var(--ink); font-size: 15px; margin: 10px 0 18px; max-width: 680px; }
 
 
-/* Compact introduction on the page canvas. */
-.hero-content { max-width: 940px; }
+/* The approved crop artwork can sit behind the headline's right edge. */
+.hero {
+  position: relative;
+  isolation: isolate;
+  max-width: none;
+}
+.hero-content { position: relative; z-index: 1; }
+.hero h1 { max-width: 760px; }
+.hero .lead, .hero .full-version-note, .hero .fine { max-width: min(560px, calc(50% - 20px)); }
+.hero-art {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: -20px;
+  display: block;
+  inline-size: 58%;
+  max-inline-size: 680px;
+  block-size: auto;
+  aspect-ratio: 1;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  user-select: none;
+}
+@media (max-width: 1000px) {
+  .hero { display: grid; }
+  .hero-content, .hero .lead, .hero .full-version-note, .hero .fine { max-width: none; }
+  .hero-art {
+    position: static;
+    justify-self: center;
+    inline-size: min(100%, 520px);
+    margin-block: -35px -15px;
+  }
+}
 
 .release-news { margin-top: 38px; }
 .news-heading { display: flex; gap: 16px; align-items: center; justify-content: space-between; margin-bottom: 16px; }
