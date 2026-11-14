@@ -162,6 +162,7 @@ header.is-scrolled { border-color: #e4e7f0; box-shadow: 0 7px 22px #1c2b5407; }
 .news-heading h2 { margin: 0; font-size: 25px; }
 .release-tag { padding: 5px 10px; background: var(--tint); color: var(--accent); border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; }
 .release-card { padding: 28px 30px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; }
+.release-card + .release-card { margin-block-start: 16px; }
 .release-meta { display: flex; gap: 12px; align-items: center; color: var(--secondary); font-size: 12px; }
 .release-meta span { color: var(--accent); }
 .release-card h3 { font-size: 25px; margin: 15px 0 10px; }

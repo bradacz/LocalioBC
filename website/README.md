@@ -47,4 +47,8 @@ The production CNAME points to localiobc-web.pages.dev. Cloudflare domain and ce
 
 ## Release news
 
-Both homepages include a dated semantic release article for LocalioBC 1.1.0, describing 0.25×–4× clip speed, preview/export consistency, synchronized picture/sound and updated duration estimates. Audio pitch follows the selected speed. The primary CTA and release article link to the 1.1.0 universal DMG on GitHub Releases. Publish only after that signed, notarized release asset is available.
+Both homepages lead with LocalioBC 1.2.0, dated 15 November 2026: a continuous 0.25×–4× speed slider with a 1× reset, optional Sparkle update checks for the direct edition, optional automatic downloads, and installation safeguards for exports and in-memory edits. The primary CTA and latest article link to the 1.2.0 universal DMG on GitHub Releases. Version 1.1.0 remains as release history with its original download link. Users of 1.1.0 or earlier must install 1.2.0 manually once to gain the updater. Publish only after the signed, notarized release asset and signed update feed are available.
+
+The English and Czech privacy pages distinguish local offline editing from optional update connections. They identify Cloudflare and GitHub Releases, explain ordinary connection logs (including IP address and version-bearing User-Agent), and state that no system profile, clip data or media files are sent. The macOS app contains no analytics SDK. App Store updates remain Apple's responsibility; Sparkle is absent from that edition. Do not promise hosting-provider log retention periods.
+
+The signed feed and release notes under `public/updates/` are maintained by the release process. Do not modify their bytes after signing, inject website analytics into them, or publish them before the referenced DMG is available.

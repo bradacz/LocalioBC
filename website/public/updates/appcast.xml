@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><!-- sparkle-sign-warning:
+IMPORTANT: This file was signed by Sparkle. Any modifications to this file requires re-signing this file with generate_appcast or sign_update! The signed signature will be embedded at the end of this file.
+--><rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+  <channel>
+    <title>LocalioBC updates</title>
+    <link>https://localiobc.mylocalio.com</link>
+    <description>Signed updates for the direct-download edition of LocalioBC.</description>
+    <language>en</language>
+    <item>
+      <title>LocalioBC 1.2.0</title>
+      <link>https://localiobc.mylocalio.com</link>
+      <sparkle:version>6</sparkle:version>
+      <sparkle:shortVersionString>1.2.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0.0</sparkle:minimumSystemVersion>
+      <pubDate>Sat, 14 Nov 2026 22:58:36 GMT</pubDate>
+      <description xml:lang="en" sparkle:format="markdown"># LocalioBC 1.2.0
+
+- **Continuous speed control:** drag the slider from 0.25× to 4×, see the precise value, or reset to 1×. Preview and export use the same speed; audio pitch follows the speed.
+- **Built-in updates:** check for updates from the application menu or Settings. You can enable daily checks and automatic downloads.
+- **Keep your session safe:** installation waits while video processing is active and asks before closing in-memory edits.
+- Updates and release notes are verified with an Ed25519 signature. System profiling is disabled.
+
+Video editing and export still work offline. No videos or editing data are uploaded.
+
+**Updating from 1.1.0 or earlier:** download and install this version manually once. Later releases can update directly in the app. The Mac App Store edition receives its updates through Apple.
+</description>
+      <description xml:lang="cs" sparkle:format="markdown"># LocalioBC 1.2.0
+
+- **Plynulá rychlost videa:** nastavte táhlem 0,25× až 4×, sledujte přesnou hodnotu nebo se vraťte na 1×. Stejná rychlost platí pro náhled i export; tón zvuku se mění s rychlostí.
+- **Aktualizace přímo v aplikaci:** kontrolu najdete v nabídce aplikace a Nastavení. Volitelně zapněte denní kontroly a automatické stahování.
+- **Ochrana rozpracované práce:** instalace vyčká na dokončení zpracování videa a vyžádá si potvrzení před ukončením úprav uložených v paměti.
+- Aktualizace i novinky se ověřují podpisem Ed25519. Profilování systému je vypnuté.
+
+Úpravy a export dál fungují offline. Videa ani nastavení střihu se nikam nenahrávají.
+
+**Přechod z verze 1.1.0 nebo starší:** tuto verzi jednou stáhněte a nainstalujte ručně. Další aktualizace už přijmete přímo v aplikaci. Verzi z Mac App Storu aktualizuje Apple.
+</description>
+      <sparkle:fullReleaseNotesLink>https://localiobc.mylocalio.com/#news-title</sparkle:fullReleaseNotesLink>
+      <enclosure url="https://github.com/bradacz/LocalioBC/releases/download/v1.2.0/LocalioBC-1.2.0-universal.dmg" sparkle:edSignature="SeJRTY/Jp2Nmq1EnWbB0Lz8001VNKSq+TteQomHLY/02dlxlq9c4xLe8lcaWvDT9soPAYr5/sD2MriIsNU36Ag==" length="2197820" type="application/octet-stream"></enclosure>
+    </item>
+  </channel>
+</rss><!-- sparkle-signatures:
+edSignature: GDFztwPH3xLONkxOXc+MecyadKucrS7VBK2o7YTUfwosxSUw8xIhqAPj1NxzDDll0KgCepRwe/8T5F7bTiL6Bg==
+length: 3254
+-->
