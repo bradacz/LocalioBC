@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>cs</string>
+	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>LocalioBC</string>
 	<key>CFBundleExecutable</key>
@@ -30,5 +30,25 @@
 	<false/>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>SUFeedURL</key>
+	<string>https://localiobc.mylocalio.com/updates/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>CQAzSjfP3Q4KlSqG/pSwWmTVsiIIisBQjHScyVH7iYY=</string>
+	<key>SUVerifyUpdateBeforeExtraction</key>
+	<true/>
+	<key>SURequireSignedFeed</key>
+	<true/>
+	<key>SUSignedFeedFailureExpirationInterval</key>
+	<integer>0</integer>
+	<key>SUEnableInstallerLauncherService</key>
+	<true/>
+	<key>SUEnableDownloaderService</key>
+	<true/>
+	<key>SUEnableSystemProfiling</key>
+	<false/>
+	<key>SUAutomaticallyUpdate</key>
+	<false/>
+	<key>SUScheduledCheckInterval</key>
+	<integer>86400</integer>
 </dict>
 </plist>

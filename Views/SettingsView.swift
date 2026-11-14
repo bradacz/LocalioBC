@@ -2,6 +2,9 @@ import SwiftUI
 
 struct SettingsView: View {
     @Bindable var preferences: AppPreferences
+    #if !APP_STORE
+    @EnvironmentObject private var updates: AppUpdateController
+    #endif
     var initialTab = 0
     @State private var selectedTab = 0
     @State private var showPrivacy = false
@@ -127,8 +130,65 @@ struct SettingsView: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
+            #if !APP_STORE
+            updateContent
+            #endif
         }
     }
+
+    #if !APP_STORE
+    private var updateContent: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            sectionHeading(tr("Aktualizace"), subtitle: tr("Nové verze pohodlně přímo v aplikaci."))
+            VStack(alignment: .leading, spacing: 14) {
+                Toggle(tr("Automaticky kontrolovat nové verze"), isOn: Binding(
+                    get: { updates.automaticallyChecksForUpdates },
+                    set: { updates.setAutomaticChecks($0) }
+                ))
+                .accessibilityIdentifier("automaticUpdateChecks")
+                Toggle(tr("Automaticky stahovat a instalovat při ukončení"), isOn: Binding(
+                    get: { updates.automaticallyDownloadsUpdates },
+                    set: { updates.setAutomaticDownloads($0) }
+                ))
+                .disabled(!updates.automaticallyChecksForUpdates)
+                .accessibilityIdentifier("automaticUpdateDownloads")
+                Divider()
+                HStack {
+                    Button(tr("Zkontrolovat aktualizace…")) { updates.checkForUpdates() }
+                        .disabled(!updates.canCheckForUpdates || updates.isBusy)
+                        .accessibilityIdentifier("checkForUpdates")
+                    Spacer(minLength: 8)
+                    if let date = updates.lastCheckDate {
+                        Text(date, format: .dateTime.day().month().hour().minute())
+                            .font(.caption).foregroundStyle(.secondary)
+                            .help(tr("Poslední kontrola aktualizací"))
+                    }
+                }
+                if updates.hasPendingInstallation {
+                    Divider()
+                    Label(tr("Aktualizace je připravená k instalaci."), systemImage: "arrow.down.circle.fill")
+                        .foregroundStyle(accent)
+                    Button(tr("Restartovat a aktualizovat")) { updates.installPendingUpdate() }
+                        .disabled(!updates.canInstallUpdate)
+                }
+            }
+            .toggleStyle(.switch)
+            .controlSize(.small)
+            .font(.system(size: 12))
+            .padding(16)
+            .background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 12))
+            .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(Color.primary.opacity(0.08)))
+            Text(tr("Kontrola probíhá jednou denně, pokud ji povolíte. Stažené aktualizace se ověřují podpisem. Instalace vyčká na dokončení zpracování a potvrzení ukončení rozpracovaných úprav."))
+                .font(.caption).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            if preferences.nativeLanguageRequiresRestart {
+                Label(tr("Nový jazyk systémových oken aktualizací se použije po příštím spuštění aplikace."), systemImage: "globe")
+                    .font(.caption).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+    }
+    #endif
 
     private var aboutContent: some View {
         Group {
@@ -249,10 +309,13 @@ private struct PrivacyPolicyView: View {
             Text(tr("Zásady ochrany soukromí")).font(.title2.bold())
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    Text(tr("Videa a zvuk se zpracovávají pouze na vašem Macu. LocalioBC je nenahrává na servery a neshromažďuje osobní údaje, analytiku ani reklamní identifikátory."))
+                    Text(tr("Videa a zvuk se zpracovávají pouze na vašem Macu. LocalioBC je nenahrává na servery. Aplikace nepoužívá analytické SDK ani reklamní identifikátory."))
                     Text(tr("Aplikace přistupuje pouze k souborům a složkám, které vyberete nebo přetáhnete do okna. Dočasné soubory používá pro zpracování videa; nastavení jazyka a vzhledu ukládá lokálně."))
+                    #if !APP_STORE
+                    Text(tr("Pokud zapnete aktualizace nebo ručně zkontrolujete novou verzi, aplikace se spojí s localiobc.mylocalio.com a při stažení s GitHubem. Poskytovatelé připojení mohou zaznamenat IP adresu a technické údaje požadavku včetně verze aplikace. Profilování systému je vypnuté; vaše videa ani úpravy se neposílají."))
+                    #endif
                     Text(tr("Nákupy, platby a případnou diagnostiku App Storu spravuje Apple podle svých zásad. Otevření webového odkazu nebo e-mailu spustí vaši zvolenou aplikaci a řídí se zásadami dané služby."))
-                    Text(tr("Pokud nás kontaktujete e-mailem, použijeme údaje z vaší zprávy k vyřízení dotazu. Provozovatel: Localio Labs s.r.o. Kontakt: info@mylocalio.com. Aktualizováno: 12. listopadu 2026."))
+                    Text(tr("Pokud nás kontaktujete e-mailem, použijeme údaje z vaší zprávy k vyřízení dotazu. Provozovatel: Localio Labs s.r.o. Kontakt: info@mylocalio.com. Aktualizováno: 14. listopadu 2026."))
                     Link(tr("Úplné zásady na webu"), destination: AppDistribution.privacyURL)
                 }
                 .font(.body)

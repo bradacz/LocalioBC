@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C13732C8E715C9BEE4FA51C9"
+               BlueprintIdentifier = "A4000000000000000000000C"
                BuildableName = "LocalioBC.app"
-               BlueprintName = "LocalioBC"
+               BlueprintName = "LocalioBC-AppStore"
                ReferencedContainer = "container:LocalioBC.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -27,18 +27,7 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
-      <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "64BCB755386F844C96A2A5B0"
-               BuildableName = "LocalioBCTests.xctest"
-               BlueprintName = "LocalioBCTests"
-               ReferencedContainer = "container:LocalioBC.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-      </Testables>
+      <Testables/>
    </TestAction>
    <LaunchAction
       buildConfiguration = "AppStore"
@@ -54,9 +43,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C13732C8E715C9BEE4FA51C9"
+            BlueprintIdentifier = "A4000000000000000000000C"
             BuildableName = "LocalioBC.app"
-            BlueprintName = "LocalioBC"
+            BlueprintName = "LocalioBC-AppStore"
             ReferencedContainer = "container:LocalioBC.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -71,15 +60,15 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C13732C8E715C9BEE4FA51C9"
+            BlueprintIdentifier = "A4000000000000000000000C"
             BuildableName = "LocalioBC.app"
-            BlueprintName = "LocalioBC"
+            BlueprintName = "LocalioBC-AppStore"
             ReferencedContainer = "container:LocalioBC.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Debug">
+      buildConfiguration = "AppStore">
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "AppStore"

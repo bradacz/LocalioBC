@@ -61,7 +61,7 @@ enum AppLanguage: String, CaseIterable, Identifiable {
         }
     }
     var resolvedCode: String {
-        resolvedCode(preferredLanguages: Locale.preferredLanguages)
+        resolvedCode(preferredLanguages: NativeAppLanguage.systemPreferredLanguages)
     }
 
     func resolvedCode(preferredLanguages: [String]) -> String {
@@ -71,20 +71,41 @@ enum AppLanguage: String, CaseIterable, Identifiable {
     }
 }
 
+/// Align native framework dialogs at launch, including Sparkle's Czech/English resources.
+/// Read the global domain so a previous per-app override cannot trap System in its old language.
+enum NativeAppLanguage {
+    static var systemPreferredLanguages: [String] {
+        UserDefaults.standard.persistentDomain(forName: UserDefaults.globalDomain)?["AppleLanguages"] as? [String]
+            ?? Locale.preferredLanguages
+    }
+
+    static func prepareForLaunch(defaults: UserDefaults = .standard) {
+        let language = AppLanguage(rawValue: defaults.string(forKey: "appLanguage") ?? "") ?? .system
+        defaults.set([language.resolvedCode], forKey: "AppleLanguages")
+    }
+}
+
 @Observable
 @MainActor
 final class AppPreferences {
     @ObservationIgnored private let defaults: UserDefaults
+    @ObservationIgnored private let nativeLanguageAtLaunch: String
+    var nativeLanguageRequiresRestart: Bool { language.resolvedCode != nativeLanguageAtLaunch }
     var appearance: AppAppearance {
         didSet { defaults.set(appearance.rawValue, forKey: "appAppearance") }
     }
     var language: AppLanguage {
-        didSet { defaults.set(language.rawValue, forKey: "appLanguage") }
+        didSet {
+            defaults.set(language.rawValue, forKey: "appLanguage")
+            NativeAppLanguage.prepareForLaunch(defaults: defaults)
+        }
     }
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
         appearance = AppAppearance(rawValue: defaults.string(forKey: "appAppearance") ?? "") ?? .system
-        language = AppLanguage(rawValue: defaults.string(forKey: "appLanguage") ?? "") ?? .system
+        let initialLanguage = AppLanguage(rawValue: defaults.string(forKey: "appLanguage") ?? "") ?? .system
+        language = initialLanguage
+        nativeLanguageAtLaunch = initialLanguage.resolvedCode
     }
 }
 

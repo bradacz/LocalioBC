@@ -14,6 +14,7 @@ struct TimelineTrimView: View {
     let onTrimChange: (Double, Double, Double?) -> Void
 
     @State private var dragStartInitialTrim: (start: Double, end: Double)?
+    @State private var playbackRateLogDraft: Double?
 
     private let trackHeight: CGFloat = 54
     private let handleWidth: CGFloat = 13
@@ -30,6 +31,8 @@ struct TimelineTrimView: View {
         }
         .padding(14)
         .appPanel()
+        .onChange(of: clip?.id) { playbackRateLogDraft = nil }
+        .onChange(of: isPreviewingComposed) { playbackRateLogDraft = nil }
     }
 
     private var controlsHeader: some View {
@@ -83,25 +86,46 @@ struct TimelineTrimView: View {
                 .help(isPreviewingComposed ? tr("Čas výsledného videa") : tr("Čas v původním klipu"))
 
             if !isPreviewingComposed, let clip {
-                HStack(spacing: 4) {
+                HStack(spacing: 6) {
                     Label(tr("Rychlost"), systemImage: "speedometer")
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                    Picker(tr("Rychlost videa"), selection: Binding(
-                        get: { clip.effectivePlaybackRate },
-                        set: { onPlaybackRateChange($0) }
-                    )) {
-                        ForEach(VideoClip.supportedPlaybackRates, id: \.self) { rate in
-                            Text(tr("%g×", rate)).tag(rate)
+                    // Logarithmic positioning puts normal speed exactly in the center.
+                    // Only the raw clip exposes this control, so dragging never rebuilds a composition.
+                    Slider(value: Binding(
+                        get: { playbackRateLogDraft ?? log2(clip.effectivePlaybackRate) },
+                        set: { exponent in
+                            playbackRateLogDraft = exponent
+                            onPlaybackRateChange(pow(2, exponent))
                         }
+                    ), in: -2...2, onEditingChanged: { editing in
+                        if !editing { playbackRateLogDraft = nil }
+                    }) {
+                        Text(tr("Rychlost videa"))
                     }
                     .labelsHidden()
-                    .pickerStyle(.menu)
                     .controlSize(.small)
-                    .frame(width: 76)
+                    .frame(width: 112)
                     .accessibilityLabel(tr("Rychlost videa"))
+                    .accessibilityValue(Text(tr("%.2f×", clip.effectivePlaybackRate)))
                     .accessibilityIdentifier("clipPlaybackRate")
                     .help(tr("Rychlost vybraného klipu se použije v náhledu i při exportu. Tón zvuku se mění s rychlostí."))
+
+                    Text(tr("%.2f×", clip.effectivePlaybackRate))
+                        .font(.caption.monospacedDigit().weight(.semibold))
+                        .foregroundStyle(clip.isSpeedAdjusted ? AppDesign.accent : Color.primary)
+                        .frame(width: 43, alignment: .trailing)
+
+                    Button("1×") {
+                        playbackRateLogDraft = nil
+                        onPlaybackRateChange(1)
+                    }
+                    .buttonStyle(AppButtonStyle(compact: true))
+                    .controlSize(.mini)
+                    .disabled(!clip.isSpeedAdjusted)
+                    .help(tr("Obnovit rychlost na 1×"))
+                    .accessibilityLabel(tr("Obnovit rychlost na 1×"))
+                    .accessibilityIdentifier("resetClipPlaybackRate")
                 }
             }
         }

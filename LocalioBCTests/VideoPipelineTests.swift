@@ -278,9 +278,13 @@ final class VideoPipelineTests: XCTestCase {
         clip.playbackRate = 4
         XCTAssertEqual(clip.outputDuration, 150)
         XCTAssertFalse(settings.canUsePassthrough(for: [clip]))
+        clip.playbackRate = 1.37
+        XCTAssertEqual(clip.outputDuration, 600 / 1.37, accuracy: 0.000_001)
+        XCTAssertFalse(settings.canUsePassthrough(for: [clip]))
 
         settings.compressionMode = .targetSize
         settings.targetSizeMB = 5
+        clip.playbackRate = 4
         XCTAssertNoThrow(try settings.validateTargetSize(for: [clip]))
         clip.playbackRate = 0.5
         XCTAssertEqual(clip.outputDuration, 1200)
@@ -349,7 +353,7 @@ final class VideoPipelineTests: XCTestCase {
         clip.trimEnd = 1.4
         var settings = ExportSettings()
         settings.compressionMode = .passthrough // Speed edits must use the encoder instead.
-        for rate in [0.25, 2.0, 4.0] {
+        for rate in [0.25, 1.37, 2.0, 4.0] {
             clip.playbackRate = rate
             let output = tempDir.appendingPathComponent("speed-\(rate).mp4")
             let result = try await VideoExporter.export(clips: [clip], settings: settings, to: output) { _ in }
@@ -364,9 +368,13 @@ final class VideoPipelineTests: XCTestCase {
             XCTAssertEqual(videoRange.end.seconds, audioRange.end.seconds, accuracy: 0.1)
             let measuredFrequency = try await TestMediaFactory.measureToneFrequency(of: output)
             XCTAssertEqual(measuredFrequency, 440 * rate, accuracy: 15, "Audio pitch must follow the selected playback speed")
-            if rate == 0.25 {
-                let tailFrequency = try await TestMediaFactory.measureToneFrequency(of: output, portion: 0.92...0.98)
+            if rate == 0.25 || rate == 1.37 {
+                // The short fractional-rate output can contain one partial AAC packet of padding.
+                let tailPortion = rate == 0.25 ? 0.92...0.98 : 0.86...0.96
+                let tailFrequency = try await TestMediaFactory.measureToneFrequency(of: output, portion: tailPortion)
                 XCTAssertEqual(tailFrequency, 440 * rate, accuracy: 20, "The source audio tail was lost or replaced with silence")
+            }
+            if rate == 0.25 {
                 let item = try await CompositionBuilder.buildPreviewPlayerItem(clips: [clip], settings: settings)
                 let player = AVPlayer(playerItem: item)
                 player.isMuted = true
@@ -418,11 +426,18 @@ final class VideoPipelineTests: XCTestCase {
         model.togglePlayPause()
         XCTAssertTrue(model.isPlaying)
         XCTAssertEqual(model.player.rate, 0.5, accuracy: 0.001)
-        model.setSelectedPlaybackRate(2)
-        XCTAssertEqual(model.player.rate, 2, accuracy: 0.001)
+        model.setSelectedPlaybackRate(1.374)
+        XCTAssertEqual(model.selectedClip?.playbackRate, 1.37)
+        XCTAssertEqual(model.player.rate, 1.37, accuracy: 0.001)
+        XCTAssertEqual(model.totalOutputDuration, 2 / 1.37 + 2, accuracy: 0.003)
         model.setSelectedPlaybackRate(.nan)
+        model.setSelectedPlaybackRate(.infinity)
         model.setSelectedPlaybackRate(0.1)
-        XCTAssertEqual(model.selectedClip?.playbackRate, 2)
+        model.setSelectedPlaybackRate(4.01)
+        XCTAssertEqual(model.selectedClip?.playbackRate, 1.37)
+        model.setSelectedPlaybackRate(1)
+        XCTAssertEqual(model.player.rate, 1, accuracy: 0.001)
+        XCTAssertFalse(model.selectedClip?.isSpeedAdjusted ?? true)
         model.selectClip(second.id)
         XCTAssertFalse(model.isPlaying)
         XCTAssertEqual(model.player.rate, 0)
@@ -441,9 +456,13 @@ final class VideoPipelineTests: XCTestCase {
         model.selectedClipID = clip.id
         model.setComposedPreviewEnabled(true)
         try await waitUntil { previewRates.count == 1 && !model.isBuildingPreview }
-        model.setSelectedPlaybackRate(0.25)
+        model.setSelectedPlaybackRate(1.37)
         try await waitUntil { previewRates.count == 2 && !model.isBuildingPreview }
-        XCTAssertEqual(previewRates, [1, 0.25])
+        XCTAssertEqual(model.totalOutputDuration, 4 / 1.37, accuracy: 0.000_001)
+        XCTAssertEqual(model.activeTimelineDuration, 4 / 1.37, accuracy: 0.000_001)
+        model.setSelectedPlaybackRate(0.25)
+        try await waitUntil { previewRates.count == 3 && !model.isBuildingPreview }
+        XCTAssertEqual(previewRates, [1, 1.37, 0.25])
         XCTAssertEqual(model.totalOutputDuration, 16)
         XCTAssertEqual(model.activeTimelineDuration, 16)
         XCTAssertTrue(model.isPreviewingComposedResult)

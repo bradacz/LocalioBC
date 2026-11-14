@@ -416,10 +416,11 @@ final class EditorViewModel {
 
     func setSelectedPlaybackRate(_ rate: Double) {
         guard !isExporting, !isBuildingPreview, rate.isFinite,
-              VideoClip.supportedPlaybackRates.contains(rate),
-              let index = selectedClipIndex,
-              clips[index].playbackRate != rate else { return }
-        clips[index].playbackRate = rate
+              VideoClip.playbackRateRange.contains(rate),
+              let index = selectedClipIndex else { return }
+        let roundedRate = (rate * 100).rounded() / 100
+        guard clips[index].playbackRate != roundedRate else { return }
+        clips[index].playbackRate = roundedRate
         lastExportResult = nil
         enforcePassthroughEligibility()
         if isPreviewingComposedResult {

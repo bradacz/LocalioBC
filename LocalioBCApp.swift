@@ -4,11 +4,24 @@ import SwiftUI
 struct LocalioBCApp: App {
     @State private var viewModel = EditorViewModel()
     @State private var preferences = AppPreferences()
+    #if !APP_STORE
+    @NSApplicationDelegateAdaptor(AppUpdateController.self) private var updates
+    #endif
+
+    init() {
+        NativeAppLanguage.prepareForLaunch()
+    }
 
     var body: some Scene {
         let _ = preferences.language
         WindowGroup("LocalioBC") {
+            #if APP_STORE
             EditorRootView(viewModel: viewModel, preferences: preferences)
+            #else
+            EditorRootView(viewModel: viewModel, preferences: preferences)
+                .environmentObject(updates)
+                .onAppear { updates.configure(editor: viewModel) }
+            #endif
         }
         .defaultSize(width: 1180, height: 760)
         .commands {
@@ -26,9 +39,19 @@ struct LocalioBCApp: App {
                     NotificationCenter.default.post(name: .showLocalioSettings, object: nil)
                 }
             }
+            #if !APP_STORE
+            CommandGroup(after: .appInfo) {
+                Button(tr("Zkontrolovat aktualizace…")) { updates.checkForUpdates() }
+                    .disabled(!updates.canCheckForUpdates || updates.isBusy)
+            }
+            #endif
         }
         Settings {
+            #if APP_STORE
             SettingsView(preferences: preferences)
+            #else
+            SettingsView(preferences: preferences).environmentObject(updates)
+            #endif
         }
     }
 }

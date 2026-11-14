@@ -3,8 +3,8 @@
 set -euo pipefail
 project_dir="$(cd "$(dirname "$0")/.." && pwd)"
 output_dir="${1:-$project_dir/dist/app-store}"
-version="${RELEASE_VERSION:-1.0.0}"
-build_number="${BUILD_NUMBER:-3}"
+version="${RELEASE_VERSION:-$(python3 "$project_dir/Scripts/read-release-version.py" LocalioBC-AppStore AppStore MARKETING_VERSION)}"
+build_number="${BUILD_NUMBER:-$(python3 "$project_dir/Scripts/read-release-version.py" LocalioBC-AppStore AppStore CURRENT_PROJECT_VERSION)}"
 mkdir -p "$output_dir"
 output_dir="$(cd "$output_dir" && pwd)"
 archive="$output_dir/LocalioBC-$version-$build_number.xcarchive"
@@ -21,6 +21,7 @@ app="$archive/Products/Applications/LocalioBC.app"
 lipo "$app/Contents/MacOS/LocalioBC" -verify_arch arm64 x86_64
 plutil -lint "$app/Contents/Resources/PrivacyInfo.xcprivacy"
 test -s "$app/Contents/Resources/LICENSE"
+python3 "$project_dir/Scripts/validate-release-app.py" store "$app" --version "$version" --build "$build_number"
 xcodebuild -exportArchive -archivePath "$archive" -exportPath "$output_dir/export" \
     -exportOptionsPlist "$project_dir/AppStore/ExportOptions.plist" -allowProvisioningUpdates \
     > "$output_dir/export.log" 2>&1
@@ -30,24 +31,7 @@ verification_dir="$(mktemp -d "${TMPDIR:-/tmp}/LocalioBC-store-check.XXXXXX")"
 trap 'rm -rf "$verification_dir"' EXIT
 pkgutil --expand-full "$pkg" "$verification_dir/expanded"
 packaged_app="$verification_dir/expanded/com.localiobvideo.app.pkg/Payload/LocalioBC.app"
-codesign --verify --deep --strict --verbose=2 "$packaged_app"
-lipo "$packaged_app/Contents/MacOS/LocalioBC" -verify_arch arm64 x86_64
-codesign --display --entitlements :- "$packaged_app" > "$verification_dir/entitlements.plist" 2>/dev/null
-python3 - "$verification_dir/entitlements.plist" "$packaged_app" <<'PY'
-import plistlib, sys
-from pathlib import Path
-entitlements = plistlib.loads(Path(sys.argv[1]).read_bytes())
-assert entitlements.get('com.apple.security.app-sandbox') is True
-assert entitlements.get('com.apple.security.files.user-selected.read-write') is True
-assert not entitlements.get('com.apple.security.get-task-allow')
-app = Path(sys.argv[2])
-assert (app / 'Contents/embedded.provisionprofile').is_file()
-assert (app / 'Contents/Resources/LICENSE').is_file()
-manifest = plistlib.loads((app / 'Contents/Resources/PrivacyInfo.xcprivacy').read_bytes())
-assert manifest['NSPrivacyTracking'] is False
-assert not manifest['NSPrivacyCollectedDataTypes']
-print('Packaged application: sandbox, entitlements, provisioning, privacy and license OK')
-PY
+python3 "$project_dir/Scripts/validate-release-app.py" store "$packaged_app" --version "$version" --build "$build_number"
 (cd "$output_dir/export" && shasum -a 256 LocalioBC.pkg > SHA256SUMS.txt)
 echo "Prepared App Store archive: $archive"
 echo "Prepared upload package: $pkg"

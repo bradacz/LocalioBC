@@ -27,6 +27,29 @@
         A20000000000000000000001 = {isa = PBXBuildFile; fileRef = A20000000000000000000002; };
 A30000000000000000000001 = {isa = PBXBuildFile; fileRef = A30000000000000000000002; };
 A30000000000000000000006 = {isa = PBXBuildFile; fileRef = A30000000000000000000007; };
+		A40000000000000000000064 /* LocalioBCApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F783A8804752F0C2ADEDFF3 /* LocalioBCApp.swift */; };
+		A40000000000000000000065 = {isa = PBXBuildFile; fileRef = A10000000000000000000002; };
+		A40000000000000000000066 = {isa = PBXBuildFile; fileRef = A10000000000000000000004; };
+        A40000000000000000000067 = {isa = PBXBuildFile; fileRef = A20000000000000000000002; };
+		A40000000000000000000068 /* AspectRatioPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690B8E4FEDECE4004538ECE9 /* AspectRatioPreset.swift */; };
+		A40000000000000000000069 /* VideoClip.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE33A8F3AF5B6982F7F92BA /* VideoClip.swift */; };
+		A4000000000000000000006A /* ExportSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A027EF4D6FFD3D0EB87E4D6 /* ExportSettings.swift */; };
+		A4000000000000000000006B /* VideoInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3115E048F2B3F7B3619FF68A /* VideoInspector.swift */; };
+		A4000000000000000000006C /* CompositionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5E655B406BC3E652B49BC2 /* CompositionBuilder.swift */; };
+		A4000000000000000000006D /* VideoExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBC69561FD761E54C92FBFE /* VideoExporter.swift */; };
+		A4000000000000000000006E /* EditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B632166D0A079A5A85FED42B /* EditorViewModel.swift */; };
+		A4000000000000000000006F /* PlayerLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF0824DBC9B6E631C762EDA /* PlayerLayerView.swift */; };
+		A40000000000000000000070 /* CropOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEAE493B90C958129E124B0 /* CropOverlayView.swift */; };
+		A40000000000000000000071 /* TimelineTrimView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A43A5D968A674507285124E3 /* TimelineTrimView.swift */; };
+		A40000000000000000000072 /* ExportSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6CC9309BDD5B15A1E55607 /* ExportSidebarView.swift */; };
+		A40000000000000000000073 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0382DB39033D3421A4467D1D /* ContentView.swift */; };
+		A40000000000000000000074 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFDBAC21689581B04CB7ABB5 /* Assets.xcassets */; };
+		A40000000000000000000075 = {isa = PBXBuildFile; fileRef = A10000000000000000000006; };
+A40000000000000000000076 = {isa = PBXBuildFile; fileRef = A30000000000000000000002; };
+A40000000000000000000077 = {isa = PBXBuildFile; fileRef = A30000000000000000000007; };
+		A40000000000000000000001 /* AppUpdateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40000000000000000000002 /* AppUpdateController.swift */; };
+		A40000000000000000000003 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = A40000000000000000000004 /* Sparkle */; };
+		A50000000000000000000001 /* AppUpdateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50000000000000000000002 /* AppUpdateTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +89,11 @@ A30000000000000000000006 = {isa = PBXBuildFile; fileRef = A300000000000000000000
         A20000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
 A30000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		A40000000000000000000002 /* AppUpdateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdateController.swift; sourceTree = "<group>"; };
+		A40000000000000000000005 /* LocalioBC.app (App Store) */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocalioBC.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A40000000000000000000006 /* LocalioBC-Direct.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LocalioBC-Direct.entitlements; sourceTree = "<group>"; };
+		A40000000000000000000007 /* AppStore/Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "AppStore/Info.plist"; path = AppStore/Info.plist; sourceTree = SOURCE_ROOT; };
+		A50000000000000000000002 /* AppUpdateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdateTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXVariantGroup section */
@@ -73,14 +101,17 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 /* End PBXVariantGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		0C7F27D735ED0D86190305F0 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		0C7F27D735ED0D86190305F0 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (A40000000000000000000003 /* Sparkle in Frameworks */); runOnlyForDeploymentPostprocessing = 0; };
 		4A675AF9B1361023D153D34C /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		A40000000000000000000008 /* App Store Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		E50290A24C49A459B43487C5 = {
 			isa = PBXGroup;
 			children = (
+				A40000000000000000000006 /* LocalioBC-Direct.entitlements */,
+				A40000000000000000000007 /* AppStore/Info.plist */,
 				7F783A8804752F0C2ADEDFF3 /* LocalioBCApp.swift */,
                 A30000000000000000000002 /* PrivacyInfo.xcprivacy */,
                 A30000000000000000000007 /* LICENSE */,
@@ -100,6 +131,7 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 		328EC33DF3954DC9B83FA285 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				A40000000000000000000005 /* LocalioBC.app (App Store) */,
 				8BCD5BC4CDFDF0918087C782 /* LocalioBC.app */,
 				F219C0274590DA45E4BEF1EA /* LocalioBCTests.xctest */,
 			);
@@ -120,6 +152,7 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 		6EE67047A4B2648DDBB08231 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				A40000000000000000000002 /* AppUpdateController.swift */,
 				3115E048F2B3F7B3619FF68A /* VideoInspector.swift */,
 				8A5E655B406BC3E652B49BC2 /* CompositionBuilder.swift */,
 				5FBC69561FD761E54C92FBFE /* VideoExporter.swift */,
@@ -153,6 +186,7 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 			isa = PBXGroup;
 			children = (
 				C812B2DEF452B29CF56DD12A /* VideoPipelineTests.swift */,
+				A50000000000000000000002 /* AppUpdateTests.swift */,
 			);
 			path = LocalioBCTests;
 			sourceTree = "<group>";
@@ -171,6 +205,7 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 			buildRules = ();
 			dependencies = ();
 			name = LocalioBC;
+			packageProductDependencies = (A40000000000000000000004 /* Sparkle */);
 			productName = LocalioBC;
 			productReference = 8BCD5BC4CDFDF0918087C782 /* LocalioBC.app */;
 			productType = "com.apple.product-type.application";
@@ -190,6 +225,17 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 			productReference = F219C0274590DA45E4BEF1EA /* LocalioBCTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		A4000000000000000000000C /* LocalioBC-AppStore */ = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = A4000000000000000000000B;
+            buildPhases = (A40000000000000000000009 /* App Store Sources */, A40000000000000000000008 /* App Store Frameworks */, A4000000000000000000000A /* App Store Resources */);
+            buildRules = ();
+            dependencies = ();
+            name = "LocalioBC-AppStore";
+            productName = LocalioBC;
+            productReference = A40000000000000000000005 /* LocalioBC.app (App Store) */;
+            productType = "com.apple.product-type.application";
+        };
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -202,14 +248,16 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 			};
 			buildConfigurationList = 550FEBBE252641242DA80FDE /* Build configuration list for PBXProject "LocalioBC" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = cs;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (cs, en, Base);
 			mainGroup = E50290A24C49A459B43487C5;
 			productRefGroup = 328EC33DF3954DC9B83FA285 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
+			packageReferences = (A4000000000000000000000D /* XCRemoteSwiftPackageReference "Sparkle" */);
 			targets = (
+				A4000000000000000000000C /* LocalioBC-AppStore */,
 				C13732C8E715C9BEE4FA51C9 /* LocalioBC */,
 				64BCB755386F844C96A2A5B0 /* LocalioBCTests */,
 			);
@@ -219,11 +267,13 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 /* Begin PBXResourcesBuildPhase section */
 		FE3A9AA62E912D99594D3F9E /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (222F0DBFFE5EB23DCD3FD16F /* Assets.xcassets in Resources */, A10000000000000000000005, A30000000000000000000001, A30000000000000000000006); runOnlyForDeploymentPostprocessing = 0; };
 		505FFA93A7FB229B699300E7 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		A4000000000000000000000A /* App Store Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (A40000000000000000000074, A40000000000000000000075, A40000000000000000000076, A40000000000000000000077); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		78FA0473450BEAD0DB82E3CF /* Sources */ = {
 			isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (
+				A40000000000000000000001 /* AppUpdateController.swift in Sources */,
 				39D5D11C521AFB3EA90870FB /* LocalioBCApp.swift in Sources */,
                 A10000000000000000000001,
                 A10000000000000000000003,
@@ -245,8 +295,10 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 		404CA01F755C58722EDD73EB /* Sources */ = {
 			isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (
 				A0687C7E9F67123FD97CA6F9 /* VideoPipelineTests.swift in Sources */,
+				A50000000000000000000001 /* AppUpdateTests.swift in Sources */,
 			); runOnlyForDeploymentPostprocessing = 0;
 		};
+		A40000000000000000000009 /* App Store Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A40000000000000000000064, A40000000000000000000065, A40000000000000000000066, A40000000000000000000067, A40000000000000000000068, A40000000000000000000069, A4000000000000000000006A, A4000000000000000000006B, A4000000000000000000006C, A4000000000000000000006D, A4000000000000000000006E, A4000000000000000000006F, A40000000000000000000070, A40000000000000000000071, A40000000000000000000072, A40000000000000000000073); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -302,15 +354,15 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 		E9B2E96ABC5F6856F2BE79CF /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = LocalioBC.entitlements;
+				CODE_SIGN_ENTITLEMENTS = LocalioBC-Direct.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks");
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.localiobvideo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			}; name = Debug; };
@@ -318,15 +370,15 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = LocalioBC.entitlements;
+				CODE_SIGN_ENTITLEMENTS = LocalioBC-Direct.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks");
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.localiobvideo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			}; name = Release; };
@@ -373,19 +425,18 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = LocalioBC.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = LocalioBC-Direct.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
                 DEVELOPMENT_TEAM = 4RY8J45UR3;
-                SWIFT_ACTIVE_COMPILATION_CONDITIONS = "APP_STORE $(inherited)";
                 ENABLE_APP_SANDBOX = YES;
-                CURRENT_PROJECT_VERSION = 4;
+                CURRENT_PROJECT_VERSION = 5;
 				COMBINE_HIDPI_IMAGES = YES;
 
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks");
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.localiobvideo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			}; name = AppStore; };
@@ -399,13 +450,75 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LocalioBC.app/Contents/MacOS/LocalioBC";
 			}; name = AppStore; };
+		A40000000000000000000014 /* Debug (App Store) */ = {isa = XCBuildConfiguration; buildSettings = {
+                ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+                ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+                CODE_SIGN_ENTITLEMENTS = LocalioBC.entitlements;
+                CODE_SIGN_IDENTITY = "Apple Development";
+                CODE_SIGN_STYLE = Automatic;
+                DEVELOPMENT_TEAM = 4RY8J45UR3;
+                ENABLE_APP_SANDBOX = YES;
+                ENABLE_HARDENED_RUNTIME = NO;
+                COMBINE_HIDPI_IMAGES = YES;
+                CURRENT_PROJECT_VERSION = 5;
+                MARKETING_VERSION = 1.2.0;
+                INFOPLIST_FILE = AppStore/Info.plist;
+                LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks");
+                PRODUCT_BUNDLE_IDENTIFIER = com.localiobvideo.app;
+                PRODUCT_NAME = LocalioBC;
+                SWIFT_ACTIVE_COMPILATION_CONDITIONS = "APP_STORE $(inherited)";
+            }; name = Debug; };
+		A40000000000000000000015 /* Release (App Store) */ = {isa = XCBuildConfiguration; buildSettings = {
+                ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+                ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+                CODE_SIGN_ENTITLEMENTS = LocalioBC.entitlements;
+                CODE_SIGN_IDENTITY = "Apple Development";
+                CODE_SIGN_STYLE = Automatic;
+                DEVELOPMENT_TEAM = 4RY8J45UR3;
+                ENABLE_APP_SANDBOX = YES;
+                ENABLE_HARDENED_RUNTIME = YES; CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+                COMBINE_HIDPI_IMAGES = YES;
+                CURRENT_PROJECT_VERSION = 5;
+                MARKETING_VERSION = 1.2.0;
+                INFOPLIST_FILE = AppStore/Info.plist;
+                LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks");
+                PRODUCT_BUNDLE_IDENTIFIER = com.localiobvideo.app;
+                PRODUCT_NAME = LocalioBC;
+                SWIFT_ACTIVE_COMPILATION_CONDITIONS = "APP_STORE $(inherited)";
+            }; name = Release; };
+		A40000000000000000000016 /* AppStore (App Store) */ = {isa = XCBuildConfiguration; buildSettings = {
+                ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+                ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+                CODE_SIGN_ENTITLEMENTS = LocalioBC.entitlements;
+                CODE_SIGN_IDENTITY = "Apple Development";
+                CODE_SIGN_STYLE = Automatic;
+                DEVELOPMENT_TEAM = 4RY8J45UR3;
+                ENABLE_APP_SANDBOX = YES;
+                ENABLE_HARDENED_RUNTIME = YES; CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+                COMBINE_HIDPI_IMAGES = YES;
+                CURRENT_PROJECT_VERSION = 5;
+                MARKETING_VERSION = 1.2.0;
+                INFOPLIST_FILE = AppStore/Info.plist;
+                LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks");
+                PRODUCT_BUNDLE_IDENTIFIER = com.localiobvideo.app;
+                PRODUCT_NAME = LocalioBC;
+                SWIFT_ACTIVE_COMPILATION_CONDITIONS = "APP_STORE $(inherited)";
+            }; name = AppStore; };
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
 		550FEBBE252641242DA80FDE = {isa = XCConfigurationList; buildConfigurations = (D08DD63EED508AD30D0CB0B4, 811CB99F7A296F7846C18A7F, A30000000000000000000003); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
 		A296CF4B7E708AB4E80076A9 = {isa = XCConfigurationList; buildConfigurations = (E9B2E96ABC5F6856F2BE79CF, 5A8C91857F674E16E2724F47, A30000000000000000000004); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
 		BBD1A4309DD6635F34F23AFF = {isa = XCConfigurationList; buildConfigurations = (FCB48D8F88BCDB0ED9FADFD7, 942EEBBACD6C88CAE7F29B29, A30000000000000000000005); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		A4000000000000000000000B = {isa = XCConfigurationList; buildConfigurations = (A40000000000000000000014, A40000000000000000000015, A40000000000000000000016); defaultConfigurationIsVisible = 0; defaultConfigurationName = AppStore; };
 /* End XCConfigurationList section */
+/* Begin XCRemoteSwiftPackageReference section */
+        A4000000000000000000000D /* XCRemoteSwiftPackageReference "Sparkle" */ = {isa = XCRemoteSwiftPackageReference; repositoryURL = "https://github.com/sparkle-project/Sparkle"; requirement = {kind = exactVersion; version = 2.10.1; }; };
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+        A40000000000000000000004 /* Sparkle */ = {isa = XCSwiftPackageProductDependency; package = A4000000000000000000000D /* XCRemoteSwiftPackageReference "Sparkle" */; productName = Sparkle; };
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 98F54143AB4E86B28C3AFEE0 /* Project object */;
 }

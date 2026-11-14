@@ -4,7 +4,7 @@ import Foundation
 
 /// Reprezentuje jeden načtený videoklip včetně jeho časového a obrazového ořezu.
 struct VideoClip: Identifiable, Equatable {
-    static let supportedPlaybackRates: [Double] = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 3, 4]
+    static let playbackRateRange: ClosedRange<Double> = 0.25...4
 
     let id: UUID
     let url: URL
@@ -66,7 +66,9 @@ struct VideoClip: Identifiable, Equatable {
 
     /// Source times remain unchanged; only the edited output timeline is scaled.
     var effectivePlaybackRate: Double {
-        playbackRate.isFinite ? min(4, max(0.25, playbackRate)) : 1
+        playbackRate.isFinite
+            ? min(Self.playbackRateRange.upperBound, max(Self.playbackRateRange.lowerBound, playbackRate))
+            : 1
     }
 
     var outputDuration: Double {

@@ -12,7 +12,7 @@ No subscriptions, ads, watermarks, accounts or uploads. Built with SwiftUI, AppK
 
 ## Download for macOS
 
-[**Download LocalioBC 1.1.0 for Mac**](https://github.com/bradacz/LocalioBC/releases/download/v1.1.0/LocalioBC-1.1.0-universal.dmg) · [All releases](https://github.com/bradacz/LocalioBC/releases)
+[**Download LocalioBC 1.2.0 for Mac**](https://github.com/bradacz/LocalioBC/releases/download/v1.2.0/LocalioBC-1.2.0-universal.dmg) · [All releases](https://github.com/bradacz/LocalioBC/releases)
 
 Requires **macOS 14 or later**. One universal DMG supports **Apple Silicon and Intel**. Open the disk image, drag **LocalioBC.app** into **Applications**, then eject the image and launch the app.
 
@@ -21,7 +21,7 @@ Public release builds are Developer ID signed and Apple notarized. A SHA-256 che
 ## Features
 
 - **Import:** drag and drop MP4, MOV and M4V files, or use the file picker.
-- **Speed:** slow down or speed up each clip from 0.25× to 4×. Preview and exports use the same speed, update duration/size estimates, and keep audio synchronized. Audio pitch changes with speed.
+- **Speed:** use a continuous 0.25×–4× slider, with 1× at its center, a precise readout and a reset button. Preview and exports use the same speed, update duration/size estimates, and keep audio synchronized. Audio pitch changes with speed.
 - **Trim:** adjust clip beginnings and endings on a thumbnail timeline with precise seeking.
 - **Crop:** use 16:9, 9:16, 1:1, 4:5, 4:3 or a custom frame. Move or resize the frame, then apply or cancel your changes.
 - **Batch crop:** apply to one clip or every clip. Presets preserve aspect ratio, relative zoom and position across different dimensions and orientations; custom crops use relative image coordinates.
@@ -34,12 +34,13 @@ Public release builds are Developer ID signed and Apple notarized. A SHA-256 che
 - **Preview:** switch between the source clip and the composed output before exporting.
 - **Export controls:** view progress, cancel, reveal output in Finder or open the result. Cancelling a batch keeps files that have already finished.
 - **Preferences:** Czech or English, plus light, dark or system appearance. Settings apply immediately and persist between launches.
+- **Updates:** the direct edition includes optional daily checks and automatic downloads through Sparkle. Signed updates install after processing finishes and confirmation of closing in-memory edits. Native update dialogs follow the selected language after relaunch. The Store edition updates through Apple.
 - **About:** feature overview, license, project links and contact information.
 
 ## Quick start
 
 1. Import one or more clips.
-2. Select a clip and adjust its trim range. Choose **Speed** beside the play controls to slow it down or speed it up.
+2. Select a clip and adjust its trim range. Drag the **Speed** slider beside the play controls, or use **1×** to reset it.
 3. Choose a crop preset or **Edit**, adjust the frame, then select **Apply to clip** or **Apply to all**. The crop panel stays visible so opening it does not move the video preview.
 4. Choose **Merge into one video** or **Each clip separately** in the output panel.
 5. Set the container, codec, resolution, audio and compression options.
@@ -57,7 +58,7 @@ A dedicated settings panel provides a fixed navigation sidebar, visual appearanc
 
 ## Build from source
 
-Requires **macOS 14 or later** and **Xcode 16 or later with Swift 6**. Development and tests are verified with Xcode 26.3. There are no third-party package dependencies.
+Requires **macOS 14 or later** and **Xcode 16 or later with Swift 6**. Development and tests are verified with Xcode 26.3. Xcode resolves the pinned **Sparkle 2.10.1** binary package for the direct target. The separate Store target has no Sparkle dependency; `Package.resolved` is committed.
 
 ```sh
 git clone https://github.com/bradacz/LocalioBC.git
@@ -135,26 +136,36 @@ DMGBUILD_BIN=/tmp/LocalioBC-dmg-tools/bin/dmgbuild \
 bash Scripts/build-dmg.sh
 ```
 
-Use your own Developer ID certificate and an existing `notarytool` Keychain profile. Credentials stay in the Keychain and must never be committed. Without `NOTARY_PROFILE`, the script produces an unnotarized development image. Without `SIGN_IDENTITY`, it uses ad-hoc signing, which is not suitable for a trusted public release.
+Use your own Developer ID certificate and an existing `notarytool` Keychain profile. Credentials stay in the Keychain and must never be committed. Packaging requires a real Developer ID identity. A public release also requires `NOTARY_PROFILE`; an image without notarization is rejected by the update-feed generator.
 
-The script builds both architectures in Release mode, signs and notarizes the app, staples its ticket, creates a branded drag-to-Applications DMG, signs and notarizes the DMG, and verifies the packaged app and Gatekeeper acceptance. Artifacts and the checksum are written to `dist/`. Set `RELEASE_VERSION` to override the packaging version for a future release.
+The script archives both architectures in Release mode and performs a Developer ID export, which signs Sparkle's nested helpers. It notarizes/staples the app, creates and notarizes/staples a branded DMG, then verifies both architectures, signatures and Gatekeeper acceptance. Artifacts and the checksum are written to `dist/`. Version/build defaults come from the project; `RELEASE_VERSION` and `BUILD_NUMBER` can override them for testing. Use a fresh output directory for each build.
 
 ## Mac App Store edition
 
-The separate `LocalioBC-AppStore` scheme archives the paid Store configuration with sandboxing, a bundled privacy manifest and licence, and copy appropriate for a one-time purchase. The public GitHub DMG remains the free direct edition.
+The separate `LocalioBC-AppStore` target/scheme archives the paid Store configuration with sandboxing, a bundled privacy manifest and licence, and copy appropriate for a one-time purchase. It shares editing sources with the direct target, while physically excluding Sparkle, its helpers, update configuration and sandbox exceptions. Both archives and exported Store packages are checked for updater isolation. The public GitHub DMG remains the free direct edition.
 
 The complete [submission kit](AppStore/README.md) includes English/Czech metadata, screenshots, reviewer instructions and original demo clips, privacy/compliance answers, export options and a repeatable build script. Pricing is prepared at **EUR 4.99**, with manual release after Apple approval. Account-side pricing and review submission are not performed by the scripts.
 
 [Product website](https://localiobc.mylocalio.com/) · [Support](https://localiobc.mylocalio.com/support/) · [Privacy policy](https://localiobc.mylocalio.com/privacy/)
 
-## Proposed automatic updates
+## Automatic updates
 
-This is a design for a future release; 1.1.0 still updates by downloading the DMG and replacing the app.
+Version **1.2.0 is the first updater-enabled direct release**. Install it manually once if you use 1.1.0 or earlier. Later direct releases can update in the app. The [Mac App Store manages its own updates](https://developer.apple.com/app-store/review/guidelines/#hardware-compatibility).
 
-- Use [Sparkle 2](https://sparkle-project.org/documentation/) for the direct edition, with **Check for Updates…** in the app menu, an opt-in daily check and optional automatic downloads. Keep Sparkle and its helpers out of the `APP_STORE` build: the [Mac App Store manages its own updates](https://developer.apple.com/app-store/review/guidelines/#hardware-compatibility).
-- Serve a stable HTTPS appcast at `https://localiobc.mylocalio.com/updates/appcast.xml`; link immutable, versioned DMGs in GitHub Releases and localized release notes. This endpoint is proposed, not active. Disable Sparkle profiling and document update-check connection metadata in the privacy policy.
-- Sign and notarize the universal app, staple the ticket, package and notarize the final DMG, then [sign that final payload with EdDSA](https://sparkle-project.org/documentation/publishing/). Ship the public verification key in the app; keep the private key in the Keychain or a protected release environment, with an encrypted backup. Enable feed and release-note verification supported by the selected Sparkle version.
-- Release pipeline: tests → universal Archive/Developer ID export → notarization and stapling → DMG verification → EdDSA signature → upload DMG → publish appcast and news. Publish the feed only after the download is verified. Always increase `CFBundleVersion`; correct a bad release with a higher build, using reverted code if needed.
-- Defer installation and relaunch during an export. Prompt users to finish or discard their in-memory edits before relaunch; never silently lose a session. Test first installation, upgrades, offline behavior, invalid signatures and interrupted downloads. Users of a version without Sparkle must install the first updater-enabled release manually.
+- [Sparkle 2.10.1](https://sparkle-project.org/documentation/) supplies **Check for Updates…** in the app menu and Settings. Its native consent prompt offers daily checks and optional automatic downloads; preferences can be changed in Settings. System profiling is disabled. Video editing remains offline; update-check connection metadata is described in the privacy policy.
+- The stable feed is `https://localiobc.mylocalio.com/updates/appcast.xml`. It points to immutable, versioned GitHub DMGs and embeds Czech/English markdown release notes inside the signed feed, avoiding a separate notes request or HTML player.
+- Both the feed/notes and downloaded DMG require **Ed25519 signatures**. Downloads are verified before extraction; signature failures do not expire into acceptance. Apple Developer ID signing, hardened runtime and notarization provide a separate trust layer. Source files and edits are not sent in update requests.
+- Updates defer while exporting, importing or building a preview. An installation waiting for the current session can be resumed from Settings. The ordinary quit path also confirms closing in-memory edits, including install-on-quit paths that bypass Sparkle's relaunch hook.
+- The public key is in direct `Info.plist`; the private key stays in the login Keychain under account `com.localiolabs.LocalioBC.sparkle`. Keep an encrypted backup outside the repository. Loss of the signing key requires the documented Sparkle key-rotation procedure or a manually installed recovery release; never publish the private key.
 
-Implementing this design requires adding the framework, channel-specific build settings/entitlements, a key-management/release flow and integration tests. No automatic-update framework or active appcast is included yet.
+Release order: tests → universal Archive/Developer ID export → notarization/stapling → verified final DMG → Sparkle signing → GitHub upload/verification → signed feed and website publication. Always increase `CFBundleVersion`. Correct a bad release using a higher build, with reverted source if needed.
+
+After `build-dmg.sh` completes, generate the signed feed using the matching Sparkle tools from Xcode's `SourcePackages/artifacts/sparkle/Sparkle/bin`:
+
+```sh
+python3 Scripts/generate-update-feed.py dist/v1.2.0/LocalioBC-1.2.0-universal.dmg \
+  --app dist/v1.2.0/export/LocalioBC.app \
+  --tools-dir /path/to/SourcePackages/artifacts/sparkle/Sparkle/bin
+```
+
+The generator verifies Apple tickets, matches the Keychain public key to the app, signs the final payload, and signs the appcast with localized notes from `docs/releases/`. It refuses a feed downgrade or replacement of an existing build with different payload bytes. Upload and verify the DMG **before** committing/publishing the feed. Do not reformat signed XML, alter the DMG after signing, or enable CDN transformations that rewrite the feed. Verify served bytes and signatures after deployment. [Sparkle publishing guide](https://sparkle-project.org/documentation/publishing/).
