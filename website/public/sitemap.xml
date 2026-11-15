@@ -70,4 +70,18 @@
     <xhtml:link rel="alternate" hreflang="cs" href="https://localiobc.mylocalio.com/cs/blog/bunny-hosting-videa/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://localiobc.mylocalio.com/blog/bunny-video-hosting/" />
   </url>
+  <url>
+    <loc>https://localiobc.mylocalio.com/blog/localiobc-1-3-bunny-storage/</loc>
+    <lastmod>2026-11-15</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://localiobc.mylocalio.com/blog/localiobc-1-3-bunny-storage/" />
+    <xhtml:link rel="alternate" hreflang="cs" href="https://localiobc.mylocalio.com/cs/blog/localiobc-1-3-bunny-storage/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://localiobc.mylocalio.com/blog/localiobc-1-3-bunny-storage/" />
+  </url>
+  <url>
+    <loc>https://localiobc.mylocalio.com/cs/blog/localiobc-1-3-bunny-storage/</loc>
+    <lastmod>2026-11-15</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://localiobc.mylocalio.com/blog/localiobc-1-3-bunny-storage/" />
+    <xhtml:link rel="alternate" hreflang="cs" href="https://localiobc.mylocalio.com/cs/blog/localiobc-1-3-bunny-storage/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://localiobc.mylocalio.com/blog/localiobc-1-3-bunny-storage/" />
+  </url>
 </urlset>

@@ -7,6 +7,44 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
     <description>Signed updates for the direct-download edition of LocalioBC.</description>
     <language>en</language>
     <item>
+      <title>LocalioBC 1.3.0</title>
+      <link>https://localiobc.mylocalio.com</link>
+      <sparkle:version>9</sparkle:version>
+      <sparkle:shortVersionString>1.3.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0.0</sparkle:minimumSystemVersion>
+      <pubDate>Sun, 15 Nov 2026 03:26:11 GMT</pubDate>
+      <description xml:lang="en" sparkle:format="markdown"># LocalioBC 1.3.0
+
+## Upload finished videos to Bunny Storage
+
+- Upload a merged video or individually exported clips directly to your own Bunny Storage account.
+- Set up the Storage Zone, region, destination folder and CDN address in Settings. Your password stays in macOS Keychain.
+- Review the finished files before starting a transfer. Follow progress, cancel or retry, and copy or open the resulting CDN links.
+- The transfer queue is independent of the editor and remembers interrupted jobs for an explicit retry after relaunch. Keep the app open during uploads; HTTP retries restart the file.
+- The start screen introduces Bunny Storage with a compact affiliate signup link and a link to Localio Labs.
+
+Editing and export continue to work locally without an account. The full direct-download edition remains free and open source. Bunny.net is a separately paid service; it is not included with the free LocalioBC app.
+
+This release also preserves the compact export controls, continuous speed slider, batch crop, audio removal and merged/separate export modes. Requires macOS 14 or later; supports Apple Silicon and Intel.
+</description>
+      <description xml:lang="cs" sparkle:format="markdown"># LocalioBC 1.3.0
+
+## Hotová videa přímo na Bunny Storage
+
+- Nahrajte spojené video nebo samostatně vyexportované klipy přímo do vlastního účtu Bunny Storage.
+- Zónu úložiště, oblast, cílovou složku a CDN adresu nastavíte v Nastavení. Heslo zůstává v Klíčence macOS.
+- Před spuštěním přenosu zkontrolujete hotové soubory. Uvidíte průběh, můžete přenos zrušit či zopakovat a zkopírovat nebo otevřít výsledné CDN odkazy.
+- Fronta přenosů funguje nezávisle na editoru. Přerušené úlohy si pamatuje pro výslovné opakování po dalším spuštění. Během nahrávání ponechte aplikaci otevřenou; HTTP přenos se při opakování zahajuje od začátku.
+- Úvodní obrazovka představuje Bunny Storage s nenápadným affiliate odkazem na registraci a odkazem na Localio Labs.
+
+Úpravy a export dál probíhají lokálně bez účtu. Plná verze stažená přímo z webu zůstává zdarma a open source. Bunny.net je samostatně placená služba; není součástí bezplatné aplikace LocalioBC.
+
+Zůstává také kompaktní ovládání exportu, plynulá změna rychlosti, hromadný ořez, odstranění zvuku a společný či samostatný export klipů. Vyžaduje macOS 14 nebo novější; podporuje Apple Silicon i Intel.
+</description>
+      <sparkle:fullReleaseNotesLink>https://localiobc.mylocalio.com/#news-title</sparkle:fullReleaseNotesLink>
+      <enclosure url="https://github.com/bradacz/LocalioBC/releases/download/v1.3.0/LocalioBC-1.3.0-universal.dmg" sparkle:edSignature="+TslSQMuGC5iDoXnVuyAZ4PomRdKaaJ5ggl41zUQKyEyvT67SKQZwdCrYphfX2OBX+tY80O7eggaNcdpHrwKDg==" length="2617903" type="application/octet-stream"></enclosure>
+    </item>
+    <item>
       <title>LocalioBC 1.2.1</title>
       <link>https://localiobc.mylocalio.com</link>
       <sparkle:version>7</sparkle:version>
@@ -68,6 +106,6 @@ Video editing and export still work offline. No videos or editing data are uploa
     </item>
   </channel>
 </rss><!-- sparkle-signatures:
-edSignature: UuYhpD+5Tj1bnjrus03aEiK+yFFPvkbxRmgWJR5uv6Q6gb+nqh8X5DsHEDFsqRT493mZHceLjfyK8WT6sl+/BQ==
-length: 5530
+edSignature: pUC3Lako1mX9oTgCOGKcixU8ZivvyGEG+qf/UXeKZ+4JDNeOu5YjfLFDLeFQqTmAE1+EujUfXvR6WViBob+EBw==
+length: 8829
 -->
