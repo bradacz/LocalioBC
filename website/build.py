@@ -15,8 +15,10 @@ assert parse_qs(parsed.query).get('ref', [''])[0], 'A verified affiliate referen
 class AffiliateLinks(HTMLParser):
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
-        if tag == 'a' and 'bunny-signup' in attrs.get('class', '').split():
-            assert attrs.get('href') == affiliate, 'Bunny signup links must use the configured affiliate URL'
+        hostname = urlsplit(attrs.get('href', '')).hostname if tag == 'a' else None
+        bunny_host = hostname == 'bunny.net' or (hostname is not None and hostname.endswith('.bunny.net'))
+        if tag == 'a' and (bunny_host or 'bunny-signup' in attrs.get('class', '').split()):
+            assert attrs.get('href') == affiliate, 'Every public Bunny link must use the verified affiliate URL'
             assert 'sponsored' in attrs.get('rel', '').split(), 'Affiliate links must be disclosed to search engines'
 
 
