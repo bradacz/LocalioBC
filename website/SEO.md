@@ -10,6 +10,14 @@ Website copy, titles, descriptions, social metadata and JSON-LD consistently use
 
 The existing Czech hero headline ends with **Jednoduše.** The supporting text puts file-size reduction first and states free/open-source/no ads. Paid Store distribution is still described separately; the free offer in structured data refers to the direct download.
 
+## Bunny.net: website header videos as the primary use case
+
+The English and Czech homepage meta descriptions now lead with preparing videos for website headers on macOS, then identify Bunny.net as the CDN delivery option. Crop/trim, compression, audio removal, the free app, open source and no ads remain explicit. The owner-approved visible hero copy is unchanged. Homepage Open Graph, Twitter and WebPage JSON-LD descriptions match the meta description exactly in each language.
+
+The existing Bunny hosting article keeps its URL, canonical and language alternates. Its localized title, H1, social titles, WebPage name and BlogPosting headline now consistently identify website header videos and CDN delivery. The introduction and first H2 explain the practical reason to use Bunny.net: delivering a header background, product loop or other page video from a file in Storage through a connected CDN, while retaining control of the website's design and playback presentation. Storage/Stream choices follow; local preparation and direct upload are subsequent workflow steps. The homepage article card reflects the same order and purpose.
+
+Titles and descriptions are specific to the page and read naturally; no speed guarantees, rankings or unsupported performance claims are added. Public Bunny navigation retains the verified affiliate URL and short Affiliate labels. No video is embedded. Sitemap paths remain unchanged and their existing `2026-11-15` last-modified dates already match the date of this copy update. Static validation confirms metadata/headline parity, one H1, stable canonical/hreflang values, and the unchanged screenshot and signed updater feed. Search-engine recrawling, chosen snippets and ranking are outside this source verification.
+
 ## Indexable pages
 
 | English | Czech |
