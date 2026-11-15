@@ -2,8 +2,8 @@
   "app_name": "LocalioBC",
   "bundle_id": "com.localiobvideo.app",
   "sku": "LOCALIOBC-MAC-001",
-  "version": "1.2.0",
-  "build": "6",
+  "version": "1.2.1",
+  "build": "7",
   "platform": "macOS",
   "minimum_macos": "14.0",
   "architectures": [
@@ -62,13 +62,13 @@
     "health_or_medical": false
   },
   "owner_actions": [
-    "Await review of 1.2.0 (6) and respond to Apple feedback",
+    "Await review of 1.2.1 (7) and respond to Apple feedback",
     "Release manually after approval",
     "Add the actual public App Store link to the website after release"
   ],
   "website": {
     "url": "https://localiobc.mylocalio.com/",
-    "status": "Public direct edition 1.2.0; English/Czech home, support and privacy verified on 2026-11-15. Store edition remains coming soon."
+    "status": "Public direct edition 1.2.1; English/Czech production pages, screenshot and byte-exact signed update feed verified on 2026-11-15 at 01:24 CET. Store edition remains coming soon."
   },
   "availability": {
     "countries_or_regions": 175,
@@ -78,43 +78,55 @@
     "status": "WAITING_FOR_REVIEW",
     "submitted_on": "2026-11-15",
     "private_details": "Ignored SubmissionStatus.local.json",
-    "last_verified_at": "2026-11-15T00:39:00+01:00",
-    "verification_source": "App Store Connect: processed TestFlight build, saved Distribution listing, and final App Review submission",
-    "selected_version": "1.2.0",
-    "selected_build": "6",
+    "last_verified_at": "2026-11-15T01:27:00+01:00",
+    "verification_source": "App Store Connect: processed build 7 selected in the saved 1.2.1 listing; Submit for Review returned 1 Item Submitted and App Review showed Waiting for Review",
+    "selected_version": "1.2.1",
+    "selected_build": "7",
     "upload_status": "COMPLETE",
-    "testflight_status": "READY_TO_SUBMIT",
+    "testflight_status": null,
     "publicly_released": false,
-    "submitted_at": "2026-11-15T00:38:00+01:00",
+    "submitted_at": "2026-11-15T01:27:00+01:00",
     "replaces": {
-      "version": "1.0.0",
-      "build": "3",
-      "submitted_on": "2026-11-13",
+      "version": "1.2.0",
+      "build": "6",
+      "submitted_on": "2026-11-15",
+      "submitted_at": "2026-11-15T00:38:00+01:00",
       "withdrawn_on": "2026-11-15",
-      "reason": "Owner-authorized replacement with current 1.2.0 build"
-    }
+      "status_after_withdrawal": "DEVELOPER_REJECTED",
+      "reason": "Owner-authorized replacement with 1.2.1 (7), including the clean compact export panel"
+    },
+    "uploaded_at": "2026-11-15T01:17:00+01:00",
+    "build_processing_status": "PROCESSED_AND_SELECTED",
+    "testflight_status_note": "No separate TestFlight beta status was read for build 7; processing and selection for App Review were verified."
   },
   "current_store_source": {
-    "version": "1.2.0",
-    "build": "6",
+    "version": "1.2.1",
+    "build": "7",
     "local_release_build": "PASSED",
     "store_package_exported": true,
     "uploaded": true,
     "submitted_for_review": true,
     "sparkle_included": false,
     "package": {
-      "path": "dist/app-store-1.2.0-build6/export/LocalioBC.pkg",
-      "size_bytes": 2090268,
-      "sha256": "6a32847386b34a73198a70f8a16a9715ceb1c80ec5c0f624a97d07c01e87bee1",
+      "path": "dist/app-store-1.2.1-build7/export/LocalioBC.pkg",
+      "size_bytes": 2056081,
+      "sha256": "9bba802b7a5fb2d4c3d81c65052b4edf41b019ebb45116682b2979691110eaa1",
       "validation": "PASSED"
     }
   },
   "direct_distribution": {
-    "version": "1.2.0",
-    "build": "6",
+    "version": "1.2.1",
+    "build": "7",
     "status": "PUBLISHED",
-    "release_url": "https://github.com/bradacz/LocalioBC/releases/tag/v1.2.0",
-    "verified_on": "2026-11-15"
+    "release_url": "https://github.com/bradacz/LocalioBC/releases/tag/v1.2.1",
+    "verified_on": "2026-11-15",
+    "last_verified_at": "2026-11-15T01:24:00+01:00",
+    "package": {
+      "filename": "LocalioBC-1.2.1-universal.dmg",
+      "size_bytes": 2188411,
+      "sha256": "5f742171c81e3c2c7e264a510f5a352b1081e0ef7c6843e02b1753ce49f06b1a"
+    },
+    "production_verification": "Anonymous GitHub download, English/Czech website, screenshot and byte-exact signed update feed passed"
   },
   "account_follow_up": {
     "paid_apps_agreement": "Updated with explicit owner approval and verified ACTIVE on 2026-11-15",
@@ -125,5 +137,28 @@
     "any_apps_provide_personal_services": false,
     "basis": "Owner confirmed no apps in the account provide personal services",
     "last_verified_at": "2026-11-15T00:48:00+01:00"
-  }
+  },
+  "submission_history": [
+    {
+      "version": "1.0.0",
+      "build": "3",
+      "submitted_on": "2026-11-13",
+      "withdrawn_on": "2026-11-15",
+      "reason": "Owner-authorized replacement with current 1.2.0 build"
+    },
+    {
+      "version": "1.2.0",
+      "build": "6",
+      "submitted_at": "2026-11-15T00:38:00+01:00",
+      "waiting_for_review_verified_at": "2026-11-15T00:39:00+01:00",
+      "withdrawn_on": "2026-11-15",
+      "status_after_withdrawal": "DEVELOPER_REJECTED",
+      "replaced_by": "1.2.1 (7)",
+      "package": {
+        "path": "dist/app-store-1.2.0-build6/export/LocalioBC.pkg",
+        "size_bytes": 2090268,
+        "sha256": "6a32847386b34a73198a70f8a16a9715ceb1c80ec5c0f624a97d07c01e87bee1"
+      }
+    }
+  ]
 }

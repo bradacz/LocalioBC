@@ -1,1 +1,1 @@
-First Mac App Store release, including continuous 0.25×–4× speed control with a 1× reset, video cropping and trimming, batch crop, separate or merged exports, audio removal and Czech/English interface.
+First Mac App Store release. Version 1.2.1 brings a clean, compact export panel with clearly grouped controls visible without scrolling at the default and minimum window sizes. Includes continuous 0.25×–4× speed control with a 1× reset, video cropping and trimming, batch crop, separate or merged exports, audio removal and Czech/English interface.

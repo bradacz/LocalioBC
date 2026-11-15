@@ -8,7 +8,7 @@ The static source is in `public/`; `python3 build.py` copies it to `dist/`. Ther
 
 Production source: `bradacz/LocalioBC`, branch `main`, directory `website`.
 Cloudflare Pages project: `localiobc-web` (`localiobc-web.pages.dev`). Build command `python3 build.py`, output `dist`, root `website`; preview builds disabled.
-The initial GitHub deployment `2ccb08e9-bfaa-4665-b4d3-95fdc6978922` succeeded on 13 November 2026. Custom-domain cutover is being verified; do not claim it complete before DNS and HTTPS checks.
+The initial GitHub deployment `2ccb08e9-bfaa-4665-b4d3-95fdc6978922` succeeded on 13 November 2026. Custom-domain cutover was verified on 14 November; the 1.2.1 production pages, screenshot and signed feed were verified again on 15 November at 01:24 CET.
 The previous Sites project `appgprj_6af5c725b70c81918f92ee2b358f6e7f` is historical and is no longer the intended publishing workflow. Do not publish from its temporary checkout.
 
 See [Google measurement and verification](GOOGLE.md) for IDs, consent behavior and acceptance state.
@@ -25,13 +25,13 @@ See [Google measurement and verification](GOOGLE.md) for IDs, consent behavior a
 
 Only records for the new `localiobc` hostname were added in the mylocalio.com Cloudflare zone. Existing apex, wildcard, mail and other subdomain records were preserved.
 
-- Target after verified cutover: `localiobc.mylocalio.com` CNAME `localiobc-web.pages.dev`. Previous target was `custom-domains.chatgpt.site`.
+- Verified production target: `localiobc.mylocalio.com` CNAME `localiobc-web.pages.dev`. Previous target was `custom-domains.chatgpt.site`.
 - `_openai-site-verification.localiobc.mylocalio.com` TXT: ownership verification managed by Sites.
 - `_cf-custom-hostname.localiobc.mylocalio.com` TXT: certificate/hostname verification managed by Sites.
 
 The two TXT records above belong to the historical Sites hosting. Do not remove unrelated DNS records. Verify the Pages custom-domain status and HTTPS after cutover.
 
-The page advertises the App Store edition as coming soon at EUR 4.99. Version 1.2.1 (7) was uploaded on 15 November 2026 at 01:17 CET; processing and replacement of the pending 1.2.0 (6) submission are in progress. A new review submission has not yet been verified. Release remains manual after Apple approval. See [Store status](../AppStore/STATUS.md) for the latest verified state. It links to the full free direct download, explicitly stating that all features are included with no time limits, paid unlocks or watermarks. A GitHub source link is available in the footer. Add a genuine App Store product URL after Apple approves and releases the listing; do not insert a guessed app ID or non-working store badge.
+The page advertises the App Store edition as coming soon at EUR 4.99. Version 1.2.1 (7) was uploaded on 15 November 2026 at 01:17 CET, processed, selected and submitted at 01:27 CET. App Review was verified as **Waiting for Review**, replacing the cancelled 1.2.0 (6) submission. Release remains manual after Apple approval. See [Store status](../AppStore/STATUS.md) for the latest verified state. The website links to the full free direct download, explicitly stating that all features are included with no time limits, paid unlocks or watermarks. A GitHub source link is available in the footer. Add a genuine App Store product URL after Apple approves and releases the listing; do not insert a guessed app ID or non-working store badge.
 
 ## Scroll effects
 
@@ -52,3 +52,5 @@ The public [GitHub release 1.2.1](https://github.com/bradacz/LocalioBC/releases/
 The English and Czech privacy pages distinguish local offline editing from optional update connections. They identify Cloudflare and GitHub Releases, explain ordinary connection logs (including IP address and version-bearing User-Agent), and state that no system profile, clip data or media files are sent. The macOS app contains no analytics SDK. App Store updates remain Apple's responsibility; Sparkle is absent from that edition. Do not promise hosting-provider log retention periods.
 
 The signed feed and release notes under `public/updates/` are maintained by the release process. Do not modify their bytes after signing, inject website analytics into them, or publish them before the referenced DMG is available.
+
+Production verification on 15 November at 01:24 CET confirmed both homepages, the current screenshot and byte-exact signed feed. At 01:29–01:30 CET, an unchanged signed copy of direct 1.2.0 retrieved this production feed and successfully installed/relaunched as 1.2.1 (7); the installed signature and notarization ticket passed. See the [release validation report](../docs/releases/v1.2.1-validation.md).

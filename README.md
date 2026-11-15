@@ -12,7 +12,7 @@ No subscriptions, ads, watermarks, accounts or uploads. Built with SwiftUI, AppK
 
 ## Download for macOS
 
-[**Download LocalioBC 1.2.0 for Mac**](https://github.com/bradacz/LocalioBC/releases/download/v1.2.0/LocalioBC-1.2.0-universal.dmg) · [All releases](https://github.com/bradacz/LocalioBC/releases)
+[**Download LocalioBC 1.2.1 for Mac**](https://github.com/bradacz/LocalioBC/releases/download/v1.2.1/LocalioBC-1.2.1-universal.dmg) · [All releases](https://github.com/bradacz/LocalioBC/releases)
 
 Requires **macOS 14 or later**. One universal DMG supports **Apple Silicon and Intel**. Open the disk image, drag **LocalioBC.app** into **Applications**, then eject the image and launch the app.
 
@@ -57,6 +57,8 @@ A dedicated settings panel provides a fixed navigation sidebar, visual appearanc
 [View the dark appearance](docs/screenshots/settings-en-dark.png).
 
 ## Build from source
+
+The fixed [design requirements](AGENTS.md) apply to future changes: one clean export surface, no decorative section frames or darker backgrounds, and all editing/export controls visible without scrolling at the default and supported minimum window sizes. Feature work does not authorize a redesign. Native checks must cover Czech/English, light/dark appearance and the relevant export states before a layout change is complete.
 
 Requires **macOS 14 or later** and **Xcode 16 or later with Swift 6**. Development and tests are verified with Xcode 26.3. Xcode resolves the pinned **Sparkle 2.10.1** binary package for the direct target. The separate Store target has no Sparkle dependency; `Package.resolved` is committed.
 
@@ -142,7 +144,7 @@ The script archives both architectures in Release mode and performs a Developer 
 
 ## Mac App Store edition
 
-**Status verified 15 November 2026, 00:39 CET:** Store version **1.2.0 (6)** was uploaded and submitted at 00:38 CET and is **Waiting for Review**, with manual release after approval. It replaces the withdrawn 1.0.0 (3) submission. The free direct edition **1.2.0 (6)** is already public. DAC7 was completed and verified Active at 00:48 CET. See [current Store status](AppStore/STATUS.md) for validation and release steps.
+**Status verified 15 November 2026, 01:27 CET:** Store version **1.2.1 (7)** was uploaded at 01:17 CET, processed and submitted at 01:27 CET. It is **Waiting for Review**, with manual release after approval, and replaces the withdrawn 1.2.0 (6) submission. The free direct edition **1.2.1 (7)**, production website and signed update feed are public and were verified at 01:24 CET. DAC7 was completed and verified Active at 00:48 CET. See [current Store status](AppStore/STATUS.md) and [1.2.1 validation](docs/releases/v1.2.1-validation.md).
 
 The separate `LocalioBC-AppStore` target/scheme archives the paid Store configuration with sandboxing, a bundled privacy manifest and licence, and copy appropriate for a one-time purchase. It shares editing sources with the direct target, while physically excluding Sparkle, its helpers, update configuration and sandbox exceptions. Both archives and exported Store packages are checked for updater isolation. The public GitHub DMG remains the free direct edition.
 
@@ -152,7 +154,7 @@ The complete [submission kit](AppStore/README.md) includes English/Czech metadat
 
 ## Automatic updates
 
-Version **1.2.0 is the first updater-enabled direct release**. Install it manually once if you use 1.1.0 or earlier. Later direct releases can update in the app. The [Mac App Store manages its own updates](https://developer.apple.com/app-store/review/guidelines/#hardware-compatibility).
+Version **1.2.0 is the first updater-enabled direct release**. Users of 1.2.0 can update to 1.2.1 in the app. If you use 1.1.0 or earlier, install the current direct release manually once to gain the updater. The [Mac App Store manages its own updates](https://developer.apple.com/app-store/review/guidelines/#hardware-compatibility).
 
 - [Sparkle 2.10.1](https://sparkle-project.org/documentation/) supplies **Check for Updates…** in the app menu and Settings. Its native consent prompt offers daily checks and optional automatic downloads; preferences can be changed in Settings. System profiling is disabled. Video editing remains offline; update-check connection metadata is described in the privacy policy.
 - The stable feed is `https://localiobc.mylocalio.com/updates/appcast.xml`. It points to immutable, versioned GitHub DMGs and embeds Czech/English markdown release notes inside the signed feed, avoiding a separate notes request or HTML player.
@@ -165,8 +167,8 @@ Release order: tests → universal Archive/Developer ID export → notarization/
 After `build-dmg.sh` completes, generate the signed feed using the matching Sparkle tools from Xcode's `SourcePackages/artifacts/sparkle/Sparkle/bin`:
 
 ```sh
-python3 Scripts/generate-update-feed.py dist/v1.2.0/LocalioBC-1.2.0-universal.dmg \
-  --app dist/v1.2.0/export/LocalioBC.app \
+python3 Scripts/generate-update-feed.py dist/v1.2.1-build7/LocalioBC-1.2.1-universal.dmg \
+  --app dist/v1.2.1-build7/export/LocalioBC.app \
   --tools-dir /path/to/SourcePackages/artifacts/sparkle/Sparkle/bin
 ```
 
