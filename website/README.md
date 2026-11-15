@@ -20,6 +20,8 @@ See [Google measurement and verification](GOOGLE.md) for IDs, consent behavior a
 | `/` | `/cs/` |
 | `/support/` | `/cs/support/` |
 | `/privacy/` | `/cs/privacy/` |
+| `/blog/why-localiobc/` | `/cs/blog/proc-vzniklo-localiobc/` |
+| `/blog/bunny-video-hosting/` | `/cs/blog/bunny-hosting-videa/` |
 
 ## DNS
 
@@ -73,4 +75,16 @@ The owner later changed the suggested Stripe contribution to €10 and the Czech
 
 The English and Czech homepages emphasize free, ad-free, open-source video cropping and compression on macOS, including audio removal and preparing assets for website headers. The origin story is available at `/blog/why-localiobc/` and `/cs/blog/proc-vzniklo-localiobc/`, linked from the homepages. Both versions use the team's first-person plural, with Localio Labs credited as the author. Website copy and SEO use “v macOS” / “on macOS” consistently; the proper name Mac App Store is preserved. “Video for a website header” describes the app's use case; the website has no video player or header video.
 
-Every indexable page has its own title/description, canonical URL, reciprocal English/Czech hreflang links, Open Graph/Twitter metadata and static JSON-LD. Homepages describe the free direct edition as SoftwareApplication; articles use BlogPosting. No ratings/reviews are invented. The XML sitemap includes the eight indexable URLs and their language alternates. Thank-you pages remain noindex and outside the sitemap. The Search Console verification meta tag is preserved. New article paths are added to the existing consent-gated analytics allowlist; thank-you paths remain excluded. See `SEO.md` for validation and source references.
+Every indexable page has its own title/description, canonical URL, reciprocal English/Czech hreflang links, Open Graph/Twitter metadata and static JSON-LD. Homepages describe the free direct edition as SoftwareApplication; articles use BlogPosting. No ratings/reviews are invented. The XML sitemap includes the ten indexable URLs and their language alternates. Thank-you pages remain noindex and outside the sitemap. The Search Console verification meta tag is preserved. New article paths are added to the existing consent-gated analytics allowlist; thank-you paths remain excluded. See `SEO.md` for validation and source references.
+
+## Bunny.net hosting article and affiliate links
+
+The English and Czech hosting guides explain preparing smaller website video files on macOS with LocalioBC and delivering them through Bunny Storage and a connected CDN Pull Zone. They distinguish Storage from Stream, link to official documentation and explain separate Bunny usage charges. They explicitly identify 1.2.1 as the currently published version, with manual dashboard uploads; optional direct uploads are described as a forthcoming feature. Publishing the article does not publish a new application release.
+
+The owner-authorized Affiliate Program was enabled in the owner's authenticated Bunny dashboard on 15 November 2026. The verified public referral URL is `https://bunny.net?ref=gm93y8cppz`. It is recorded as a public constant in `build.py`, which rejects signup links that differ from this URL or omit `rel="sponsored"`. Every public page has a plainly marked affiliate signup link in its header. Both homepages link to the article and include a signup link with a commission disclosure. The articles repeat the disclosure beside their registration action. There is no generic signup fallback, custom redirect, embedded Bunny player or Bunny tracking script.
+
+`public/bunny-logo.svg` is the unchanged official 149 × 43 Bunny.net wordmark, including its rabbit, retrieved from `https://bunny.net/static/bunnynet-dark-d6a41260b1e4b665cb2dc413e3eb84ca.svg`. Its SHA-256 is `d3b6c26c84f8c6cd4225d5639a710a21fd4c3e2392abc4c73eafa3cb99c92452`. It is served locally and has explicit intrinsic dimensions. Bunny trademarks remain the property of their owner; see `public/THIRD-PARTY-NOTICES.txt`. The logo is not included in LocalioBC's MIT artwork grant.
+
+The header keeps one native navigation tree. Its links wrap on narrow screens without JavaScript, custom menu roles or hidden controls. The new affiliate action has a 44-pixel minimum target, an explicit focus outline and a visible affiliate label. English and Czech flag controls retain the current page, including the new article pair.
+
+Privacy pages now distinguish local editing, explicit optional uploads in supporting versions, and referral links. Merely displaying a referral link sends no request to Bunny because the logo is local. Existing app downloads, supplied screenshots and signed update files remain unchanged. Source validation covers local links, metadata JSON, sitemap language pairs and all affiliate URLs; native browser layout QA and production verification are recorded by the publishing task when completed.

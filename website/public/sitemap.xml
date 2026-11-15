@@ -56,4 +56,18 @@
     <xhtml:link rel="alternate" hreflang="cs" href="https://localiobc.mylocalio.com/cs/blog/proc-vzniklo-localiobc/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://localiobc.mylocalio.com/blog/why-localiobc/" />
   </url>
+  <url>
+    <loc>https://localiobc.mylocalio.com/blog/bunny-video-hosting/</loc>
+    <lastmod>2026-11-15</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://localiobc.mylocalio.com/blog/bunny-video-hosting/" />
+    <xhtml:link rel="alternate" hreflang="cs" href="https://localiobc.mylocalio.com/cs/blog/bunny-hosting-videa/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://localiobc.mylocalio.com/blog/bunny-video-hosting/" />
+  </url>
+  <url>
+    <loc>https://localiobc.mylocalio.com/cs/blog/bunny-hosting-videa/</loc>
+    <lastmod>2026-11-15</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://localiobc.mylocalio.com/blog/bunny-video-hosting/" />
+    <xhtml:link rel="alternate" hreflang="cs" href="https://localiobc.mylocalio.com/cs/blog/bunny-hosting-videa/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://localiobc.mylocalio.com/blog/bunny-video-hosting/" />
+  </url>
 </urlset>

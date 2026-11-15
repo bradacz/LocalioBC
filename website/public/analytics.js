@@ -1,7 +1,7 @@
 /* Optional public website analytics. No Google request before explicit consent. */
 (() => {
   'use strict';
-  const config = {"name": "LocalioBC", "id": "G-HFRP7KWGWE", "hosts": ["localiobc.mylocalio.com"], "key": "localiobc_analytics_consent_v1", "paths": ["/", "/cs/", "/support/", "/cs/support/", "/privacy/", "/cs/privacy/", "/blog/why-localiobc/", "/cs/blog/proc-vzniklo-localiobc/"], "privacy": "/privacy/", "privacyCs": "/cs/privacy/"};
+  const config = {"name": "LocalioBC", "id": "G-HFRP7KWGWE", "hosts": ["localiobc.mylocalio.com"], "key": "localiobc_analytics_consent_v1", "paths": ["/", "/cs/", "/support/", "/cs/support/", "/privacy/", "/cs/privacy/", "/blog/why-localiobc/", "/cs/blog/proc-vzniklo-localiobc/", "/blog/bunny-video-hosting/", "/cs/blog/bunny-hosting-videa/"], "privacy": "/privacy/", "privacyCs": "/cs/privacy/"};
   if (!config.hosts.includes(location.hostname)) return;
   const key = config.key;
   const lifetime = 180 * 24 * 60 * 60 * 1000;

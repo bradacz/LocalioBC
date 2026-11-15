@@ -18,8 +18,9 @@ The existing Czech hero headline ends with **Jednoduše.** The supporting text p
 | `/support/` | `/cs/support/` |
 | `/privacy/` | `/cs/privacy/` |
 | `/blog/why-localiobc/` | `/cs/blog/proc-vzniklo-localiobc/` |
+| `/blog/bunny-video-hosting/` | `/cs/blog/bunny-hosting-videa/` |
 
-Each page has a unique title and description, one H1, a self-referencing HTTPS canonical, reciprocal `en`/`cs`/`x-default` alternates, localized sharing metadata and a large-image preview directive. The sitemap includes all eight URLs and language alternates; `robots.txt` points to its permanent URL. Article pages are linked from the homepages and link back to the product. Content is present in static HTML and works without JavaScript.
+Each page has a unique title and description, one H1, a self-referencing HTTPS canonical, reciprocal `en`/`cs`/`x-default` alternates, localized sharing metadata and a large-image preview directive. The sitemap includes all ten URLs and language alternates; `robots.txt` points to its permanent URL. Article pages are linked from the homepages and link back to the product. Content is present in static HTML and works without JavaScript.
 
 The thank-you pages retain `noindex,follow`, stay outside the sitemap and have no analytics. The existing Search Console ownership token remains unchanged. The new public article paths are included in the consent-based analytics allowlist; the consent implementation is otherwise unchanged.
 
@@ -30,6 +31,8 @@ Static JSON-LD describes Organization, WebSite and WebPage. Homepages add the re
 Schema.org description and Google's rich-result eligibility are distinct: Google requires a real rating/review for the SoftwareApplication rich result. None is claimed or fabricated here. Search indexing, result titles/snippets and rich-result display remain Google's decision; the local JSON check does not claim a Google Rich Results Test pass.
 
 ## Verification
+
+The Bunny hosting article adds two source pages on 15 November 2026. Local checks parse their metadata and BlogPosting JSON-LD, validate reciprocal language links and local assets, and check every signup CTA against the account-verified affiliate URL. Both article paths are in the consent-gated analytics allowlist. Signup links use `rel="sponsored"` and visible affiliate disclosures; official documentation links remain ordinary editorial references. The unchanged official logo is served locally. The current application download remains 1.2.1, and direct upload is explicitly identified as forthcoming. The following browser, production and Google evidence describes the previous eight-page deployment; new article deployment and indexing must be verified separately.
 
 - Parsed all eight sitemap pages: one H1 each, unique title/description, matching canonical/sharing URLs, JSON-LD parsed, self/language alternates and internal links valid.
 - Sitemap language alternates match the HTML; only current 1.2.1 direct download URLs remain.
