@@ -1,6 +1,6 @@
 # LocalioBC website — Google measurement
 
-Updated 13 November 2026. Scope: public website only; macOS app has no analytics SDK.
+Updated 15 November 2026. Scope: public website only; macOS app has no analytics SDK.
 
 - Google account: marian.tomanek@gmail.com; GA account MyLocalio `416230214`.
 - GA4 property `564290399`, web stream `16338219656`, measurement `G-HFRP7KWGWE`.
@@ -16,3 +16,11 @@ Updated 13 November 2026. Scope: public website only; macOS app has no analytics
 Google tag GTM-M8HZKXQH, účet 6405006390, kontejner 286852667: publikována živá verze 2. Výchozí Initialization - All Pages ignorovalo webové gtag config a způsobovalo duplicitní page_view. Nahrazeno jediným pravidlem Inicializace podle konfigurace webu s podporou gtag(config), čekáním na vlastní kontejner a přesné ID G-HFRP7KWGWE. Původní pravidlo odstraněno. Nastavení send_page_view:false i soukromí nyní řídí kód webu. Automatické rozšířené měření zůstává vypnuté.
 
 Kontrolovaná návštěva se souhlasem po publikování přidala právě jedno page_view (Realtime 1 → 2). Jde o technický test, nikoli historickou návštěvnost. Přehledy v Elišce používají přesná GA/GSC ID; nová historie se nevytváří zpětně.
+
+## SEO, Search Console a nové články 15. 11. 2026
+
+- Produkce obsahuje osm indexovatelných stránek v češtině a angličtině, včetně `/blog/why-localiobc/` a `/cs/blog/proc-vzniklo-localiobc/`. Všech osm HTML souborů i `sitemap.xml` bylo po nasazení porovnáno se sestaveným webem a odpovídalo přesně.
+- Ve správné službě Search Console `https://localiobc.mylocalio.com/` byla odeslána `https://localiobc.mylocalio.com/sitemap.xml`. Google zobrazil „Soubor Sitemap byl úspěšně odeslán“ a záznam s datem 15. 11. 2026. Přijetí sitemap je ověřené; dokončené zpracování ani indexace nových článků tím potvrzené nejsou.
+- Obě cesty článků jsou v povoleném seznamu existujícího měření `G-HFRP7KWGWE`. Nevznikla další služba ani duplicitní značka. Souhlas, vypnuté automatické rozšířené měření a vyloučení děkovacích stránek zůstávají zachovány.
+- Po výslovném povolení statistik při kontrolní návštěvě produkčního webu zobrazil přehled GA4 „Stránky v reálném čase“ ve službě `564290399` obě cesty. Při závěrečném odečtu měl anglický článek jedno zobrazení a český dvě zobrazení po návratu přes přepínač jazyka. Jde o technické návštěvy, nikoli údaj o organické návštěvnosti nebo počtu skutečných čtenářů.
+- Doklady ověření jsou lokálně v ignorovaném `dist/seo-validation/`: `production.json`, `google-verification.json`, `search-console-sitemap.jpg` a `ga4-both-articles.jpg`. Snímky účtu Google se necommitují.

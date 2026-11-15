@@ -33,7 +33,10 @@ Schema.org description and Google's rich-result eligibility are distinct: Google
 - Sitemap language alternates match the HTML; only current 1.2.1 direct download URLs remain.
 - Native browser checks covered the Czech article at desktop size, both article languages at 320 CSS pixels, language switching and the mobile homepage. No horizontal overflow was found; content remained readable.
 - The owner-supplied screenshot and signed updater feed retain their exact previously verified SHA-256 values.
-- Local evidence: ignored `dist/seo-validation/local.json` and native browser captures in the same folder. Record production checks after deployment; do not infer that Google has already indexed new URLs from a successful deployment.
+- Production verification confirmed an exact match for all eight HTML pages and the sitemap after deployment. Public browser checks confirmed the updated Czech homepage, article language switching and current support/download links.
+- Search Console accepted the sitemap submission for `https://localiobc.mylocalio.com/` on 15 November 2026. Processing and indexing of the new articles have not been independently confirmed.
+- The existing GA4 property `564290399` showed both article paths in Realtime after controlled production visits with explicit analytics consent. These are technical verification visits, not evidence of organic traffic. The detailed Google setup and current state are recorded in `GOOGLE.md`.
+- Local evidence stays in ignored `dist/seo-validation/`: `local.json`, `production.json`, `google-verification.json` and browser captures. Account screenshots are not committed.
 
 ## Primary references
 
