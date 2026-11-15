@@ -176,3 +176,25 @@ header.is-scrolled { border-color: #e4e7f0; box-shadow: 0 7px 22px #1c2b5407; }
   .release-card { padding: 23px; }
   .release-card h3 { font-size: 23px; }
 }
+
+/* Optional support stays directly below the free download. */
+.support-options { margin-block: 12px 18px; }
+.support-label { margin: 0 0 8px; color: var(--secondary); font-size: 13px; }
+.support-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.support-button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-block-size: 44px; padding: 10px; border-radius: 10px; font-size: 13px; line-height: 1.35; font-weight: 600; text-decoration: none; }
+.support-button svg { flex: none; }
+.support-coffee { color: #282510; background: #ffdd57; }
+.support-coffee:hover { color: #282510; background: #f6cf36; }
+.support-stripe { color: var(--accent); background: #edf1ff; }
+.support-stripe:hover { color: var(--accent-hover); background: #e2e9ff; }
+.thank-you { min-block-size: 66vh; display: grid; place-items: center; padding-block: 72px; text-align: center; }
+.thank-you-content { max-inline-size: 650px; }
+.thank-you-mark { color: var(--accent); margin-block-end: 18px; }
+.thank-you h1 { font-size: clamp(38px, 5.5vw, 62px); margin-block: 14px 22px; }
+.thank-you .lead { font-size: 21px; margin-inline: auto; }
+.thank-you-signature { color: var(--ink); font-size: 15px; margin-block: 24px 28px; }
+.thank-you .button { margin-inline: 0; }
+@media (max-width: 700px) {
+  .thank-you { padding-block: 48px; }
+  .thank-you .lead { font-size: 18px; }
+}
