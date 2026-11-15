@@ -7,6 +7,34 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
     <description>Signed updates for the direct-download edition of LocalioBC.</description>
     <language>en</language>
     <item>
+      <title>LocalioBC 1.2.1</title>
+      <link>https://localiobc.mylocalio.com</link>
+      <sparkle:version>7</sparkle:version>
+      <sparkle:shortVersionString>1.2.1</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0.0</sparkle:minimumSystemVersion>
+      <pubDate>Sun, 15 Nov 2026 00:13:12 GMT</pubDate>
+      <description xml:lang="en" sparkle:format="markdown"># LocalioBC 1.2.1
+
+- **Cleaner export panel:** controls share one surface, grouped with whitespace and typography, without decorative frames, tinted section backgrounds or separator lines.
+- **No sidebar scrolling:** all export options and the main action fit at the default and supported minimum window sizes.
+- Quality, target-size and lossless modes, merged and separate exports, progress, cancellation and result actions remain available.
+- The approved design and native layout checks are recorded in the project rules to preserve the layout in future changes.
+
+Video editing and export still work offline. The Mac App Store edition receives its updates through Apple.
+</description>
+      <description xml:lang="cs" sparkle:format="markdown"># LocalioBC 1.2.1
+
+- **Čistší panel exportu:** ovládání je na jednom podkladu, rozdělené mezerami a typografií, bez dekorativních rámečků, tmavších výplní sekcí a oddělovacích čar.
+- **Bez posouvání panelu:** všechny volby exportu i hlavní tlačítko se vejdou do výchozí a nejmenší podporované velikosti okna.
+- Volba kvality, cílová velikost, bezeztrátový režim, společný i samostatný export, průběh, zrušení a otevření výsledku zůstávají dostupné.
+- Schválený vzhled a kontrola rozložení v nativní aplikaci jsou zapsané v pravidlech projektu pro další úpravy.
+
+Úpravy a export dál fungují offline. Verzi z Mac App Storu aktualizuje Apple.
+</description>
+      <sparkle:fullReleaseNotesLink>https://localiobc.mylocalio.com/#news-title</sparkle:fullReleaseNotesLink>
+      <enclosure url="https://github.com/bradacz/LocalioBC/releases/download/v1.2.1/LocalioBC-1.2.1-universal.dmg" sparkle:edSignature="qBX9ETQYAl81lWbrXoPHYReGnSZdUinEV6qPmXtzpi3y40fx+rXZw/UcJyuqLb1BRUbCSvdFAvQCZU3My0yhAg==" length="2188411" type="application/octet-stream"></enclosure>
+    </item>
+    <item>
       <title>LocalioBC 1.2.0</title>
       <link>https://localiobc.mylocalio.com</link>
       <sparkle:version>6</sparkle:version>
@@ -40,6 +68,6 @@ Video editing and export still work offline. No videos or editing data are uploa
     </item>
   </channel>
 </rss><!-- sparkle-signatures:
-edSignature: GDFztwPH3xLONkxOXc+MecyadKucrS7VBK2o7YTUfwosxSUw8xIhqAPj1NxzDDll0KgCepRwe/8T5F7bTiL6Bg==
-length: 3254
+edSignature: UuYhpD+5Tj1bnjrus03aEiK+yFFPvkbxRmgWJR5uv6Q6gb+nqh8X5DsHEDFsqRT493mZHceLjfyK8WT6sl+/BQ==
+length: 5530
 -->
