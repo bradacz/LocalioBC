@@ -46,16 +46,26 @@ def validate(app, channel, version=None, build=None, store_archive=False):
     grants = entitlements(app)
     assert grants.get('com.apple.security.app-sandbox') is True, 'Sandbox is required'
     assert grants.get('com.apple.security.files.user-selected.read-write') is True
+    assert grants.get('com.apple.security.files.bookmarks.app-scope') is True, 'Persistent upload file access is missing'
+    assert grants.get('com.apple.security.network.client') is True, 'Bunny Storage requires outgoing network access'
     assert not grants.get('com.apple.security.get-task-allow'), 'Release allows debugger attachment'
     assert (app / 'Contents/Resources/LICENSE').is_file(), 'License is missing'
     privacy = plistlib.loads((app / 'Contents/Resources/PrivacyInfo.xcprivacy').read_bytes())
     assert privacy['NSPrivacyTracking'] is False
-    assert not privacy['NSPrivacyCollectedDataTypes']
+    assert not privacy['NSPrivacyTrackingDomains']
+    collected = privacy['NSPrivacyCollectedDataTypes']
+    assert len(collected) == 2, 'Declare only the optional Bunny media upload types'
+    assert {item['NSPrivacyCollectedDataType'] for item in collected} == {
+        'NSPrivacyCollectedDataTypePhotosorVideos', 'NSPrivacyCollectedDataTypeAudioData'
+    }, 'Bunny video/audio upload disclosure is missing'
+    for item in collected:
+        assert item['NSPrivacyCollectedDataTypeLinked'] is True, 'Uploads belong to the user\'s Bunny account'
+        assert item['NSPrivacyCollectedDataTypeTracking'] is False
+        assert item['NSPrivacyCollectedDataTypePurposes'] == ['NSPrivacyCollectedDataTypePurposeAppFunctionality']
     exception = 'com.apple.security.temporary-exception.mach-lookup.global-name'
     if channel == 'store':
         assert not any(key.startswith('SU') for key in info), 'Store contains updater configuration'
         assert not grants.get(exception), 'Store contains updater sandbox exceptions'
-        assert not grants.get('com.apple.security.network.client'), 'Store unexpectedly has network access'
         # Automatic signing can omit the profile in the development-signed archive.
         # Export adds it; the final package must always pass the default strict check.
         if not store_archive:
@@ -73,12 +83,12 @@ def validate(app, channel, version=None, build=None, store_archive=False):
         assert len(public_key) == 32, 'Invalid Ed25519 public key'
         assert info['SUFeedURL'] == 'https://localiobc.mylocalio.com/updates/appcast.xml'
         for key in ('SURequireSignedFeed', 'SUVerifyUpdateBeforeExtraction',
-                    'SUEnableInstallerLauncherService', 'SUEnableDownloaderService'):
+                    'SUEnableInstallerLauncherService'):
             assert info.get(key) is True, f'{key} must be enabled'
         assert info.get('SUSignedFeedFailureExpirationInterval') == 0
         assert info.get('SUEnableSystemProfiling') is False
         assert info.get('SUAutomaticallyUpdate') is False
-        assert not grants.get('com.apple.security.network.client'), 'Downloader service owns update connections'
+        assert info.get('SUEnableDownloaderService') is False, 'Network-enabled hosts must not enable Downloader XPC'
         expected = {info['CFBundleIdentifier'] + suffix for suffix in ('-spks', '-spki')}
         assert set(grants.get(exception, [])) == expected, 'Updater sandbox exceptions are missing'
         framework = app / 'Contents/Frameworks/Sparkle.framework'

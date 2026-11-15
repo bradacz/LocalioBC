@@ -903,14 +903,26 @@ final class VideoPipelineTests: XCTestCase {
         XCTAssertEqual(AppLanguage.english.resolvedCode(preferredLanguages: ["cs-CZ"]), "en")
     }
 
-    func testPrivacyManifestIsBundledAndDeclaresLocalOnlyUsage() throws {
+    func testPrivacyManifestIsBundledAndDeclaresOptionalBunnyUploads() throws {
         let url = try XCTUnwrap(Bundle.main.url(forResource: "PrivacyInfo", withExtension: "xcprivacy"))
         let manifest = try XCTUnwrap(PropertyListSerialization.propertyList(from: Data(contentsOf: url), format: nil) as? [String: Any])
         XCTAssertEqual(manifest["NSPrivacyTracking"] as? Bool, false)
-        XCTAssertEqual((manifest["NSPrivacyCollectedDataTypes"] as? [[String: Any]])?.count, 0)
+        XCTAssertEqual(manifest["NSPrivacyTrackingDomains"] as? [String], [])
+        let collected = try XCTUnwrap(manifest["NSPrivacyCollectedDataTypes"] as? [[String: Any]])
+        XCTAssertEqual(collected.count, 2)
+        XCTAssertEqual(Set(collected.compactMap { $0["NSPrivacyCollectedDataType"] as? String }),
+                       ["NSPrivacyCollectedDataTypePhotosorVideos", "NSPrivacyCollectedDataTypeAudioData"])
+        for item in collected {
+            XCTAssertEqual(item["NSPrivacyCollectedDataTypeLinked"] as? Bool, true)
+            XCTAssertEqual(item["NSPrivacyCollectedDataTypeTracking"] as? Bool, false)
+            XCTAssertEqual(item["NSPrivacyCollectedDataTypePurposes"] as? [String],
+                           ["NSPrivacyCollectedDataTypePurposeAppFunctionality"])
+        }
         let reasons = try XCTUnwrap(manifest["NSPrivacyAccessedAPITypes"] as? [[String: Any]])
         let defaults = try XCTUnwrap(reasons.first { $0["NSPrivacyAccessedAPIType"] as? String == "NSPrivacyAccessedAPICategoryUserDefaults" })
         XCTAssertEqual(defaults["NSPrivacyAccessedAPITypeReasons"] as? [String], ["CA92.1"])
+        let timestamps = try XCTUnwrap(reasons.first { $0["NSPrivacyAccessedAPIType"] as? String == "NSPrivacyAccessedAPICategoryFileTimestamp" })
+        XCTAssertEqual(timestamps["NSPrivacyAccessedAPITypeReasons"] as? [String], ["3B52.1", "C617.1"])
         XCTAssertEqual(AppDistribution.privacyURL.absoluteString, "https://localiobc.mylocalio.com/privacy/")
     }
 

@@ -1,5 +1,6 @@
 import AppKit
 import Combine
+import Observation
 import Sparkle
 
 /// Direct-download edition only. The Store target does not compile or link this service.
@@ -10,30 +11,37 @@ final class AppUpdateController: NSObject, ObservableObject, NSApplicationDelega
     @Published private(set) var automaticallyDownloadsUpdates = false
     @Published private(set) var lastCheckDate: Date?
     @Published private(set) var hasPendingInstallation = false
+    @Published private(set) var hasUploadActivity = false
 
     private var controller: SPUStandardUpdaterController?
     private var editor: EditorViewModel?
     private var installHandler: (() -> Void)?
     private var approvedTermination = false
     private var discardConfirmation: (@MainActor (Bool) -> Bool)?
+    private var uploadActivity: @MainActor () -> Bool = { false }
 
     override init() { super.init() }
 
-    init(discardConfirmation: @escaping @MainActor (Bool) -> Bool) {
+    init(discardConfirmation: @escaping @MainActor (Bool) -> Bool,
+         uploadActivity: @escaping @MainActor () -> Bool = { false }) {
         self.discardConfirmation = discardConfirmation
+        self.uploadActivity = uploadActivity
         super.init()
     }
 
     var isBusy: Bool {
-        guard let editor else { return false }
-        return editor.isExporting || editor.isLoadingClips || editor.isBuildingPreview
+        uploadActivity() || (editor.map { $0.isExporting || $0.isLoadingClips || $0.isBuildingPreview } ?? false)
     }
 
     var canInstallUpdate: Bool { hasPendingInstallation && installHandler != nil && !isBusy }
 
-    func configure(editor: EditorViewModel, startUpdater: Bool = true) {
+    func configure(editor: EditorViewModel, startUpdater: Bool = true, uploads: BunnyUploadCoordinator? = nil) {
         guard controller == nil else { return }
         self.editor = editor
+        if let uploads {
+            uploadActivity = { [weak uploads] in uploads?.isUploading ?? false }
+            observeUploads(uploads)
+        }
         let controller = SPUStandardUpdaterController(
             startingUpdater: false, updaterDelegate: self, userDriverDelegate: nil
         )
@@ -74,6 +82,11 @@ final class AppUpdateController: NSObject, ObservableObject, NSApplicationDelega
     // Both explicit installation and install-on-quit pass this ordinary AppKit gate.
     // A relaunch hook alone cannot protect every Sparkle installation path.
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        if uploadActivity() {
+            approvedTermination = false
+            UploadTerminationGuard.showActiveUploadAlert()
+            return .terminateCancel
+        }
         if isBusy {
             approvedTermination = false
             let alert = NSAlert()
@@ -132,5 +145,16 @@ final class AppUpdateController: NSObject, ObservableObject, NSApplicationDelega
         alert.addButton(withTitle: tr("Pokračovat v práci"))
         alert.addButton(withTitle: isUpdate ? tr("Restartovat a aktualizovat") : tr("Ukončit a zahodit úpravy"))
         return alert.runModal() == .alertSecondButtonReturn
+    }
+
+    private func observeUploads(_ uploads: BunnyUploadCoordinator) {
+        withObservationTracking {
+            hasUploadActivity = uploads.isUploading
+        } onChange: { [weak self, weak uploads] in
+            Task { @MainActor in
+                guard let self, let uploads else { return }
+                self.observeUploads(uploads)
+            }
+        }
     }
 }

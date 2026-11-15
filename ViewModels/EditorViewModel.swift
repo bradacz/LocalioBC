@@ -46,11 +46,15 @@ final class EditorViewModel {
             if lastExportResult == nil {
                 lastExportResults = []
                 lastExportDirectory = nil
+                lastExportUploadSources = []
+                lastExportUploadError = nil
             }
         }
     }
     var lastExportResults: [ExportResult] = []
     var lastExportDirectory: URL?
+    private(set) var lastExportUploadSources: [BunnyUploadSource] = []
+    private(set) var lastExportUploadError: String?
     var exportStatus = ""
     var errorMessage: String?
 
@@ -666,7 +670,7 @@ final class EditorViewModel {
 
     func startExport(to destinationURL: URL) {
         beginExport(jobs: [ExportJob(clips: clips, destination: destinationURL)], directory: nil,
-                    destinationAccess: SecurityScopedAccess(destinationURL))
+                    destinationAccess: SecurityScopedAccess(destinationURL), sourceGrantURL: destinationURL)
     }
 
     func startSeparateExport(in directory: URL) {
@@ -681,13 +685,13 @@ final class EditorViewModel {
                 let name = String(format: "%03d_%@", index + 1, clip.url.deletingPathExtension().lastPathComponent)
                 return ExportJob(clips: [clip], destination: folder.appendingPathComponent(name).appendingPathExtension(settings.container.fileExtension))
             }
-            beginExport(jobs: jobs, directory: folder, destinationAccess: access)
+            beginExport(jobs: jobs, directory: folder, destinationAccess: access, sourceGrantURL: directory)
         } catch {
             errorMessage = error.localizedDescription
         }
     }
 
-    private func beginExport(jobs: [ExportJob], directory: URL?, destinationAccess: SecurityScopedAccess) {
+    private func beginExport(jobs: [ExportJob], directory: URL?, destinationAccess: SecurityScopedAccess, sourceGrantURL: URL) {
         guard !clips.isEmpty, !isExporting, !isEditingCrop, !jobs.isEmpty else { return }
         do {
             for job in jobs { try settings.validateTargetSize(for: job.clips) }
@@ -723,6 +727,13 @@ final class EditorViewModel {
                     guard exportID == id else { return }
                     lastExportResults.append(result)
                     lastExportResult = result
+                    // Capture access while the export panel's grant is still alive. The upload
+                    // coordinator later owns its own sources, independent of editor result resets.
+                    do {
+                        lastExportUploadSources.append(try BunnyUploadSource.capture(fileURL: result.outputURL, grantURL: sourceGrantURL))
+                    } catch {
+                        lastExportUploadError = tr("Export je uložený, ale soubor se nepodařilo připravit pro Bunny Storage: %@", error.localizedDescription)
+                    }
                     exportProgress = Double(index + 1) / Double(jobs.count)
                 }
             } catch is CancellationError {

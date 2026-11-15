@@ -67,14 +67,14 @@ struct ContentView: View {
             .padding(.horizontal, 22)
             .padding(.vertical, 14)
             Divider()
-            Spacer(minLength: 24)
+            Spacer(minLength: 0)
             VStack(spacing: 22) {
                 Image(nsImage: NSApp.applicationIconImage)
-                    .resizable().frame(width: 80, height: 80)
+                    .resizable().frame(width: 72, height: 72)
                 VStack(spacing: 9) {
                     Text(tr("Vaše video. Váš výřez."))
                         .font(.system(size: 30, weight: .bold))
-                    Text(tr("Importujte klipy a pusťte se do úprav. Vše zůstává na vašem Macu."))
+                    Text(tr("Importujte klipy a pusťte se do úprav. Úpravy i export probíhají lokálně."))
                         .font(.system(size: 13)).foregroundStyle(.secondary)
                 }
                 VStack(spacing: 16) {
@@ -92,7 +92,7 @@ struct ContentView: View {
                 }
                 .padding(.top, 4)
             }
-            .padding(36)
+            .padding(28)
             .frame(width: 590)
             .appPanel(radius: 18)
             .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(isDropTargeted ? AppDesign.accent : .clear, lineWidth: 2))
@@ -103,12 +103,61 @@ struct ContentView: View {
             }
             .frame(width: 680)
             .padding(.top, 26)
-            Spacer(minLength: 24)
+            Spacer(minLength: 0)
+            bunnyLaunchInformation
+                .frame(width: 680)
+                .padding(.top, 20)
+                .padding(.bottom, 18)
             Label(AppDistribution.footer, systemImage: "lock.shield")
                 .font(.system(size: 11)).foregroundStyle(.secondary)
-                .padding(.bottom, 22)
+                .padding(.bottom, 8)
+            Link("© Localio Labs s.r.o.", destination: URL(string: "https://www.mylocalio.com")!)
+                .font(.system(size: 10))
+                .foregroundStyle(.secondary)
+                .accessibilityIdentifier("companyWebsiteFooter")
+                .padding(.bottom, 14)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    private var bunnyLaunchInformation: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            HStack(spacing: 12) {
+                if let url = AppDistribution.bunnyAffiliateURL {
+                    Link(destination: url) { bunnyLaunchBrand }
+                        .accessibilityLabel(tr("Bunny.net — affiliate"))
+                        .accessibilityIdentifier("bunnyLaunchAffiliateLogo")
+                } else {
+                    bunnyLaunchBrand
+                }
+                Spacer(minLength: 12)
+                if let url = AppDistribution.bunnyAffiliateURL {
+                    Link(destination: url) {
+                        HStack(alignment: .firstTextBaseline, spacing: 5) {
+                            Text(tr("Založit účet Bunny.net"))
+                            Text("affiliate").font(.system(size: 10)).foregroundStyle(.secondary)
+                        }
+                    }
+                    .accessibilityLabel(tr("Založit účet Bunny.net — affiliate"))
+                    .accessibilityIdentifier("bunnyLaunchAffiliateSignup")
+                }
+            }
+            .font(.system(size: 12))
+            Text(tr("Hotové exporty můžete po potvrzení nahrát přímo na vlastní úložiště Bunny.net. Připojení Bunny Storage nastavíte v nastavení aplikace."))
+                .font(.system(size: 11)).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            Text(tr("Bunny.net je samostatně placená služba; není součástí bezplatné aplikace LocalioBC."))
+                .font(.system(size: 10)).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    private var bunnyLaunchBrand: some View {
+        HStack(spacing: 8) {
+            Image("BunnyLogo").resizable().scaledToFit().frame(width: 22, height: 25)
+                .accessibilityHidden(true)
+            Text("Bunny Storage").font(.system(size: 13, weight: .semibold)).foregroundStyle(.primary)
+        }
     }
 
     private var brand: some View {

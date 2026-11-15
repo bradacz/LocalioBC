@@ -50,6 +50,23 @@ A40000000000000000000077 = {isa = PBXBuildFile; fileRef = A300000000000000000000
 		A40000000000000000000001 /* AppUpdateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40000000000000000000002 /* AppUpdateController.swift */; };
 		A40000000000000000000003 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = A40000000000000000000004 /* Sparkle */; };
 		A50000000000000000000001 /* AppUpdateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50000000000000000000002 /* AppUpdateTests.swift */; };
+		AFC4BDE68C435C726F111AD3 /* BunnyStorageModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54633CD91181CF05510BF3A7 /* BunnyStorageModels.swift */; };
+		AC9E9F0C9862FDD534FFBEB8 /* BunnyStorageModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54633CD91181CF05510BF3A7 /* BunnyStorageModels.swift */; };
+		93960FA99470C7CC6129899A /* AppLifecycleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED71EDFA7D2577C504F1143 /* AppLifecycleController.swift */; };
+		7F99FA60EE0561BE92103EFF /* AppLifecycleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED71EDFA7D2577C504F1143 /* AppLifecycleController.swift */; };
+		1ECD3C1D8E02C8D4CCF64AD4 /* BunnyFileHasher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A69D55230AA12F96C33A2F0 /* BunnyFileHasher.swift */; };
+		01B169BC00709701B784F9A4 /* BunnyFileHasher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A69D55230AA12F96C33A2F0 /* BunnyFileHasher.swift */; };
+		C211A638E472804174731D44 /* BunnyStoragePersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D079D95C172913CEEC1F97E /* BunnyStoragePersistence.swift */; };
+		7233723B8A2BF5AB26436208 /* BunnyStoragePersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D079D95C172913CEEC1F97E /* BunnyStoragePersistence.swift */; };
+		D53ED23C88D6156B1894B94E /* BunnyStorageTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679D06CD8E34B5F7D42FDFF8 /* BunnyStorageTransport.swift */; };
+		4421CB5B75BEA9A8AA46A3C9 /* BunnyStorageTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679D06CD8E34B5F7D42FDFF8 /* BunnyStorageTransport.swift */; };
+		55BF075C27D0572FDB8E5DCD /* BunnyStorageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F839EE778496F5E7B30DA3 /* BunnyStorageView.swift */; };
+		99D360FB1BBD459D60002A53 /* BunnyStorageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F839EE778496F5E7B30DA3 /* BunnyStorageView.swift */; };
+		26BF1702C0EBB8F1122F5A7F /* BunnyUploadCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6FEBDD73133765075816D96 /* BunnyUploadCoordinator.swift */; };
+		3ECED955E3E47B96956214A6 /* BunnyUploadCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6FEBDD73133765075816D96 /* BunnyUploadCoordinator.swift */; };
+		868DADBFE1D45D6434E83B39 /* BunnyStorageTransportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0321C2389C9F61C3D2FAD06F /* BunnyStorageTransportTests.swift */; };
+		13A928FDE990F7AC2106AEAB /* BunnyUploadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78A64743738DDAB556B3563 /* BunnyUploadTests.swift */; };
+		BDAB3A141566357BEB8FEA20 /* EditorBunnyHandoffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD18F1E4014297D82ED83B5 /* EditorBunnyHandoffTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +111,16 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 		A40000000000000000000006 /* LocalioBC-Direct.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LocalioBC-Direct.entitlements; sourceTree = "<group>"; };
 		A40000000000000000000007 /* AppStore/Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "AppStore/Info.plist"; path = AppStore/Info.plist; sourceTree = SOURCE_ROOT; };
 		A50000000000000000000002 /* AppUpdateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdateTests.swift; sourceTree = "<group>"; };
+		54633CD91181CF05510BF3A7 /* BunnyStorageModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BunnyStorageModels.swift; sourceTree = "<group>"; };
+		AED71EDFA7D2577C504F1143 /* AppLifecycleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLifecycleController.swift; sourceTree = "<group>"; };
+		0A69D55230AA12F96C33A2F0 /* BunnyFileHasher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BunnyFileHasher.swift; sourceTree = "<group>"; };
+		5D079D95C172913CEEC1F97E /* BunnyStoragePersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BunnyStoragePersistence.swift; sourceTree = "<group>"; };
+		679D06CD8E34B5F7D42FDFF8 /* BunnyStorageTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BunnyStorageTransport.swift; sourceTree = "<group>"; };
+		C2F839EE778496F5E7B30DA3 /* BunnyStorageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BunnyStorageView.swift; sourceTree = "<group>"; };
+		A6FEBDD73133765075816D96 /* BunnyUploadCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BunnyUploadCoordinator.swift; sourceTree = "<group>"; };
+		0321C2389C9F61C3D2FAD06F /* BunnyStorageTransportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BunnyStorageTransportTests.swift; sourceTree = "<group>"; };
+		F78A64743738DDAB556B3563 /* BunnyUploadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BunnyUploadTests.swift; sourceTree = "<group>"; };
+		3CD18F1E4014297D82ED83B5 /* EditorBunnyHandoffTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorBunnyHandoffTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXVariantGroup section */
@@ -141,6 +168,7 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 		BF657CFE8769AAE6C0570C29 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				54633CD91181CF05510BF3A7 /* BunnyStorageModels.swift */,
 				690B8E4FEDECE4004538ECE9 /* AspectRatioPreset.swift */,
                 A10000000000000000000002 /* AppPreferences.swift */,
 				ECE33A8F3AF5B6982F7F92BA /* VideoClip.swift */,
@@ -152,6 +180,11 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 		6EE67047A4B2648DDBB08231 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				A6FEBDD73133765075816D96 /* BunnyUploadCoordinator.swift */,
+				679D06CD8E34B5F7D42FDFF8 /* BunnyStorageTransport.swift */,
+				5D079D95C172913CEEC1F97E /* BunnyStoragePersistence.swift */,
+				0A69D55230AA12F96C33A2F0 /* BunnyFileHasher.swift */,
+				AED71EDFA7D2577C504F1143 /* AppLifecycleController.swift */,
 				A40000000000000000000002 /* AppUpdateController.swift */,
 				3115E048F2B3F7B3619FF68A /* VideoInspector.swift */,
 				8A5E655B406BC3E652B49BC2 /* CompositionBuilder.swift */,
@@ -171,6 +204,7 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 		58492F208780FA5EF3807E8F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C2F839EE778496F5E7B30DA3 /* BunnyStorageView.swift */,
 				2CF0824DBC9B6E631C762EDA /* PlayerLayerView.swift */,
 				9FEAE493B90C958129E124B0 /* CropOverlayView.swift */,
 				A43A5D968A674507285124E3 /* TimelineTrimView.swift */,
@@ -185,6 +219,9 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 		3871F620B630C8CCBCEB7DDC /* LocalioBCTests */ = {
 			isa = PBXGroup;
 			children = (
+				3CD18F1E4014297D82ED83B5 /* EditorBunnyHandoffTests.swift */,
+				F78A64743738DDAB556B3563 /* BunnyUploadTests.swift */,
+				0321C2389C9F61C3D2FAD06F /* BunnyStorageTransportTests.swift */,
 				C812B2DEF452B29CF56DD12A /* VideoPipelineTests.swift */,
 				A50000000000000000000002 /* AppUpdateTests.swift */,
 			);
@@ -273,6 +310,13 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 /* Begin PBXSourcesBuildPhase section */
 		78FA0473450BEAD0DB82E3CF /* Sources */ = {
 			isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (
+				26BF1702C0EBB8F1122F5A7F /* BunnyUploadCoordinator.swift in Sources */,
+				55BF075C27D0572FDB8E5DCD /* BunnyStorageView.swift in Sources */,
+				D53ED23C88D6156B1894B94E /* BunnyStorageTransport.swift in Sources */,
+				C211A638E472804174731D44 /* BunnyStoragePersistence.swift in Sources */,
+				1ECD3C1D8E02C8D4CCF64AD4 /* BunnyFileHasher.swift in Sources */,
+				93960FA99470C7CC6129899A /* AppLifecycleController.swift in Sources */,
+				AFC4BDE68C435C726F111AD3 /* BunnyStorageModels.swift in Sources */,
 				A40000000000000000000001 /* AppUpdateController.swift in Sources */,
 				39D5D11C521AFB3EA90870FB /* LocalioBCApp.swift in Sources */,
                 A10000000000000000000001,
@@ -294,11 +338,21 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 		};
 		404CA01F755C58722EDD73EB /* Sources */ = {
 			isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (
+				BDAB3A141566357BEB8FEA20 /* EditorBunnyHandoffTests.swift in Sources */,
+				13A928FDE990F7AC2106AEAB /* BunnyUploadTests.swift in Sources */,
+				868DADBFE1D45D6434E83B39 /* BunnyStorageTransportTests.swift in Sources */,
 				A0687C7E9F67123FD97CA6F9 /* VideoPipelineTests.swift in Sources */,
 				A50000000000000000000001 /* AppUpdateTests.swift in Sources */,
 			); runOnlyForDeploymentPostprocessing = 0;
 		};
-		A40000000000000000000009 /* App Store Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A40000000000000000000064, A40000000000000000000065, A40000000000000000000066, A40000000000000000000067, A40000000000000000000068, A40000000000000000000069, A4000000000000000000006A, A4000000000000000000006B, A4000000000000000000006C, A4000000000000000000006D, A4000000000000000000006E, A4000000000000000000006F, A40000000000000000000070, A40000000000000000000071, A40000000000000000000072, A40000000000000000000073); runOnlyForDeploymentPostprocessing = 0; };
+		A40000000000000000000009 /* App Store Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (
+				3ECED955E3E47B96956214A6 /* BunnyUploadCoordinator.swift in Sources */,
+				99D360FB1BBD459D60002A53 /* BunnyStorageView.swift in Sources */,
+				4421CB5B75BEA9A8AA46A3C9 /* BunnyStorageTransport.swift in Sources */,
+				7233723B8A2BF5AB26436208 /* BunnyStoragePersistence.swift in Sources */,
+				01B169BC00709701B784F9A4 /* BunnyFileHasher.swift in Sources */,
+				7F99FA60EE0561BE92103EFF /* AppLifecycleController.swift in Sources */,
+				AC9E9F0C9862FDD534FFBEB8 /* BunnyStorageModels.swift in Sources */,A40000000000000000000064, A40000000000000000000065, A40000000000000000000066, A40000000000000000000067, A40000000000000000000068, A40000000000000000000069, A4000000000000000000006A, A4000000000000000000006B, A4000000000000000000006C, A4000000000000000000006D, A4000000000000000000006E, A4000000000000000000006F, A40000000000000000000070, A40000000000000000000071, A40000000000000000000072, A40000000000000000000073); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -358,11 +412,11 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 9;
 				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks");
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.localiobvideo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			}; name = Debug; };
@@ -374,11 +428,11 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 9;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks");
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.localiobvideo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			}; name = Release; };
@@ -430,13 +484,13 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 				CODE_SIGN_STYLE = Manual;
                 DEVELOPMENT_TEAM = 4RY8J45UR3;
                 ENABLE_APP_SANDBOX = YES;
-                CURRENT_PROJECT_VERSION = 7;
+                CURRENT_PROJECT_VERSION = 9;
 				COMBINE_HIDPI_IMAGES = YES;
 
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks");
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.localiobvideo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			}; name = AppStore; };
@@ -460,8 +514,8 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
                 ENABLE_APP_SANDBOX = YES;
                 ENABLE_HARDENED_RUNTIME = NO;
                 COMBINE_HIDPI_IMAGES = YES;
-                CURRENT_PROJECT_VERSION = 7;
-                MARKETING_VERSION = 1.2.1;
+                CURRENT_PROJECT_VERSION = 9;
+                MARKETING_VERSION = 1.3.0;
                 INFOPLIST_FILE = AppStore/Info.plist;
                 LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks");
                 PRODUCT_BUNDLE_IDENTIFIER = com.localiobvideo.app;
@@ -478,8 +532,8 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
                 ENABLE_APP_SANDBOX = YES;
                 ENABLE_HARDENED_RUNTIME = YES; CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
                 COMBINE_HIDPI_IMAGES = YES;
-                CURRENT_PROJECT_VERSION = 7;
-                MARKETING_VERSION = 1.2.1;
+                CURRENT_PROJECT_VERSION = 9;
+                MARKETING_VERSION = 1.3.0;
                 INFOPLIST_FILE = AppStore/Info.plist;
                 LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks");
                 PRODUCT_BUNDLE_IDENTIFIER = com.localiobvideo.app;
@@ -496,8 +550,8 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
                 ENABLE_APP_SANDBOX = YES;
                 ENABLE_HARDENED_RUNTIME = YES; CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
                 COMBINE_HIDPI_IMAGES = YES;
-                CURRENT_PROJECT_VERSION = 7;
-                MARKETING_VERSION = 1.2.1;
+                CURRENT_PROJECT_VERSION = 9;
+                MARKETING_VERSION = 1.3.0;
                 INFOPLIST_FILE = AppStore/Info.plist;
                 LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks");
                 PRODUCT_BUNDLE_IDENTIFIER = com.localiobvideo.app;

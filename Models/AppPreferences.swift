@@ -5,6 +5,8 @@ import SwiftUI
 enum AppDistribution {
     static let website = URL(string: "https://localiobc.mylocalio.com")!
     static let privacyURL = website.appendingPathComponent("privacy/")
+    /// Public referral link verified in the owner's Bunny affiliate dashboard.
+    static let bunnyAffiliateURL: URL? = URL(string: "https://bunny.net?ref=gm93y8cppz")
 
     static var aboutTitle: String {
         #if APP_STORE

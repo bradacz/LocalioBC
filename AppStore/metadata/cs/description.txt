@@ -12,8 +12,13 @@ Plynule nastavte rychlost každého klipu od 0,25× do 4×, sledujte přesnou ho
 KONTROLA VELIKOSTI
 Exportujte MP4 či MOV s kodekem H.264 nebo HEVC. Vyberte předvolbu kvality, omezte rozlišení nebo zadejte orientační cílovou velikost. Kompatibilní klipy lze exportovat bezeztrátově bez změny obrazu.
 
-LOKÁLNĚ A SOUKROMĚ
-Videa i zvuk zůstávají na vašem Macu. Úpravy a export fungují offline, bez účtu, nahrávání na server, analytiky, reklam a vodoznaků.
+VOLITELNÉ NAHRÁVÁNÍ NA BUNNY STORAGE
+Hotové exporty odešlete na vlastní účet Bunny Storage. Před spuštěním zkontrolujete soubory, velikosti a cílovou cestu. Sledujte průběh, přenos zrušte nebo zopakujte a u dokončených souborů zkopírujte či otevřete CDN odkaz. Funguje to pro spojené video i samostatné exporty klipů.
+
+Bunny Storage je samostatná volitelná placená služba. Úložiště a CDN provoz hradíte ze svého účtu Bunny.net; LocalioBC nepřidává poplatek za nahrání. K dispozici je zřetelně označený affiliate odkaz pro registraci. Registrace není potřeba k úpravám ani exportu videa.
+
+STANDARDNĚ LOKÁLNĚ
+Import, úpravy, náhledy a export fungují offline a bez účtu. Nic se nenahrává automaticky. Volitelné přenosy míří přes HTTPS přímo na vaše nastavené úložiště Bunny Storage, bez serverů Localio Labs. Heslo Storage Zone zůstává v Klíčence macOS; nastavení připojení a fronta přenosů se ukládají lokálně. Aplikace nepoužívá analytiku ani vodoznaky.
 
 VYTVOŘENO PRO MAC
 Nativní rozhraní se světlým, tmavým a systémovým vzhledem. Český systém automaticky použije češtinu, ostatní jazyky angličtinu. Jazyk si můžete kdykoli zvolit v nastavení.

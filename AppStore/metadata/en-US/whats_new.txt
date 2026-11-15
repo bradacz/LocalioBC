@@ -1,1 +1,8 @@
-First Mac App Store release. Version 1.2.1 brings a clean, compact export panel with clearly grouped controls visible without scrolling at the default and minimum window sizes. Includes continuous 0.25×–4× speed control with a 1× reset, video cropping and trimming, batch crop, separate or merged exports, audio removal and Czech/English interface.
+Version 1.3.0 adds optional uploads of finished videos to your own Bunny Storage account.
+
+• Configure your Storage Zone, region, destination folder and CDN address in Settings. The password is stored in macOS Keychain.
+• Review merged or separate clip exports before explicitly starting an HTTPS upload.
+• Follow a persistent transfer queue, cancel or retry uploads, and copy or open completed CDN links.
+• Import, crop, trim, speed adjustment, audio removal and local export remain available offline without a Bunny account.
+
+Bunny Storage is a separate paid service billed to your own account. The app clearly identifies its optional affiliate signup link.

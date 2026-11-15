@@ -25,7 +25,9 @@ struct SettingsView: View {
             VStack(spacing: 0) {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 26) {
-                        if selectedTab == 0 { generalContent } else { aboutContent }
+                        if selectedTab == 0 { generalContent }
+                        else if selectedTab == 1 { aboutContent }
+                        else { BunnyStorageView() }
                     }
                     .padding(28)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -34,7 +36,7 @@ struct SettingsView: View {
                 Divider()
                 HStack(spacing: 7) {
                     Image(systemName: "checkmark.circle.fill").foregroundStyle(.secondary)
-                    Text(tr("Změny se ukládají automaticky."))
+                    Text(selectedTab == 2 ? tr("Připojení potvrďte tlačítkem Uložit připojení.") : tr("Změny se ukládají automaticky."))
                         .foregroundStyle(.secondary)
                     Spacer()
                     Button(tr("Zavřít")) { dismiss() }
@@ -54,6 +56,7 @@ struct SettingsView: View {
         .sheet(isPresented: $showLicense) { LicenseView() }
         .preferredColorScheme(preferences.appearance.colorScheme)
         .environment(\.locale, Locale(identifier: preferences.language.resolvedCode))
+        .environment(preferences)
     }
 
     private var sidebar: some View {
@@ -66,6 +69,7 @@ struct SettingsView: View {
             .padding(.bottom, 28)
             navigationItem(tr("Obecné"), icon: "slider.horizontal.3", tab: 0)
             navigationItem(tr("O aplikaci"), icon: "info.circle", tab: 1)
+            navigationItem("Bunny Storage", icon: "externaldrive.badge.icloud", tab: 2)
             Spacer()
             VStack(alignment: .leading, spacing: 5) {
                 Text(tr("Verze %@", version))
@@ -95,6 +99,7 @@ struct SettingsView: View {
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(selectedTab == tab ? .isSelected : [])
+        .accessibilityIdentifier("settingsTab-\(tab)")
     }
 
     private var generalContent: some View {
@@ -218,6 +223,8 @@ struct SettingsView: View {
                 Text(AppDistribution.aboutDescription)
                 Text(tr("Videa se zpracovávají lokálně na vašem Macu. Pro úpravy ani export není potřeba účet nebo internet."))
                     .foregroundStyle(.secondary)
+                Text(tr("Volitelně můžete hotové exporty po potvrzení nahrát na vlastní Bunny Storage. Nastavení připojení a přenosy najdete v samostatné části Bunny Storage."))
+                    .foregroundStyle(.secondary)
             }
             .font(.system(size: 13))
             .lineSpacing(3)
@@ -309,6 +316,7 @@ struct SettingsView: View {
         "Bezeztrátový export kompatibilního klipu bez změny obrazu.",
         "Předvolby kvality, cílová velikost v MB a odhad výstupní velikosti.",
         "Odstranění zvukových stop, průběh exportu a možnost zrušení.",
+        "Volitelné nahrání hotových exportů na vlastní Bunny Storage s průběhem, opakováním a CDN odkazy.",
         "České a anglické rozhraní; světlý, tmavý nebo systémový vzhled."
     ]
 }
@@ -321,13 +329,15 @@ private struct PrivacyPolicyView: View {
             Text(tr("Zásady ochrany soukromí")).font(.title2.bold())
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    Text(tr("Videa a zvuk se zpracovávají pouze na vašem Macu. LocalioBC je nenahrává na servery. Aplikace nepoužívá analytické SDK ani reklamní identifikátory."))
+                    Text(tr("Videa a zvuk se upravují a exportují pouze na vašem Macu. Aplikace nepoužívá analytické SDK ani reklamní identifikátory."))
                     Text(tr("Aplikace přistupuje pouze k souborům a složkám, které vyberete nebo přetáhnete do okna. Dočasné soubory používá pro zpracování videa; nastavení jazyka a vzhledu ukládá lokálně."))
+                    Text(tr("Pouze pokud nastavíte Bunny Storage a výslovně spustíte nahrávání, odešle LocalioBC vybrané hotové exporty přes HTTPS do vašeho úložiště Bunny.net. Přenesou se soubory, jejich názvy a technické údaje požadavku včetně IP adresy. Dostupnost přes CDN závisí na nastavení vašeho účtu Bunny.net."))
+                    Text(tr("Heslo Storage Zone se ukládá do Klíčenky macOS a při přenosu slouží k ověření u Bunny.net. Nastavení připojení, seznam přenosů a oprávnění k exportovaným souborům se ukládají lokálně, aby bylo možné přenos opakovat. Ukládání a CDN provoz hradíte Bunny.net ze svého účtu."))
                     #if !APP_STORE
-                    Text(tr("Pokud zapnete aktualizace nebo ručně zkontrolujete novou verzi, aplikace se spojí s localiobc.mylocalio.com a při stažení s GitHubem. Poskytovatelé připojení mohou zaznamenat IP adresu a technické údaje požadavku včetně verze aplikace. Profilování systému je vypnuté; vaše videa ani úpravy se neposílají."))
+                    Text(tr("Pokud zapnete aktualizace nebo ručně zkontrolujete novou verzi, aplikace se spojí s localiobc.mylocalio.com a při stažení s GitHubem. Poskytovatelé připojení mohou zaznamenat IP adresu a technické údaje požadavku včetně verze aplikace. Profilování systému je vypnuté; při kontrole aktualizací se vaše videa ani úpravy neposílají."))
                     #endif
                     Text(tr("Nákupy, platby a případnou diagnostiku App Storu spravuje Apple podle svých zásad. Otevření webového odkazu nebo e-mailu spustí vaši zvolenou aplikaci a řídí se zásadami dané služby."))
-                    Text(tr("Pokud nás kontaktujete e-mailem, použijeme údaje z vaší zprávy k vyřízení dotazu. Provozovatel: Localio Labs s.r.o. Kontakt: info@mylocalio.com. Aktualizováno: 14. listopadu 2026."))
+                    Text(tr("Pokud nás kontaktujete e-mailem, použijeme údaje z vaší zprávy k vyřízení dotazu. Provozovatel: Localio Labs s.r.o. Kontakt: info@mylocalio.com. Aktualizováno: 15. listopadu 2026."))
                     Link(tr("Úplné zásady na webu"), destination: AppDistribution.privacyURL)
                 }
                 .font(.body)

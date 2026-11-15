@@ -4,6 +4,10 @@ import SwiftUI
 struct LocalioBCApp: App {
     @State private var viewModel = EditorViewModel()
     @State private var preferences = AppPreferences()
+    @State private var uploads = BunnyUploadCoordinator.shared
+    #if APP_STORE
+    @NSApplicationDelegateAdaptor(StoreApplicationDelegate.self) private var lifecycle
+    #endif
     #if !APP_STORE
     @NSApplicationDelegateAdaptor(AppUpdateController.self) private var updates
     #endif
@@ -17,10 +21,13 @@ struct LocalioBCApp: App {
         WindowGroup("LocalioBC") {
             #if APP_STORE
             EditorRootView(viewModel: viewModel, preferences: preferences)
+                .environment(uploads)
+                .onAppear { lifecycle.configure(editor: viewModel, uploads: uploads) }
             #else
             EditorRootView(viewModel: viewModel, preferences: preferences)
+                .environment(uploads)
                 .environmentObject(updates)
-                .onAppear { updates.configure(editor: viewModel) }
+                .onAppear { updates.configure(editor: viewModel, uploads: uploads) }
             #endif
         }
         .defaultSize(width: 1180, height: 760)
@@ -48,8 +55,10 @@ struct LocalioBCApp: App {
         Settings {
             #if APP_STORE
             SettingsView(preferences: preferences)
+                .environment(uploads)
             #else
             SettingsView(preferences: preferences).environmentObject(updates)
+                .environment(uploads)
             #endif
         }
     }
@@ -70,34 +79,39 @@ private struct CheckForUpdatesCommand: View {
 
 extension Notification.Name {
     static let showLocalioSettings = Notification.Name("showLocalioSettings")
+    static let showLocalioBunnyStorageSettings = Notification.Name("showLocalioBunnyStorageSettings")
 }
 
 private struct EditorRootView: View {
+    private enum SettingsDestination: Int, Identifiable {
+        case general = 0, about = 1, bunny = 2
+        var id: Int { rawValue }
+    }
     let viewModel: EditorViewModel
     @Bindable var preferences: AppPreferences
-    @State private var showSettings = false
-    @State private var showAbout = false
+    @State private var settingsDestination: SettingsDestination?
     @State private var pendingUpdateAction: (@MainActor () -> Void)?
 
     var body: some View {
-        ContentView(viewModel: viewModel, onOpenSettings: { showAbout = false; showSettings = true })
+        ContentView(viewModel: viewModel, onOpenSettings: { settingsDestination = .general })
             .id(preferences.language)
             .environment(preferences)
             .environment(\.locale, Locale(identifier: preferences.language.resolvedCode))
             .tint(AppDesign.accent)
             .preferredColorScheme(preferences.appearance.colorScheme)
-            .sheet(isPresented: $showSettings, onDismiss: {
+            .sheet(item: $settingsDestination, onDismiss: {
                 let action = pendingUpdateAction
                 pendingUpdateAction = nil
                 action?()
-            }) {
-                SettingsView(preferences: preferences, initialTab: showAbout ? 1 : 0,
+            }) { destination in
+                SettingsView(preferences: preferences, initialTab: destination.rawValue,
                     performUpdateAction: { action in
                         pendingUpdateAction = action
-                        showSettings = false
+                        settingsDestination = nil
                     })
             }
-            .onReceive(NotificationCenter.default.publisher(for: .showLocalioSettings)) { _ in showAbout = true; showSettings = true }
+            .onReceive(NotificationCenter.default.publisher(for: .showLocalioSettings)) { _ in settingsDestination = .about }
+            .onReceive(NotificationCenter.default.publisher(for: .showLocalioBunnyStorageSettings)) { _ in settingsDestination = .bunny }
             .onChange(of: preferences.appearance, initial: true) {
                 switch preferences.appearance {
                 case .system: NSApp.appearance = nil

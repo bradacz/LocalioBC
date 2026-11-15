@@ -6,6 +6,28 @@ import XCTest
 
 final class AppUpdateTests: XCTestCase {
     @MainActor
+    func testBunnyTransferDefersChecksAndInstallationEvenWithEmptyEditor() throws {
+        let uploading = UploadActivityState()
+        let editor = EditorViewModel()
+        let subject = AppUpdateController(discardConfirmation: { _ in true }, uploadActivity: { uploading.isUploading })
+        subject.configure(editor: editor, startUpdater: false)
+        let driver = SPUStandardUpdaterController(startingUpdater: false, updaterDelegate: nil, userDriverDelegate: nil)
+        XCTAssertTrue(subject.isBusy)
+        XCTAssertThrowsError(try subject.updater(driver.updater, mayPerform: .updates))
+        var installations = 0
+        XCTAssertTrue(subject.updater(driver.updater, shouldPostponeRelaunchForUpdate: SUAppcastItem.empty(),
+                                     untilInvokingBlock: { installations += 1 }))
+        subject.installPendingUpdate()
+        XCTAssertEqual(installations, 0)
+        XCTAssertFalse(subject.canInstallUpdate)
+        uploading.isUploading = false
+        XCTAssertNoThrow(try subject.updater(driver.updater, mayPerform: .updates))
+        XCTAssertTrue(subject.canInstallUpdate)
+        subject.installPendingUpdate()
+        XCTAssertEqual(installations, 1)
+    }
+
+    @MainActor
     func testChecksWaitForExportImportAndPreviewPreparation() throws {
         let context = makeContext()
         let checks: [SPUUpdateCheck] = [.updates, .updatesInBackground, .updateInformation]
@@ -198,5 +220,10 @@ final class AppUpdateTests: XCTestCase {
         let editor: EditorViewModel
         let driver: SPUStandardUpdaterController
         var updater: SPUUpdater { driver.updater }
+    }
+
+    @MainActor
+    private final class UploadActivityState {
+        var isUploading = true
     }
 }

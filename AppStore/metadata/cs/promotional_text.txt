@@ -1,1 +1,1 @@
-Jednoduché a rychlé řešení pro ořez videa na Macu. Vyberte výřez, zkraťte klip a exportujte. Stejný ořez použijte na všechny klipy. Bez předplatného.
+Jednoduchý a rychlý ořez videa v macOS. Spojte klipy nebo exportujte každý zvlášť. Volitelně nahrajte hotová videa na vlastní účet Bunny Storage.

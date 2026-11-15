@@ -12,8 +12,13 @@ Adjust each clip smoothly from 0.25× to 4×, check the exact speed and reset to
 CONTROL FILE SIZE
 Export MP4 or MOV with H.264 or HEVC. Choose a quality preset, set a resolution limit or enter an estimated target size. Eligible clips can use lossless export without changing the image.
 
-LOCAL AND PRIVATE
-Your video and audio stay on your Mac. Editing and export work offline, with no account, uploads, analytics, ads or watermarks.
+OPTIONAL BUNNY STORAGE UPLOADS
+Send finished exports to your own Bunny Storage account. Review the files, sizes and destination before starting an upload. Follow progress, cancel or retry transfers, and copy or open completed CDN links. This works with merged videos and separate clip exports.
+
+Bunny Storage is a separate, optional paid service. Its storage and CDN charges are billed to your own Bunny.net account; LocalioBC does not add an upload fee. A clearly marked affiliate signup link is available, and signup is not required to edit or export videos.
+
+LOCAL BY DEFAULT
+Import, editing, previews and export work offline without an account. Nothing uploads automatically. Optional transfers go directly over HTTPS to your configured Bunny Storage account, without passing through Localio Labs servers. The Storage Zone password stays in macOS Keychain; connection settings and the transfer queue are stored locally. There are no analytics or watermarks.
 
 MADE FOR MAC
 A native interface with light, dark and system appearance. Czech is selected automatically on Czech systems; other system languages use English. You can always choose the language in Settings.

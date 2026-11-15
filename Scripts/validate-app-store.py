@@ -45,7 +45,16 @@ for locale in ['en-US', 'cs']:
             report['public_urls'][url] = int(status)
 manifest = plistlib.loads((root / 'PrivacyInfo.xcprivacy').read_bytes())
 assert manifest['NSPrivacyTracking'] is False
-assert not manifest['NSPrivacyCollectedDataTypes'] and not manifest['NSPrivacyTrackingDomains']
+assert not manifest['NSPrivacyTrackingDomains']
+collected = manifest['NSPrivacyCollectedDataTypes']
+assert len(collected) == 2
+assert {item['NSPrivacyCollectedDataType'] for item in collected} == {
+    'NSPrivacyCollectedDataTypePhotosorVideos', 'NSPrivacyCollectedDataTypeAudioData'
+}
+for item in collected:
+    assert item['NSPrivacyCollectedDataTypeLinked'] is True
+    assert item['NSPrivacyCollectedDataTypeTracking'] is False
+    assert item['NSPrivacyCollectedDataTypePurposes'] == ['NSPrivacyCollectedDataTypePurposeAppFunctionality']
 assert len((root / 'AppStore/review/notes-en.txt').read_text()) <= 4000
 assert (root / 'AppStore/review/demo-clips.zip').stat().st_size > 0
 submission = json.loads((root / 'AppStore/submission.json').read_text())

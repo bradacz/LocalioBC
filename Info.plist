@@ -43,7 +43,7 @@
 	<key>SUEnableInstallerLauncherService</key>
 	<true/>
 	<key>SUEnableDownloaderService</key>
-	<true/>
+	<false/>
 	<key>SUEnableSystemProfiling</key>
 	<false/>
 	<key>SUAutomaticallyUpdate</key>

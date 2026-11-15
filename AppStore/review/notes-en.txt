@@ -1,26 +1,21 @@
-LocalioBC 1.2.1 (7) is a simple, quick, offline video-cropping utility for macOS. The Mac App Store edition is a one-time paid purchase (EUR 4.99 in the selected euro storefront), with no subscriptions, in-app purchases, account, ads, tracking or media uploads. It is open source under MIT; the complete license is included and available in About. The free direct-distribution build is a separate distribution channel, not an unlock or alternative payment flow inside this app. No GitHub link is present in the app.
+LocalioBC 1.3.0 (9) is a simple, quick video-cropping utility for macOS. This is a one-time paid Mac App Store purchase (EUR 4.99 in the selected euro storefront), with no app subscription, in-app purchase, app account or analytics. The MIT license is bundled and available in About. Sparkle and all updater helpers are physically excluded; Store updates are handled by Apple.
 
-This build is prepared to replace the pending 1.2.0 (6) submission. Release remains manual after Apple approval. Version 1.2.1 simplifies the export panel: format, compression, estimates and export share one surface without nested frames or darker section fills. Export controls remain visible without scrolling at the default and minimum window sizes. Continuous clip speed controls are retained. Sparkle and its update helpers are physically excluded from this Store build; updates are handled by Apple.
+No sign-in or demo account is needed for import, editing, previews or local export. These functions work offline. Version 1.3.0 adds an optional client for the user's own Bunny Storage account; it does not create a Localio Labs account or send media through our servers. Bunny Storage and CDN usage are separate services billed by Bunny.net to that user. The app does not charge an upload fee or unlock editing features through Bunny signup. The labelled affiliate signup link opens in the external default browser with the same public referral code for every user, without app/device identifiers, click telemetry, browser SDKs or embedded web views. Registration and billing take place on Bunny's website.
 
-No sign-in or demo account is required. All features are available immediately after the App Store purchase. A network connection is not required for import, editing, previews or export. Web and support links open in the system's default browser/mail application.
-
-Review attachment: demo-clips.zip contains two original five-second 1280x720 QuickTime clips generated specifically for this app. Both show the same original LocalioBC graphic and have no audio. Source generation is in Scripts/generate-demo.swift. You can also use your own MP4, MOV or M4V clips, including clips with audio for the audio-removal test.
+Review attachment demo-clips.zip contains two original five-second 1280x720 QuickTime clips generated for this app, with no audio. You may also use your own MP4, MOV or M4V, including a file with audio.
 
 Suggested review steps:
-1. Import both demo clips using the file picker, or drag files from Finder into the window.
-2. Select a clip. Set a shorter start/end interval using the thumbnail timeline. Adjust speed from 0.25x to 4x beside playback; the exact value and output duration update. The 1x button resets speed. Preview and export use the same speed; audio pitch changes with speed.
-3. Choose 9:16 or another aspect ratio. Move/resize the crop frame as desired. Click Apply to clip, or Apply to all. Pending crops must be confirmed/cancelled before export.
-4. Switch between Clip and Output to inspect source footage and the composed result.
-5. Choose Merge into one video; select MP4/H.264 and a quality preset. Export through the save panel to a user-selected location.
-6. Choose Each clip separately, then Export clips. Select a folder. A uniquely named subfolder is created with numbered clip files; sources are preserved.
-7. With a clip that has audio, enable Remove audio and export. Exported files have no audio tracks.
-8. Settings supports light/dark/system appearance and system/Czech/English language. In system mode, Czech is used for a Czech primary language, English for all other primary languages. Manual language overrides apply immediately.
-9. About includes an offline privacy notice, a link to the public privacy policy, the MIT license and support contact.
+1. Import clips using the file picker or Finder drag-and-drop. Select a clip and shorten its interval in the timeline. Set speed smoothly from 0.25x to 4x; 1x resets it. Preview/export use the same speed and audio pitch changes with speed.
+2. Choose an aspect ratio, move/resize the crop and select Apply to clip or Apply to all. Confirm/cancel pending crops before export. Clip/Output switches source/composed preview.
+3. Export one merged MP4/MOV, then Each clip separately. The latter creates a unique subfolder with numbered final files. Remove audio produces files without an audio track.
+4. Settings supports light/dark/system appearance and Czech/English/system language. About includes privacy information, the public privacy policy and MIT license.
+5. Optional Bunny setup is in Settings > Bunny Storage. Enter a Storage Zone name, primary region, folder, HTTPS CDN URL and zone write password (not an account-wide API key). This optional feature requires the user's own Bunny account/credentials and is unnecessary for all local features. The password is stored in macOS Keychain and not displayed after saving.
+6. After a completed local export choose Upload to Bunny.net. Review files, sizes and destination before pressing Upload. Export alone never starts networking. The HTTPS queue supports progress, cancel and retry; completed files offer copy/open CDN links. Restarted transfers wait for explicit retry. CDN visibility follows the user's Pull Zone configuration. Disconnect removes the local profile/password, not remote files; remote deletion is managed in the user's Bunny account.
 
-The app is sandboxed and uses only user-selected file read/write access. It retains sandbox access during asynchronous AVFoundation work and releases it afterwards. No camera, microphone, screen recording, Full Disk Access or Accessibility permission is needed.
+The sandbox uses user-selected file access, app-scoped bookmarks for explicitly queued final exports and outgoing network access for Bunny HTTPS. No camera, microphone, screen recording, Full Disk Access or Accessibility permission is needed. Configuration, bookmarks and queue history stay local; videos remain local unless explicitly uploaded. App Privacy declares optional Photos or Videos and Audio Data for App Functionality, linked to the user's Bunny account, not used for tracking. Localio Labs receives neither the media nor the Storage Zone password.
 
-Known scope: no project save/load, hosted content, messaging, cloud storage or downloadable executable components. Target-size estimates depend on encoder/container overhead. Lossless export is limited to compatible unmodified clips; trims can depend on source keyframes. HEVC availability depends on the Mac.
+Scope: no project save/load, public content feed, messaging or executable downloads. Target-size estimates depend on encoder overhead; lossless trims can depend on keyframes. HEVC depends on the Mac.
 
 Public support: https://localiobc.mylocalio.com/support/
-Public privacy policy: https://localiobc.mylocalio.com/privacy/
-The private App Review contact is provided separately in App Store Connect.
+Public privacy: https://localiobc.mylocalio.com/privacy/
+Private App Review contact is supplied separately in App Store Connect.

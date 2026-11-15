@@ -3,6 +3,8 @@ import SwiftUI
 struct ExportSidebarView: View {
     @Bindable var viewModel: EditorViewModel
     @Environment(AppPreferences.self) private var preferences
+    @State private var showBunnyUpload = false
+    @State private var openBunnySettingsAfterUpload = false
 
     private let quickTargetSizesMB: [Double] = [5, 10, 25, 50, 100]
 
@@ -31,6 +33,16 @@ struct ExportSidebarView: View {
         .padding(20)
         .frame(width: 320)
         .frame(maxHeight: .infinity, alignment: .top)
+        .sheet(isPresented: $showBunnyUpload, onDismiss: {
+            if openBunnySettingsAfterUpload {
+                openBunnySettingsAfterUpload = false
+                NotificationCenter.default.post(name: .showLocalioBunnyStorageSettings, object: nil)
+            }
+        }) {
+            BunnyUploadSheet(sources: viewModel.lastExportUploadSources,
+                preparationError: viewModel.lastExportUploadError,
+                onOpenSettings: { openBunnySettingsAfterUpload = true })
+        }
     }
 
     // MARK: - Format & Resolution
@@ -370,6 +382,13 @@ struct ExportSidebarView: View {
                         .buttonStyle(.borderless)
                         .controlSize(.small)
                     }
+                    Button { showBunnyUpload = true } label: {
+                        Label(tr("Nahrát na Bunny.net…"), systemImage: "icloud.and.arrow.up")
+                    }
+                    .buttonStyle(.borderless)
+                    .controlSize(.small)
+                    .disabled(viewModel.isExporting)
+                    .accessibilityIdentifier("bunnyUploadExport")
                 }
                 .padding(.top, 4)
             }

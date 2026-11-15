@@ -1,1 +1,8 @@
-První vydání v Mac App Storu. Verze 1.2.1 přináší čistý a přehledný exportní panel s ovládáním bez posouvání při výchozí i nejmenší velikosti okna. Nechybí plynulá rychlost 0,25×–4× s návratem na 1×, ořez a střih videa, hromadný ořez, samostatný či společný export, odebrání zvuku a české i anglické rozhraní.
+Verze 1.3.0 přidává volitelné nahrávání hotových videí na vlastní účet Bunny Storage.
+
+• V nastavení vyplníte Storage Zone, oblast, cílovou složku a CDN adresu. Heslo se ukládá do Klíčenky macOS.
+• Před ručním spuštěním HTTPS přenosu zkontrolujete spojené video nebo jednotlivé exporty klipů.
+• Sledujte trvalou frontu přenosů, nahrávání zrušte či zopakujte a u dokončených souborů zkopírujte nebo otevřete CDN odkazy.
+• Import, ořez, střih, změna rychlosti, odebrání zvuku i lokální export nadále fungují offline bez účtu Bunny.
+
+Bunny Storage je samostatná placená služba hrazená z vašeho účtu. Volitelný affiliate odkaz pro registraci je v aplikaci zřetelně označený.

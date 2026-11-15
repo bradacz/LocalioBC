@@ -1,1 +1,1 @@
-A simple, quick way to crop video on your Mac. Pick the frame, trim the clip and export. Apply one crop to all clips. No subscription or uploads.
+Quick video cropping and trimming for Mac. Merge clips or export each separately. Optional uploads to your own Bunny Storage account. No app subscription.
