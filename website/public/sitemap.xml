@@ -1,1 +1,59 @@
-<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://localiobc.mylocalio.com/</loc></url><url><loc>https://localiobc.mylocalio.com/privacy/</loc></url><url><loc>https://localiobc.mylocalio.com/support/</loc></url><url><loc>https://localiobc.mylocalio.com/cs/</loc></url><url><loc>https://localiobc.mylocalio.com/cs/privacy/</loc></url><url><loc>https://localiobc.mylocalio.com/cs/support/</loc></url></urlset>
+<?xml version='1.0' encoding='UTF-8'?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://localiobc.mylocalio.com/</loc>
+    <lastmod>2026-11-15</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://localiobc.mylocalio.com/" />
+    <xhtml:link rel="alternate" hreflang="cs" href="https://localiobc.mylocalio.com/cs/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://localiobc.mylocalio.com/" />
+  </url>
+  <url>
+    <loc>https://localiobc.mylocalio.com/cs/</loc>
+    <lastmod>2026-11-15</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://localiobc.mylocalio.com/" />
+    <xhtml:link rel="alternate" hreflang="cs" href="https://localiobc.mylocalio.com/cs/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://localiobc.mylocalio.com/" />
+  </url>
+  <url>
+    <loc>https://localiobc.mylocalio.com/support/</loc>
+    <lastmod>2026-11-15</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://localiobc.mylocalio.com/support/" />
+    <xhtml:link rel="alternate" hreflang="cs" href="https://localiobc.mylocalio.com/cs/support/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://localiobc.mylocalio.com/support/" />
+  </url>
+  <url>
+    <loc>https://localiobc.mylocalio.com/cs/support/</loc>
+    <lastmod>2026-11-15</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://localiobc.mylocalio.com/support/" />
+    <xhtml:link rel="alternate" hreflang="cs" href="https://localiobc.mylocalio.com/cs/support/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://localiobc.mylocalio.com/support/" />
+  </url>
+  <url>
+    <loc>https://localiobc.mylocalio.com/privacy/</loc>
+    <lastmod>2026-11-15</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://localiobc.mylocalio.com/privacy/" />
+    <xhtml:link rel="alternate" hreflang="cs" href="https://localiobc.mylocalio.com/cs/privacy/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://localiobc.mylocalio.com/privacy/" />
+  </url>
+  <url>
+    <loc>https://localiobc.mylocalio.com/cs/privacy/</loc>
+    <lastmod>2026-11-15</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://localiobc.mylocalio.com/privacy/" />
+    <xhtml:link rel="alternate" hreflang="cs" href="https://localiobc.mylocalio.com/cs/privacy/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://localiobc.mylocalio.com/privacy/" />
+  </url>
+  <url>
+    <loc>https://localiobc.mylocalio.com/blog/why-localiobc/</loc>
+    <lastmod>2026-11-15</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://localiobc.mylocalio.com/blog/why-localiobc/" />
+    <xhtml:link rel="alternate" hreflang="cs" href="https://localiobc.mylocalio.com/cs/blog/proc-vzniklo-localiobc/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://localiobc.mylocalio.com/blog/why-localiobc/" />
+  </url>
+  <url>
+    <loc>https://localiobc.mylocalio.com/cs/blog/proc-vzniklo-localiobc/</loc>
+    <lastmod>2026-11-15</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://localiobc.mylocalio.com/blog/why-localiobc/" />
+    <xhtml:link rel="alternate" hreflang="cs" href="https://localiobc.mylocalio.com/cs/blog/proc-vzniklo-localiobc/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://localiobc.mylocalio.com/blog/why-localiobc/" />
+  </url>
+</urlset>

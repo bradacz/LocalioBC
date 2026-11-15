@@ -198,3 +198,13 @@ header.is-scrolled { border-color: #e4e7f0; box-shadow: 0 7px 22px #1c2b5407; }
   .thank-you { padding-block: 48px; }
   .thank-you .lead { font-size: 18px; }
 }
+
+/* The app's story stays readable and part of the normal document flow. */
+.story-intro { padding-block: 38px 8px; max-inline-size: 820px; }
+.story-intro h2 { margin-block: 12px 16px; }
+.story-intro p { color: var(--secondary); margin-block: 0 18px; }
+.story-article { margin-inline: auto; padding-block-end: 28px; }
+.story-article .article-back { display: inline-flex; align-items: center; min-block-size: 44px; font-size: 14px; }
+.story-article h1 { text-wrap: balance; }
+.story-article h2 { font-size: clamp(23px, 3vw, 30px); }
+.story-article p, .story-article li { text-wrap: pretty; }

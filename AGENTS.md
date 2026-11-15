@@ -23,3 +23,5 @@ These requirements come from the owner's explicit instructions on 15 November 20
 - Offer only the current release for download on the English and Czech website. Historical release news may stay, but remove direct download links for earlier versions when publishing a new release.
 - Optional support links stay below the free download, in Czech and English. Contributions do not unlock app features.
 - Use owner-supplied screenshots as instructed. The screenshot supplied on 15 November 2026 already includes the macOS frame; preserve the full image without cropping, retouching or adding duplicate window chrome.
+- “Videos for website headers” describes a use case for the app, especially for developers. The owner explicitly rejected adding video to the website on 15 November 2026; do not embed a video player or autoplay header video without a new explicit request.
+- Keep Czech and English SEO aligned with the actual free direct edition: video crop/trim, file-size reduction, audio removal, open source and no ads. Keep metadata and sitemap current when adding public pages; never invent ratings or reviews for structured data.
