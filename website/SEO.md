@@ -4,7 +4,9 @@ Prepared on 15 November 2026 for the English and Czech public website.
 
 ## Search intent and visible content
 
-Homepages and the founder article describe free video cropping/trimming on Mac, reducing video file size, removing audio, open source and no advertising. The developer use case is preparing video assets for website headers or hero sections. The founder story follows the owner's account: a need for simple controls and quick crop, mute and compression work. No video player or autoplay background was added to the site.
+Homepages and the origin article describe free video cropping/trimming on macOS, reducing video file size, removing audio, open source and no advertising. The developer use case is preparing video assets for website headers or hero sections. The origin story follows the owner's account in the team's first-person plural: a need for simple controls and quick crop, mute and compression work. No video player or autoplay background was added to the site.
+
+Website copy, titles, descriptions, social metadata and JSON-LD consistently use “v macOS” in Czech and “on macOS” in English for editing tasks. Product descriptions use “pro macOS” / “for macOS” where appropriate. The article and its homepage teaser use the team voice; BlogPosting credits the existing Localio Labs organization rather than an individual. The proper name Mac App Store remains unchanged. Support requests refer to the computer model and HEVC hardware availability without relabeling hardware as an operating system.
 
 The existing Czech hero headline ends with **Jednoduše.** The supporting text puts file-size reduction first and states free/open-source/no ads. Paid Store distribution is still described separately; the free offer in structured data refers to the direct download.
 
