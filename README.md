@@ -8,7 +8,7 @@
 
 No subscriptions or watermarks. Editing and export work offline without an account. Optional uploads send finished exports directly to your own Bunny Storage account. Built with SwiftUI, AppKit and AVFoundation. Part of the LocalioBuzz family.
 
-The current free direct release is **1.3.0 (9)**, signed and Apple notarized. The separate paid Mac App Store edition **1.3.0 (9)** was submitted on 15 November 2026 and is **Waiting for Review**, with manual release after approval.
+The current free direct release is **1.3.0 (9)**, signed and Apple notarized. The separate paid Mac App Store edition **1.3.0 (10)** was submitted on 15 November 2026 and is **Waiting for Review**, with manual release after approval.
 
 The [release validation report](docs/releases/v1.3.0-development-validation.md) records 58 passing tests, native layout checks, public download/feed verification and a successful installed update from 1.2.1 to 1.3.0. See the [current Store status](AppStore/STATUS.md) for Apple review progress.
 
@@ -159,7 +159,7 @@ The script archives both architectures in Release mode and performs a Developer 
 
 ## Mac App Store edition
 
-**Status verified 15 November 2026, 04:34 CET:** Store version **1.3.0 (9)** was uploaded at 04:24 CET, processed, selected and submitted at 04:34 CET. It is **Waiting for Review**, with manual release after approval, and replaces the withdrawn 1.2.1 (7) submission. The free direct edition **1.3.0 (9)**, Czech/English website and signed update feed are public. See [current Store status](AppStore/STATUS.md) and [1.3.0 validation](docs/releases/v1.3.0-development-validation.md).
+**Status verified 15 November 2026, 05:02 CET:** Store version **1.3.0 (10)** was uploaded at 04:55 CET, processed, selected and submitted at 05:02 CET. It is **Waiting for Review**, with manual release after approval. Build 10 corrects the paid edition's Bunny service notice and replaces the withdrawn Store build 9. The free direct edition **1.3.0 (9)**, Czech/English website and signed update feed are public and remain unchanged. See [current Store status](AppStore/STATUS.md) and [1.3.0 validation](docs/releases/v1.3.0-development-validation.md).
 
 The separate `LocalioBC-AppStore` target/scheme archives the paid Store configuration with sandboxing, a bundled privacy manifest and licence, and copy appropriate for a one-time purchase. It shares editing sources with the direct target, while physically excluding Sparkle, its helpers, update configuration and sandbox exceptions. Both archives and exported Store packages are checked for updater isolation. The public GitHub DMG remains the free direct edition.
 

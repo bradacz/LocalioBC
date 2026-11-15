@@ -136,7 +136,7 @@ struct BunnyStorageView: View {
                 Text(tr("Doporučovací odkaz momentálně není k dispozici."))
                     .font(.caption).foregroundStyle(.secondary)
             }
-            Text(tr("Bunny.net je samostatně placená služba; není součástí bezplatné aplikace LocalioBC."))
+            Text(AppDistribution.bunnyServiceNotice)
                 .font(.caption).foregroundStyle(.secondary)
         }
         .fixedSize(horizontal: false, vertical: true)

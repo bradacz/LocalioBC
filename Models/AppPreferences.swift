@@ -8,6 +8,14 @@ enum AppDistribution {
     /// Public referral link verified in the owner's Bunny affiliate dashboard.
     static let bunnyAffiliateURL: URL? = URL(string: "https://bunny.net?ref=gm93y8cppz")
 
+    static var bunnyServiceNotice: String {
+        #if APP_STORE
+        tr("Bunny.net je samostatně placená služba; není součástí aplikace LocalioBC.")
+        #else
+        tr("Bunny.net je samostatně placená služba; není součástí bezplatné aplikace LocalioBC.")
+        #endif
+    }
+
     static var aboutTitle: String {
         #if APP_STORE
         tr("Jednorázový nákup · Open source")

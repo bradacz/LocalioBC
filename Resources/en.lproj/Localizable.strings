@@ -316,6 +316,7 @@
 "https://vase-zona.b-cdn.net" = "https://your-zone.b-cdn.net";
 "Heslo Storage Zone se ukládá do Klíčenky macOS a při přenosu slouží k ověření u Bunny.net. Nastavení připojení, seznam přenosů a oprávnění k exportovaným souborům se ukládají lokálně, aby bylo možné přenos opakovat. Ukládání a CDN provoz hradíte Bunny.net ze svého účtu." = "The Storage Zone password is stored in macOS Keychain and used to authenticate with Bunny.net during transfers. Connection settings, transfer history, and access grants for exported files are stored locally so transfers can be retried. Storage and CDN traffic are billed to your own Bunny.net account.";
 "Bunny.net je samostatně placená služba; není součástí bezplatné aplikace LocalioBC." = "Bunny.net is a separately paid service; it is not included with the free LocalioBC app.";
+"Bunny.net je samostatně placená služba; není součástí aplikace LocalioBC." = "Bunny.net is a separately paid service; it is not included with the LocalioBC app.";
 "Bunny.net — affiliate" = "Bunny.net — affiliate";
 "Založit účet Bunny.net" = "Create a Bunny.net account";
 "Založit účet Bunny.net — affiliate" = "Create a Bunny.net account — affiliate";

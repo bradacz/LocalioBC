@@ -146,7 +146,7 @@ struct ContentView: View {
             Text(tr("Hotové exporty můžete po potvrzení nahrát přímo na vlastní úložiště Bunny.net. Připojení Bunny Storage nastavíte v nastavení aplikace."))
                 .font(.system(size: 11)).foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
-            Text(tr("Bunny.net je samostatně placená služba; není součástí bezplatné aplikace LocalioBC."))
+            Text(AppDistribution.bunnyServiceNotice)
                 .font(.system(size: 10)).foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
         }
