@@ -17,3 +17,9 @@ These requirements come from the owner's explicit instructions on 15 November 20
 - Published release assets and builds already submitted to Apple are immutable. Local design changes require a new build before distribution; never overwrite the existing 1.2.0 (6) artifacts or claim that a local preview is the submitted app.
 - Keep `AppStore/STATUS.md` and submission metadata accurate about the distinction between the submitted build and later source changes.
 - Never commit private review contacts, account screenshots, signing material, local JSON files, or unrelated temporary files.
+
+## Product website
+
+- Offer only the current release for download on the English and Czech website. Historical release news may stay, but remove direct download links for earlier versions when publishing a new release.
+- Optional support links stay below the free download, in Czech and English. Contributions do not unlock app features.
+- Use owner-supplied screenshots as instructed. The screenshot supplied on 15 November 2026 already includes the macOS frame; preserve the full image without cropping, retouching or adding duplicate window chrome.
