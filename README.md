@@ -6,13 +6,17 @@
 
 **A free, open-source video editor for macOS. Trim, crop, merge and compress videos entirely on your Mac.**
 
-No subscriptions, ads, watermarks, accounts or uploads. Built with SwiftUI, AppKit and AVFoundation. Part of the LocalioBuzz family.
+No subscriptions or watermarks. Editing and export work offline without an account. Optional uploads send finished exports directly to your own Bunny Storage account. Built with SwiftUI, AppKit and AVFoundation. Part of the LocalioBuzz family.
+
+The current free direct release is **1.3.0 (9)**, signed and Apple notarized. The separate paid Mac App Store edition **1.3.0 (9)** was submitted on 15 November 2026 and is **Waiting for Review**, with manual release after approval.
+
+The [release validation report](docs/releases/v1.3.0-development-validation.md) records 58 passing tests, native layout checks, public download/feed verification and a successful installed update from 1.2.1 to 1.3.0. See the [current Store status](AppStore/STATUS.md) for Apple review progress.
 
 ![LocalioBC English interface](docs/screenshots/editor-en.png)
 
 ## Download for macOS
 
-[**Download LocalioBC 1.2.1 for Mac**](https://github.com/bradacz/LocalioBC/releases/download/v1.2.1/LocalioBC-1.2.1-universal.dmg) · [All releases](https://github.com/bradacz/LocalioBC/releases)
+[**Download LocalioBC 1.3.0 for Mac**](https://github.com/bradacz/LocalioBC/releases/download/v1.3.0/LocalioBC-1.3.0-universal.dmg) · [All releases](https://github.com/bradacz/LocalioBC/releases)
 
 Requires **macOS 14 or later**. One universal DMG supports **Apple Silicon and Intel**. Open the disk image, drag **LocalioBC.app** into **Applications**, then eject the image and launch the app.
 
@@ -33,6 +37,7 @@ Public release builds are Developer ID signed and Apple notarized. A SHA-256 che
 - **Audio removal:** remove audio tracks from exported files, including compatible lossless exports, and mute playback previews.
 - **Preview:** switch between the source clip and the composed output before exporting.
 - **Export controls:** view progress, cancel, reveal output in Finder or open the result. Cancelling a batch keeps files that have already finished.
+- **Bunny Storage:** optional direct uploads of merged/separate exports to your own account, with Keychain credentials, a persistent queue, progress, cancellation, retry and CDN links.
 - **Preferences:** Czech or English, plus light, dark or system appearance. Settings apply immediately and persist between launches.
 - **Updates:** the direct edition includes optional daily checks and automatic downloads through Sparkle. Signed updates install after processing finishes and confirmation of closing in-memory edits. Native update dialogs follow the selected language after relaunch. The Store edition updates through Apple.
 - **About:** feature overview, license, project links and contact information.
@@ -46,7 +51,7 @@ Public release builds are Developer ID signed and Apple notarized. A SHA-256 che
 5. Set the container, codec, resolution, audio and compression options.
 6. Select **Export video…** or **Export clips…**. The export button remains visible at the bottom of the sidebar.
 
-Open the gear icon to change language and appearance or read about the app. Keyboard shortcuts: **⌘O** to import, **⌘E** to export and **⌘,** for settings.
+Open the gear icon to change language and appearance, configure Bunny Storage or read about the app. Keyboard shortcuts: **⌘O** to import, **⌘E** to export and **⌘,** for settings.
 
 ## Preferences
 
@@ -55,6 +60,16 @@ A dedicated settings panel provides a fixed navigation sidebar, visual appearanc
 ![English settings in light appearance](docs/screenshots/settings-en-light.png)
 
 [View the dark appearance](docs/screenshots/settings-en-dark.png).
+
+## Bunny Storage
+
+After exporting one merged video or a batch of separate clips, choose **Upload to Bunny.net…**. Review the files and destination, then start the transfer explicitly. Editing and export remain local; only the selected finished outputs are uploaded directly from your Mac to your own Bunny account. Bunny's storage and delivery charges are separate from LocalioBC.
+
+In **Settings → Bunny Storage**, enter the Storage Zone name, its primary region, destination folder, connected Pull Zone/CDN HTTPS URL and the zone's read/write password. Use the **Storage Zone password**, not the global Bunny account API key or a Stream key. A dedicated zone is recommended. Passwords are stored in macOS Keychain and are excluded from preferences, queue files and logs.
+
+Transfers use file-backed HTTPS requests, an uppercase SHA-256 checksum, progress, cancellation and bounded retries. The local queue retains source permissions and file fingerprints independently of the editor. Interrupted transfers can be retried after relaunch; HTTP uploads restart the file from the beginning. Keep the app open during uploading. Missing or changed files require re-selection. Successful batch items remain available when another upload fails. The app does not delete your local exports or silently overwrite existing remote assets. Public links require a correctly connected Pull Zone and its access rules; uploading is not itself a privacy setting for the CDN.
+
+[Create a Bunny.net account](https://bunny.net?ref=gm93y8cppz) — **affiliate link**. Bunny.net is a separately paid service; it is not included with the free LocalioBC app. The official Bunny rabbit/wordmark assets are Bunny's trademarks, used to identify the service; they are not relicensed under this repository's MIT code licence.
 
 ## Build from source
 
@@ -144,7 +159,7 @@ The script archives both architectures in Release mode and performs a Developer 
 
 ## Mac App Store edition
 
-**Status verified 15 November 2026, 01:27 CET:** Store version **1.2.1 (7)** was uploaded at 01:17 CET, processed and submitted at 01:27 CET. It is **Waiting for Review**, with manual release after approval, and replaces the withdrawn 1.2.0 (6) submission. The free direct edition **1.2.1 (7)**, production website and signed update feed are public and were verified at 01:24 CET. DAC7 was completed and verified Active at 00:48 CET. See [current Store status](AppStore/STATUS.md) and [1.2.1 validation](docs/releases/v1.2.1-validation.md).
+**Status verified 15 November 2026, 04:34 CET:** Store version **1.3.0 (9)** was uploaded at 04:24 CET, processed, selected and submitted at 04:34 CET. It is **Waiting for Review**, with manual release after approval, and replaces the withdrawn 1.2.1 (7) submission. The free direct edition **1.3.0 (9)**, Czech/English website and signed update feed are public. See [current Store status](AppStore/STATUS.md) and [1.3.0 validation](docs/releases/v1.3.0-development-validation.md).
 
 The separate `LocalioBC-AppStore` target/scheme archives the paid Store configuration with sandboxing, a bundled privacy manifest and licence, and copy appropriate for a one-time purchase. It shares editing sources with the direct target, while physically excluding Sparkle, its helpers, update configuration and sandbox exceptions. Both archives and exported Store packages are checked for updater isolation. The public GitHub DMG remains the free direct edition.
 
@@ -154,12 +169,12 @@ The complete [submission kit](AppStore/README.md) includes English/Czech metadat
 
 ## Automatic updates
 
-Version **1.2.0 is the first updater-enabled direct release**. Users of 1.2.0 can update to 1.2.1 in the app. If you use 1.1.0 or earlier, install the current direct release manually once to gain the updater. The [Mac App Store manages its own updates](https://developer.apple.com/app-store/review/guidelines/#hardware-compatibility).
+Version **1.2.0 is the first updater-enabled direct release**. Users of 1.2.0 or 1.2.1 can update to 1.3.0 in the app. If you use 1.1.0 or earlier, install the current direct release manually once to gain the updater. The [Mac App Store manages its own updates](https://developer.apple.com/app-store/review/guidelines/#hardware-compatibility).
 
 - [Sparkle 2.10.1](https://sparkle-project.org/documentation/) supplies **Check for Updates…** in the app menu and Settings. Its native consent prompt offers daily checks and optional automatic downloads; preferences can be changed in Settings. System profiling is disabled. Video editing remains offline; update-check connection metadata is described in the privacy policy.
 - The stable feed is `https://localiobc.mylocalio.com/updates/appcast.xml`. It points to immutable, versioned GitHub DMGs and embeds Czech/English markdown release notes inside the signed feed, avoiding a separate notes request or HTML player.
 - Both the feed/notes and downloaded DMG require **Ed25519 signatures**. Downloads are verified before extraction; signature failures do not expire into acceptance. Apple Developer ID signing, hardened runtime and notarization provide a separate trust layer. Source files and edits are not sent in update requests.
-- Updates defer while exporting, importing or building a preview. An installation waiting for the current session can be resumed from Settings. The ordinary quit path also confirms closing in-memory edits, including install-on-quit paths that bypass Sparkle's relaunch hook.
+- Updates defer while exporting, importing, building a preview or uploading to Bunny Storage. An installation waiting for the current session can be resumed from Settings. The ordinary quit path also confirms closing in-memory edits, including install-on-quit paths that bypass Sparkle's relaunch hook.
 - The public key is in direct `Info.plist`; the private key stays in the login Keychain under account `com.localiolabs.LocalioBC.sparkle`. Keep an encrypted backup outside the repository. Loss of the signing key requires the documented Sparkle key-rotation procedure or a manually installed recovery release; never publish the private key.
 
 Release order: tests → universal Archive/Developer ID export → notarization/stapling → verified final DMG → Sparkle signing → GitHub upload/verification → signed feed and website publication. Always increase `CFBundleVersion`. Correct a bad release using a higher build, with reverted source if needed.
@@ -167,8 +182,8 @@ Release order: tests → universal Archive/Developer ID export → notarization/
 After `build-dmg.sh` completes, generate the signed feed using the matching Sparkle tools from Xcode's `SourcePackages/artifacts/sparkle/Sparkle/bin`:
 
 ```sh
-python3 Scripts/generate-update-feed.py dist/v1.2.1-build7/LocalioBC-1.2.1-universal.dmg \
-  --app dist/v1.2.1-build7/export/LocalioBC.app \
+python3 Scripts/generate-update-feed.py dist/v1.3.0-build9/LocalioBC-1.3.0-universal.dmg \
+  --app dist/v1.3.0-build9/export/LocalioBC.app \
   --tools-dir /path/to/SourcePackages/artifacts/sparkle/Sparkle/bin
 ```
 

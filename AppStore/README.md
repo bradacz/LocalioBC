@@ -1,102 +1,118 @@
 # Mac App Store submission kit
 
-LocalioBC **1.2.1 (7)** is submitted and waiting for review as a one-time paid Mac App Store app at **EUR 4.99**. The product positioning is **simple, quick video cropping**, with trimming, compression and batch export as supporting features. The public GitHub/direct edition remains free. Store builds do not claim to be free and contain no GitHub link.
+The submitted Store version is **LocalioBC 1.3.0 (9)**, a one-time paid Mac App Store app at **EUR 4.99**, with Apple-generated local prices. It remains a simple, quick solution for video cropping; trimming, compression, speed control and batch export support that workflow. This version adds optional, explicitly initiated uploads of finished exports to the user's own Bunny Storage account.
 
-## Current submission
+The owner authorized both distribution channels on 15 November 2026. Transporter delivered build 9 at **04:24 CET**; Apple processed it and accepted the review submission at **04:34 CET**, showing **Waiting for Review**. The Store edition is not yet approved or publicly released and remains manual after approval. The free direct 1.3.0 edition, production website and signed update feed are published and verified, including an actual 1.2.1-to-1.3.0 installed update. See [STATUS.md](STATUS.md) for the verified record; private account identifiers, contacts, review links and screenshots remain local.
 
-**Verified in App Store Connect on 15 November 2026 at 01:27 CET (Europe/Prague):** version **1.2.1 (7)** is **Waiting for Review**, submitted at 01:27 CET. The owner authorized the new release for both distribution channels. The pending 1.2.0 (6) submission was cancelled and showed Developer Rejected before replacement. Transporter delivered build 7 at 01:17 CET; Apple processed it and it was selected for review. Six new Czech/light and English/dark screenshots and saved reviewer notes reflect the compact 1.2.1 export panel. Release remains manual after approval. The free direct edition 1.2.1 (7), website and signed update feed are already published.
+## Historical submission and release integrity
 
-The outdated Paid Apps Agreement initially blocked submission. It was updated with explicit owner approval and verified Active; submission then succeeded. DAC7 was completed at 00:48 CET on 15 November and is Active: the owner confirmed that no apps in the account provide personal services, and the answer No was saved. See [current status and next steps](STATUS.md). Private identifiers and account URLs remain in ignored `SubmissionStatus.local.json`.
+Version **1.2.1 (7)** was submitted and verified **Waiting for Review** on 15 November at 01:27 CET. It was withdrawn before the authorized replacement and Apple showed **Developer Rejected**. Processed build **1.3.0 (9)** is now selected and submitted. The previous 1.2.0 (6) submission had already been withdrawn before 1.2.1; see STATUS.md for the full verified history.
 
-## Submitted 1.2.1 artifacts
+The submitted build 7 archive/package and published direct 1.2.1 assets are immutable. The first local 1.3.0 (8) artifacts are also preserved unchanged and were not published or submitted. **Use build 9**, which aligns the privacy manifest with optional video/audio upload disclosures. Do not distribute build 8, overwrite published/submitted build 9 artifacts or relabel historical binaries.
 
-- `dist/app-store-1.2.1-build7/export/LocalioBC.pkg`: signed Mac App Store upload package.
-- `dist/app-store-1.2.1-build7/LocalioBC-1.2.1-7.xcarchive`: universal archive with symbols for Xcode Organizer.
-- `dist/app-store-1.2.1-build7/export/SHA256SUMS.txt`: package checksum.
-- `metadata/en-US/` and `metadata/cs/`: ready-to-paste name, subtitle, description, promotional text, keywords, first-release notes and URLs.
-- `screenshots/en-US/` and `screenshots/cs/`: three screenshots per language, PNG, **1280 × 800**, RGB without alpha. Upload in numbered order. Raw captures are ignored by Git.
-- `assets/icon-1024.png`: source icon. Xcode bundles the macOS AppIcon asset automatically.
-- `review/notes-en.txt` and `review/demo-clips.zip`: reviewer instructions and original demo footage.
-- `PRIVACY-AND-COMPLIANCE.md`: prepared privacy, age-rating, content-rights and encryption answers.
-- `submission.json`: structured common fields and the remaining account-side steps.
-- `ReviewContact.local.json`: complete private App Review contact, excluded from Git. Never add this file to a public release or public website.
+## Published/submitted artifacts
 
-The exported `.pkg` is for App Store Connect/Transporter, not direct installation by customers. Use the existing notarized GitHub DMG for direct distribution. App Store signing/provisioning and Apple's review are separate from Developer ID notarization.
+| Channel | Local artifact | Bytes | SHA-256 |
+| --- | --- | ---: | --- |
+| Mac App Store upload | `dist/app-store-1.3.0-build9/export/LocalioBC.pkg` | 2,845,231 | `dbf2c064467bd7b25ca881ef223e3e33859dd8b42ea5168f39a9faf7410af694` |
+| Free direct edition | `dist/v1.3.0-build9/LocalioBC-1.3.0-universal.dmg` | 2,617,903 | `f205d9f9947948f268749fd804d3f007d903568602da46a0171e915f8ebaf505` |
 
-## Store account configuration
+The Store archive is `dist/app-store-1.3.0-build9/LocalioBC-1.3.0-9.xcarchive`. It contains arm64/x86_64 code and symbols. Exported app signing is Apple Distribution, with a distribution profile; the installer uses the Apple-issued Mac Developer Installer certificate. Strict signature, sandbox, file/bookmark and network grants, privacy manifest, license and Store updater isolation checks passed for the actual packaged app. The Store package contains no Sparkle framework/helpers, SU configuration or updater mach exceptions.
 
-Use the existing Localio Labs s.r.o. team **4RY8J45UR3**. Register/select the explicit macOS App ID **com.localiobvideo.app**, then create or select its App Store Connect app record:
+The direct app and DMG are Developer ID signed, notarization Accepted and stapled; strict nested signatures and Gatekeeper assessments passed. Both contain the same build 9 media-upload privacy manifest. Store customers receive updates from Apple; the direct edition uses Sparkle with Downloader XPC disabled because the host has outgoing-network access.
 
-| Field | Prepared value |
+The `.pkg` is an App Store Connect/Transporter upload, not a customer installer. The DMG is the direct-distribution installer. Generated archives, packages, reports and signing material remain excluded from Git. For test detail and limitations, see [1.3.0 validation](../docs/releases/v1.3.0-development-validation.md).
+
+## Saved listing and review material
+
+- `metadata/en-US/` and `metadata/cs/`: localized name, subtitle, description, promotional text, keywords, version notes and public URLs for 1.3.0.
+- `review/notes-en.txt`: build 9 review steps, local/offline access, optional Bunny credentials, HTTPS/Keychain handling, separate service costs and disclosed affiliate signup.
+- `review/demo-clips.zip`: original demo footage; no private media or account details.
+- `PRIVACY-AND-COMPLIANCE.md`: source-specific App Privacy, manifest, age-rating, encryption and licensing preparation.
+- `assets/icon-1024.png`: source icon; the shipping macOS AppIcon is bundled by Xcode.
+- `screenshots/en-US/` and `screenshots/cs/`: existing six numbered 1280 × 800 RGB editor/crop/export artwork images retained in the listing because the underlying editing UI is unchanged. These are not fresh build 9 captures. The build 9 icon was observed in App Store Connect.
+- `ReviewContact.local.json`: complete private App Review contact, ignored by Git. Never publish it or add credentials/account screenshots to the review attachment archive.
+
+No app account or sign-in is needed for import, editing, previews or local export. Optional Bunny transfers require a user-owned Storage Zone and write password; no real Bunny upload or account login was used in the automated release checks. If Apple asks to test this optional network feature with dedicated credentials, provide limited test access privately through App Review.
+
+## App Store configuration
+
+| Field | Verified value |
 | --- | --- |
 | Platform | macOS |
 | Name | LocalioBC |
 | Primary language | English (US), with Czech localization |
-| SKU | LOCALIOBC-MAC-001 |
 | Bundle ID | com.localiobvideo.app |
-| Version/build | 1.2.1 / 7 |
-| Primary category | Photo & Video |
+| Submitted version/build | 1.3.0 / 9 |
+| Category | Photo & Video |
 | macOS requirement | 14.0 or later |
-| Devices | Apple Silicon and Intel Macs |
-| Monetization | Paid upfront, one-time purchase; no IAP/subscription |
-| Release | Manual release after approval |
+| Architectures | Apple Silicon and Intel |
+| Monetization | One-time EUR 4.99 purchase; no app subscription or IAP |
+| Availability | Public distribution in all 175 authorized countries/regions |
+| Release | Manual after Apple approval |
 
-For future submissions, the Account Holder must confirm active developer membership, the **Paid Apps Agreement**, bank/tax details and EU trader information; the current verified state, including completed DAC7, is recorded in `STATUS.md`. These account/legal actions are not automatically accepted by the build scripts. Enter the private review contact from `ReviewContact.local.json`; no demo account is needed.
+Retain the existing Localio Labs team/app record. Verify active membership, Paid Apps Agreement, banking/tax, EU trader and DAC7 status in App Store Connect rather than inferring them from signing success. Germany EUR 4.99 and the Czech Republic CZK 99 equivalent were verified for this submission. The listing must not claim that the Store download is free. The free direct edition is a separate distribution channel and is not an app-feature unlock or alternate in-app payment flow.
 
-## Set the EUR 4.99 price
+## Published privacy and encryption disclosures
 
-In Pricing and Availability, choose an EUR base storefront (suggested: **Germany**) and select **EUR 4.99**. Review the entire generated price table before confirming. Other currencies use Apple's local equivalents; do not interpret EUR 4.99 as the same numeric price in CZK or USD. Confirm the EUR storefronts show the intended price and choose the required availability regions. No subscription or in-app purchase product needs to be created.
+For optional Bunny uploads, the published App Privacy label declares **Photos or Videos** and **Audio Data**, each used for **App Functionality**, **linked to the user** through their Bunny account, and **not used for tracking**. Build 9's manifest contains those exact categories and purposes, no tracking domains, and the unchanged required-reason API declarations. Do not reuse the historical Data Not Collected answer or claim that video always stays on the Mac.
 
-Pricing is saved in App Store Connect: Germany EUR 4.99, with Apple-generated equivalents (Czech Republic CZK 99). The store listing must not claim the App Store download is free.
+Local editing/export stays offline; only a confirmed upload sends final media, including retained audio, directly over HTTPS to the user's Bunny Storage account. Localio Labs does not receive the media or Storage Zone password. The password is stored in macOS Keychain. Connection settings, source bookmarks and queue history stay local. Bunny Storage/CDN charges belong to the user's separate Bunny account and do not unlock LocalioBC features.
 
-## Upload and submit a future Store build
+The external signup link is clearly identified as affiliate and contains the same public referral code for everyone, without app/device identifiers or an embedded SDK/browser. Advertising = Yes was saved in the age-rating questionnaire for this promotion, and Apple displayed 4+. This is not advertising use of uploaded media or tracking; Apple calculates regional ratings.
 
-1. Confirm the live marketing/support/privacy URLs in `metadata/` are publicly accessible over HTTPS, without sign-in.
-2. Create and validate a fresh `LocalioBC-AppStore` archive/package for the intended version/build (current source: 1.2.1 / 7). Open it in Xcode Organizer and choose Distribute App → App Store Connect, or upload the exported `.pkg` with Apple's Transporter. Use the Localio Labs team. The existing `dist/app-store-final` and `dist/app-store-1.2.0-build6` packages are historical 1.0.0 (3) and 1.2.0 (6) uploads; preserve them unchanged.
-3. Wait for Apple processing. Resolve validation issues, then select the matching build for the macOS version. If replacing a pending submission, remove that version from review first as required by App Store Connect. A successful local export does not mean a build was uploaded, reviewed or approved.
-4. Update the English and Czech metadata, screenshots and review notes for the intended release before uploading them. The current kit describes the submitted 1.2.1 feature set. First-release notes are retained in `whats_new.txt`; Apple did not expose a What’s New field for this first Store release, so the descriptions and reviewer notes carry the feature details.
-5. Select Data Not Collected and enter the localized privacy URLs. Complete the current age-rating and export-compliance questionnaires using `PRIVACY-AND-COMPLIANCE.md` as the source-specific preparation.
-6. Paste the reviewer notes, attach `review/demo-clips.zip`, set Sign-in required to No and enter the private contact.
-7. Confirm price, regions, copyright, content rights, company/trader information and manual release. Submit for review after checking all required fields.
-8. Release manually after Apple approval. Replace the website's coming-soon text with the actual App Store link only when available.
+The app uses system HTTPS/TLS and Keychain, so it does use encryption. The prepared `ITSAppUsesNonExemptEncryption = NO` means no non-exempt encryption; it does not mean unencrypted networking. See the [compliance preparation](PRIVACY-AND-COMPLIANCE.md) and Apple's current questionnaire.
 
-The scripts do not upload or submit automatically. The current package was uploaded through Transporter and submitted through App Store Connect on November 15, 2026. Public Store release remains pending review and manual release.
+## Completed delivery and deployment
+
+- Transporter delivered **1.3.0 (9)** at **04:24 CET** on 15 November. Apple processed it; the processed build was selected for review.
+- The prior 1.2.1 submission was withdrawn and showed Developer Rejected before replacement. Apple returned **1 Item Submitted**, then **Waiting for Review**, for 1.3.0 (9) at **04:34 CET**.
+- English/Czech descriptions and promotional text, build 9 review notes, published media-upload privacy, age-rating answers, icon, price, 175 regions/public distribution and manual release were verified. The six existing editor/crop/export artwork images were retained; no fresh build 9 listing captures are claimed.
+- [Direct release 1.3.0](https://github.com/bradacz/LocalioBC/releases/tag/v1.3.0) is public. An anonymous download matched the final DMG bytes. The production website's Cloudflare deployment succeeded from web commit `51fb2f9`, seven checked public resources returned HTTP 200, and the owner-supplied screenshot stayed byte-for-byte unchanged.
+- The public update feed matched the signed source and passed EdDSA verification. Its SHA-256 is `ec82ce23f972870977730c74eb6656a3426d0120f7995ae47a83b61e721fa3ca`.
+- An unchanged signed 1.2.1 (7) copy offered build 9 from the live feed, downloaded, installed and relaunched into the new Bunny launch screen. Strict signatures, stapled ticket, Gatekeeper and final payload equality checks passed after installation.
+
+The remaining Store work is to await review, respond to any feedback, and release manually after approval. Publish the Store link only after the paid edition actually becomes available. The build scripts themselves never upload or submit automatically.
 
 ## Rebuild and validate
 
-Xcode 26.3 was used for this preparation. Automatic signing is configured for the Localio Labs team; Xcode archives with a managed development identity and re-signs for App Store distribution during export. Required Store/installer profiles and certificates are managed by Xcode when the signed-in account permits it. Secrets remain in the Keychain/Xcode account, not this repository.
+Xcode automatic signing uses the existing Localio Labs account and keeps certificates/credentials in Keychain. The script exports locally and checks the actual packaged app. Use a new directory for every archive; source changes after published/submitted build 9 require a new build number and new artifacts. Historical packages must be validated with their matching source revision because current validators expect the Bunny manifest and network/bookmark grants.
 
 ```sh
-python3 Scripts/validate-app-store.py --check-live-urls  # current 1.2.1 listing kit
-bash Scripts/build-app-store.sh dist/app-store-1.2.1-build7-rebuild
+python3 Scripts/validate-app-store.py --check-live-urls
+RELEASE_VERSION=1.3.0 BUILD_NUMBER=9 bash Scripts/build-app-store.sh dist/app-store-1.3.0-build9-rebuild-01
+python3 Scripts/validate-release-app.py store dist/app-store-1.3.0-build9/LocalioBC-1.3.0-9.xcarchive/Products/Applications/LocalioBC.app --version 1.3.0 --build 9 --store-archive
 ```
 
-Use a new output directory on each build. `RELEASE_VERSION` and `BUILD_NUMBER` can override the defaults read from the `LocalioBC-AppStore` target (currently **1.2.1 and 7**). To reproduce a historical submission, explicitly set its version/build and use the matching historical source; changing version strings alone does not reproduce that binary. The pre-export validator uses `--store-archive` because an automatically development-signed archive may lack an embedded profile; exported package validation always requires the distribution profile. Both phases check updater isolation. The script verifies both CPU architectures, package signing, the packaged app's strict signature, sandbox/file grants, disabled debugger attachment, embedded profile, bundled privacy manifest/license and SHA-256. It never uploads or submits review.
+The complete build 9 direct-target regression suite passed **58 tests, zero failures and zero skips**, with no compiler diagnostics. It includes the shared video pipeline, optional uploads, transport, editor handoff and updater lifecycle. To rerun against the same frozen source using fresh result paths:
 
 ```sh
 xcodebuild -project LocalioBC.xcodeproj -scheme LocalioBC \
-  -configuration Debug -derivedDataPath /tmp/localiobc-store-tests \
+  -configuration Debug -destination 'platform=macOS' \
+  -derivedDataPath /private/tmp/localiobc-1.3.0-build9-verify \
+  -resultBundlePath /private/tmp/localiobc-1.3.0-build9-verify.xcresult \
   -test-timeouts-enabled YES -default-test-execution-time-allowance 30 \
   -maximum-test-execution-time-allowance 60 test
 ```
 
-The signed App Store package and developer archive are generated locally and ignored by Git. The shipping Store archive contains no screenshot fixtures or extra test entitlements. A separate ad-hoc Store-configuration preview with an isolated bundle identifier was used for current native screenshots and layout/export checks. The direct target passed all 38 shared regression tests for 1.2.1; see the [current validation report](../docs/releases/v1.2.1-validation.md) for native checks and runtime limitations.
+Runtime checks used Apple Silicon on the available macOS host. Both architectures are present in the signed packages, but no physical Intel or macOS 14 runtime test is claimed. Ad-hoc isolated QA apps and synthetic queue harnesses are separate from the signed distribution packages.
 
 ## Reproduce screenshot artwork
 
-Import the original demo clips in the Store-configuration preview build and capture the editor, pending 9:16 crop, and separate export in each language. Capture only the app window using the native UI tool; place originals in `screenshots/raw/{en,cs}-{editor,crop,export}.png`. The app window is 1180 × 760 logical points. Move the pointer to the native title bar before capture. Restore language to Follow system afterwards.
+For a future screenshot refresh, capture the current native editor, pending 9:16 crop and separate export in both languages. The current 1.3.0 listing retains the existing six artwork images and does not claim new build 9 captures. Use actual app-window captures; do not draw fake controls. Place ignored originals in `AppStore/screenshots/raw/{en,cs}-{editor,crop,export}.png`, with the pointer on the title bar. The standard window is 1180 × 760 logical points.
 
 ```sh
-swiftc Scripts/build-store-screenshots.swift -o /tmp/localiobc-build-store-screenshots
-/tmp/localiobc-build-store-screenshots
+swiftc Scripts/build-store-screenshots.swift -o /private/tmp/localiobc-build-store-screenshots
+/private/tmp/localiobc-build-store-screenshots
 ```
 
-The compositor preserves the actual app UI, excludes the native title bar/screen-sharing indicator, and adds localized marketing headings. It does not draw fake controls or change video content. All output screenshots are 16:10, 1280 × 800 RGB PNGs.
+The existing compositor excludes the native title bar/screen-sharing indicator, preserves the app content and adds localized marketing headings. Output is 16:10, 1280 × 800 RGB PNG without alpha. Inspect all six final images before upload. Restore the app's system-language preference after screenshot work.
 
 ## Apple references
 
 - [App Store provisioning](https://developer.apple.com/help/account/provisioning-profiles/create-an-app-store-provisioning-profile/)
-- [Screenshot sizes](https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/)
+- [Screenshot specifications](https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/)
 - [Pricing](https://developer.apple.com/help/app-store-connect/manage-app-pricing/set-a-price/)
 - [App privacy](https://developer.apple.com/app-store/app-privacy-details/)
-- [Current submission requirements](https://developer.apple.com/news/upcoming-requirements/)
+- [Privacy manifest data declarations](https://developer.apple.com/documentation/technotes/tn3184-adding-data-collection-details-to-your-privacy-manifest)
+- [Encryption documentation](https://developer.apple.com/help/app-store-connect/reference/app-information/export-compliance-documentation-for-encryption/)

@@ -2,8 +2,8 @@
   "app_name": "LocalioBC",
   "bundle_id": "com.localiobvideo.app",
   "sku": "LOCALIOBC-MAC-001",
-  "version": "1.2.1",
-  "build": "7",
+  "version": "1.3.0",
+  "build": "9",
   "platform": "macOS",
   "minimum_macos": "14.0",
   "architectures": [
@@ -33,14 +33,32 @@
   "release_mode": "manual",
   "content_rights": "Original app and original demo footage; no licensed catalogue content",
   "app_privacy": {
-    "data_collected": false,
+    "data_collected": true,
     "tracking": false,
+    "data_types": [
+      {
+        "type": "PHOTOS_OR_VIDEOS",
+        "purposes": [
+          "APP_FUNCTIONALITY"
+        ],
+        "linked_to_user": true,
+        "used_for_tracking": false
+      },
+      {
+        "type": "AUDIO_DATA",
+        "purposes": [
+          "APP_FUNCTIONALITY"
+        ],
+        "linked_to_user": true,
+        "used_for_tracking": false
+      }
+    ],
     "privacy_policy_url": "https://localiobc.mylocalio.com/privacy/",
-    "notes": "App disclosure only. Website connection logs and support correspondence are described separately in the policy."
+    "notes": "Only explicit optional uploads of finished exports to the user's own Bunny Storage account. Local editing/export stays offline. Localio Labs receives no media or Storage Zone password; website logs/support are described separately."
   },
   "encryption": {
     "uses_non_exempt_encryption": false,
-    "note": "No custom cryptography, VPN, messaging, DRM or encrypted networking implemented by the app; Apple system frameworks only. Reassess if this changes."
+    "note": "System HTTPS/TLS and Keychain only; no non-exempt custom encryption. ITSAppUsesNonExemptEncryption is false under the Apple OS encryption exemption."
   },
   "review_contact": {
     "first_name": null,
@@ -52,23 +70,23 @@
   "sign_in_required": false,
   "age_rating": {
     "expected": "4+",
-    "status": "Questionnaire completed; Apple calculated 4+",
+    "status": "Updated for affiliate promotion; Apple calculated 4+ on 2026-11-15",
     "content_descriptors": "None for built-in content",
     "unrestricted_web_access": false,
     "online_user_generated_content": false,
-    "advertising": false,
+    "advertising": true,
     "messaging": false,
     "gambling": false,
     "health_or_medical": false
   },
   "owner_actions": [
-    "Await review of 1.2.1 (7) and respond to Apple feedback",
+    "Await review of 1.3.0 (9) and respond to Apple feedback",
     "Release manually after approval",
     "Add the actual public App Store link to the website after release"
   ],
   "website": {
     "url": "https://localiobc.mylocalio.com/",
-    "status": "Public direct edition 1.2.1; English/Czech production pages, screenshot and byte-exact signed update feed verified on 2026-11-15 at 01:24 CET. Store edition remains coming soon."
+    "status": "Public free direct edition 1.3.0 (9), Czech/English release news and SEO deployed; public pages, original screenshot and signed feed verified 2026-11-15. Paid Store edition remains coming soon."
   },
   "availability": {
     "countries_or_regions": 175,
@@ -78,55 +96,54 @@
     "status": "WAITING_FOR_REVIEW",
     "submitted_on": "2026-11-15",
     "private_details": "Ignored SubmissionStatus.local.json",
-    "last_verified_at": "2026-11-15T01:27:00+01:00",
-    "verification_source": "App Store Connect: processed build 7 selected in the saved 1.2.1 listing; Submit for Review returned 1 Item Submitted and App Review showed Waiting for Review",
-    "selected_version": "1.2.1",
-    "selected_build": "7",
+    "last_verified_at": "2026-11-15T04:34:00+01:00",
+    "verification_source": "App Store Connect returned 1 Item Submitted; App Review then showed macOS 1.3.0 (9), Waiting for Review, submitted at 04:34 CET",
+    "selected_version": "1.3.0",
+    "selected_build": "9",
     "upload_status": "COMPLETE",
     "testflight_status": null,
     "publicly_released": false,
-    "submitted_at": "2026-11-15T01:27:00+01:00",
+    "submitted_at": "2026-11-15T04:34:00+01:00",
+    "uploaded_at": "2026-11-15T04:24:00+01:00",
+    "build_processing_status": "PROCESSED_AND_SELECTED",
+    "testflight_status_note": "Transporter reports ready for internal testing; processed build 9 was selected and submitted for App Review. No separate beta test was performed.",
     "replaces": {
-      "version": "1.2.0",
-      "build": "6",
-      "submitted_on": "2026-11-15",
-      "submitted_at": "2026-11-15T00:38:00+01:00",
+      "version": "1.2.1",
+      "build": "7",
+      "submitted_at": "2026-11-15T01:27:00+01:00",
       "withdrawn_on": "2026-11-15",
       "status_after_withdrawal": "DEVELOPER_REJECTED",
-      "reason": "Owner-authorized replacement with 1.2.1 (7), including the clean compact export panel"
-    },
-    "uploaded_at": "2026-11-15T01:17:00+01:00",
-    "build_processing_status": "PROCESSED_AND_SELECTED",
-    "testflight_status_note": "No separate TestFlight beta status was read for build 7; processing and selection for App Review were verified."
+      "reason": "Owner-authorized replacement with Bunny Storage version 1.3.0 (9)"
+    }
   },
   "current_store_source": {
-    "version": "1.2.1",
-    "build": "7",
+    "version": "1.3.0",
+    "build": "9",
     "local_release_build": "PASSED",
     "store_package_exported": true,
     "uploaded": true,
     "submitted_for_review": true,
     "sparkle_included": false,
     "package": {
-      "path": "dist/app-store-1.2.1-build7/export/LocalioBC.pkg",
-      "size_bytes": 2056081,
-      "sha256": "9bba802b7a5fb2d4c3d81c65052b4edf41b019ebb45116682b2979691110eaa1",
+      "path": "dist/app-store-1.3.0-build9/export/LocalioBC.pkg",
+      "size_bytes": 2845231,
+      "sha256": "dbf2c064467bd7b25ca881ef223e3e33859dd8b42ea5168f39a9faf7410af694",
       "validation": "PASSED"
     }
   },
   "direct_distribution": {
-    "version": "1.2.1",
-    "build": "7",
+    "version": "1.3.0",
+    "build": "9",
     "status": "PUBLISHED",
-    "release_url": "https://github.com/bradacz/LocalioBC/releases/tag/v1.2.1",
+    "release_url": "https://github.com/bradacz/LocalioBC/releases/tag/v1.3.0",
     "verified_on": "2026-11-15",
-    "last_verified_at": "2026-11-15T01:24:00+01:00",
+    "last_verified_at": "2026-11-15T04:34:00+01:00",
     "package": {
-      "filename": "LocalioBC-1.2.1-universal.dmg",
-      "size_bytes": 2188411,
-      "sha256": "5f742171c81e3c2c7e264a510f5a352b1081e0ef7c6843e02b1753ce49f06b1a"
+      "filename": "LocalioBC-1.3.0-universal.dmg",
+      "size_bytes": 2617903,
+      "sha256": "f205d9f9947948f268749fd804d3f007d903568602da46a0171e915f8ebaf505"
     },
-    "production_verification": "Anonymous GitHub download, English/Czech website, screenshot and byte-exact signed update feed passed"
+    "production_verification": "Anonymous GitHub download matches final notarized DMG; EN/CS pages, original screenshot and byte-exact signed feed passed. Genuine 1.2.1 (7) installed and relaunched as 1.3.0 (9), signatures and payload match validated."
   },
   "account_follow_up": {
     "paid_apps_agreement": "Updated with explicit owner approval and verified ACTIVE on 2026-11-15",
@@ -159,6 +176,14 @@
         "size_bytes": 2090268,
         "sha256": "6a32847386b34a73198a70f8a16a9715ceb1c80ec5c0f624a97d07c01e87bee1"
       }
+    },
+    {
+      "version": "1.2.1",
+      "build": "7",
+      "submitted_at": "2026-11-15T01:27:00+01:00",
+      "withdrawn_on": "2026-11-15",
+      "status_after_withdrawal": "DEVELOPER_REJECTED",
+      "replaced_by": "1.3.0 (9)"
     }
   ]
 }
