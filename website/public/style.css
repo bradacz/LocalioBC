@@ -200,9 +200,6 @@ header.is-scrolled { border-color: #e4e7f0; box-shadow: 0 7px 22px #1c2b5407; }
 }
 
 /* The app's story stays readable and part of the normal document flow. */
-.story-intro { padding-block: 38px 8px; max-inline-size: 820px; }
-.story-intro h2 { margin-block: 12px 16px; }
-.story-intro p { color: var(--secondary); margin-block: 0 18px; }
 .story-article { margin-inline: auto; padding-block-end: 28px; }
 .story-article .article-back { display: inline-flex; align-items: center; min-block-size: 44px; font-size: 14px; }
 .story-article h1 { text-wrap: balance; }
@@ -229,9 +226,6 @@ nav .bunny-signup, .bunny-signup {
 .bunny-signup.button > span { font-size: 15px; }
 .bunny-signup.button .affiliate-label { font-size: 12px; }
 .affiliate-disclosure { max-inline-size: 680px; font-size: 14px; color: var(--secondary); }
-.bunny-intro { padding-block-start: 24px; }
-.bunny-intro .article-links { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center; }
-.bunny-intro .affiliate-disclosure { margin-block-start: 10px; }
 @media (max-width: 960px) {
   header { flex-wrap: wrap; gap: 12px; }
   nav { inline-size: 100%; flex-wrap: wrap; gap: 8px 20px; }
@@ -239,4 +233,68 @@ nav .bunny-signup, .bunny-signup {
 }
 @media (forced-colors: active) {
   .bunny-signup:focus-visible { outline-color: Highlight; }
+}
+
+/* Two editorial destinations, with their own artwork and one link per card. */
+.articles { margin-block-start: 48px; }
+.articles > h2 { margin-block: 12px 26px; }
+.article-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 24px;
+}
+.story-card {
+  position: relative;
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: subgrid;
+  min-inline-size: 0;
+  container: story-card / inline-size;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--canvas);
+}
+.story-card > img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: 40 / 21;
+  border-radius: 17px 17px 0 0;
+}
+.story-card > hgroup, .story-card > p { margin-inline: 24px; }
+.story-card > hgroup { margin-block: 4px 0; }
+.story-card .eyebrow { margin-block: 0 10px; font-size: 11px; }
+.story-card h3 { margin: 0; font-size: 24px; line-height: 1.28; text-wrap: balance; }
+.story-card .card-link { color: var(--ink); text-decoration: none; }
+.story-card .card-link::after { content: ""; position: absolute; inset: 0; border-radius: 18px; }
+.story-card > .article-summary { margin-block: 0; color: var(--secondary); font-size: 16px; }
+.story-card > .article-read {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-block: 0 26px;
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 600;
+}
+.story-card > .article-read span { font-size: 20px; font-weight: 400; }
+.story-card:hover { border-color: #a9b9e9; }
+.article-affiliate { margin-block-start: 22px; }
+.article-affiliate .affiliate-disclosure { margin-block: 6px 0; }
+@container story-card (inline-size > 480px) {
+  .story-card > hgroup, .story-card > p { margin-inline: 30px; }
+  .story-card h3 { font-size: 27px; }
+}
+@supports selector(:has(*)) {
+  .story-card .card-link:focus-visible { outline: none; }
+  .story-card:has(.card-link:focus-visible) { outline: 3px solid var(--accent); outline-offset: 5px; }
+}
+@media (max-width: 700px) {
+  .articles { margin-block-start: 34px; }
+  .article-grid { grid-template-columns: minmax(0, 1fr); row-gap: 18px; }
+}
+@media (forced-colors: active) {
+  .story-card:has(.card-link:focus-visible) { outline-color: Highlight; }
 }
