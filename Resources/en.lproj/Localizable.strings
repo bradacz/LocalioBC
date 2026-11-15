@@ -7,6 +7,7 @@
 "Chyba při čtení zdrojového videa: %@" = "Could not read the source video: %@";
 "Co aplikace umí" = "Features";
 "Cílová velikost" = "Target size";
+"Cílová velikost / klip" = "Target size / clip";
 "Do" = "To";
 "Dokončení zápisu selhalo." = "Could not finish writing.";
 "Dopočítá bitrate na zadaný limit v MB" = "Calculate bitrate for a target size in MB";

@@ -17,48 +17,41 @@ struct ExportSidebarView: View {
 
     var body: some View {
         let _ = preferences.language
-        VStack(spacing: 0) {
-            HStack(spacing: 9) {
-                Image(systemName: "square.and.arrow.up").foregroundStyle(AppDesign.accent)
-                Text(tr("Export")).font(.system(size: 15, weight: .semibold))
-                Spacer()
+        VStack(alignment: .leading, spacing: 0) {
+            VStack(alignment: .leading, spacing: 22) {
+                formatSection
+                compressionSection
+                summarySection
             }
-            .padding(.horizontal, 18)
-            .padding(.vertical, 16)
-            Divider()
-            ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    formatSection
-                    compressionSection
-                    summarySection
-                }
-                .padding(14)
-            }
-            Divider()
+            .fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 22)
             exportActionSection
-                .padding(14)
-                .background(AppDesign.surface)
+                .fixedSize(horizontal: false, vertical: true)
         }
+        .padding(20)
         .frame(width: 320)
-        .background(Color.primary.opacity(0.025))
+        .frame(maxHeight: .infinity, alignment: .top)
     }
 
     // MARK: - Format & Resolution
 
     private var formatSection: some View {
         VStack(alignment: .leading, spacing: 9) {
-            sectionTitle(tr("Formát videa"), systemImage: "film.stack")
-            Picker(tr("Režim exportu"), selection: $viewModel.exportMode) {
-                ForEach(ExportMode.allCases) { Text($0.title).tag($0) }
-            }
-            .labelsHidden()
-            .onChange(of: viewModel.exportMode) {
-                viewModel.enforcePassthroughEligibility()
-                viewModel.lastExportResult = nil
-            }
-            if viewModel.exportMode == .separate {
-                Text(tr("Každý klip se uloží zvlášť do nové podsložky. Cílová velikost platí pro jeden klip."))
-                    .font(.caption2).foregroundStyle(.secondary)
+            HStack {
+                Text(tr("Export"))
+                    .font(.system(size: 15, weight: .semibold))
+                Spacer(minLength: 8)
+                Picker(tr("Režim exportu"), selection: $viewModel.exportMode) {
+                    ForEach(ExportMode.allCases) { Text($0.title).tag($0) }
+                }
+                .labelsHidden()
+                .help(viewModel.exportMode == .separate
+                      ? tr("Každý klip se uloží zvlášť do nové podsložky. Cílová velikost platí pro jeden klip.")
+                      : viewModel.exportMode.title)
+                .onChange(of: viewModel.exportMode) {
+                    viewModel.enforcePassthroughEligibility()
+                    viewModel.lastExportResult = nil
+                }
             }
             LabeledContent(tr("Kontejner")) {
                 Picker(tr("Kontejner"), selection: $viewModel.settings.container) {
@@ -105,8 +98,6 @@ struct ExportSidebarView: View {
         }
         .font(.caption)
         .controlSize(.small)
-        .padding(12)
-        .appPanel()
         .disabled(viewModel.isExporting)
     }
 
@@ -114,60 +105,56 @@ struct ExportSidebarView: View {
 
     private var compressionSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            sectionTitle(tr("Komprese"), systemImage: "arrow.down.right.and.arrow.up.left")
-
-            Picker(tr("Komprese"), selection: Binding(
-                get: { viewModel.settings.compressionMode },
-                set: {
-                    viewModel.settings.compressionMode = $0
-                    viewModel.enforcePassthroughEligibility()
-                    viewModel.lastExportResult = nil
+            HStack {
+                sectionTitle(tr("Komprese"))
+                Spacer(minLength: 8)
+                Picker(tr("Komprese"), selection: Binding(
+                    get: { viewModel.settings.compressionMode },
+                    set: {
+                        viewModel.settings.compressionMode = $0
+                        viewModel.enforcePassthroughEligibility()
+                        viewModel.lastExportResult = nil
+                    }
+                )) {
+                    ForEach(CompressionMode.allCases) { mode in
+                        Text(tr(mode.rawValue)).tag(mode)
+                            .disabled(mode == .passthrough && !viewModel.isPassthroughEligible)
+                    }
                 }
-            )) {
-                ForEach(CompressionMode.allCases) { mode in
-                    Text(tr(mode.rawValue)).tag(mode)
-                        .disabled(mode == .passthrough && !viewModel.isPassthroughEligible)
-                }
+                .labelsHidden()
+                .pickerStyle(.menu)
+                .controlSize(.small)
+                .frame(width: 170)
+                .help(modeSubtitle(viewModel.settings.compressionMode))
             }
-            .labelsHidden()
-            .pickerStyle(.menu)
-            .frame(maxWidth: .infinity)
-            Text(modeSubtitle(viewModel.settings.compressionMode))
-                .font(.caption2)
-                .foregroundStyle(.secondary)
 
             if viewModel.settings.compressionMode == .preset {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(tr("Úroveň kvality"))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 6) {
-                        ForEach(QualityPreset.allCases) { preset in
-                            let selected = viewModel.settings.qualityPreset == preset
-                            Button {
-                                viewModel.settings.qualityPreset = preset
-                                viewModel.lastExportResult = nil
-                            } label: {
-                                HStack(spacing: 6) {
-                                    Image(systemName: selected ? "checkmark.circle.fill" : "circle")
-                                        .foregroundStyle(selected ? AppDesign.accent : Color.secondary)
-                                    Text(tr(preset.rawValue))
-                                        .foregroundStyle(.primary)
-                                }
-                                .font(.system(size: 11, weight: selected ? .semibold : .regular))
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 9)
-                                .background(selected ? AppDesign.accent.opacity(0.07) : .clear, in: RoundedRectangle(cornerRadius: 8))
-                                .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(selected ? AppDesign.accent : AppDesign.border))
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 4) {
+                    ForEach(QualityPreset.allCases) { preset in
+                        let selected = viewModel.settings.qualityPreset == preset
+                        Button {
+                            viewModel.settings.qualityPreset = preset
+                            viewModel.lastExportResult = nil
+                        } label: {
+                            HStack(spacing: 6) {
+                                Image(systemName: selected ? "checkmark.circle.fill" : "circle")
+                                    .foregroundStyle(selected ? AppDesign.accent : Color.secondary)
+                                Text(tr(preset.rawValue))
+                                    .foregroundStyle(.primary)
                             }
-                            .buttonStyle(.plain)
+                            .font(.system(size: 11, weight: selected ? .semibold : .regular))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.vertical, 6)
+                            .contentShape(Rectangle())
                         }
+                        .buttonStyle(.plain)
+                        .accessibilityAddTraits(selected ? .isSelected : [])
                     }
                 }
             } else if viewModel.settings.compressionMode == .targetSize {
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading, spacing: 6) {
                     HStack {
-                        Text(tr("Cílová velikost"))
+                        Text(tr(viewModel.exportMode == .separate ? "Cílová velikost / klip" : "Cílová velikost"))
                             .font(.caption)
                             .foregroundStyle(.secondary)
                         Spacer()
@@ -191,31 +178,34 @@ struct ExportSidebarView: View {
                     HStack(spacing: 6) {
                         ForEach(quickTargetSizesMB, id: \.self) { sizeMB in
                             let selected = abs(viewModel.settings.targetSizeMB - sizeMB) < 0.5
-                            Button("\(Int(sizeMB)) MB") {
+                            Button {
                                 viewModel.settings.targetSizeMB = sizeMB
                                 viewModel.lastExportResult = nil
+                            } label: {
+                                Text("\(Int(sizeMB)) MB")
+                                    .font(.system(size: 11, weight: selected ? .semibold : .regular))
+                                    .foregroundStyle(selected ? AppDesign.accent : Color.secondary)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 6)
+                                    .contentShape(Rectangle())
                             }
-                            .buttonStyle(AppButtonStyle(compact: true))
-                            .controlSize(.mini)
-                            .tint(selected ? .accentColor : .secondary)
+                            .buttonStyle(.plain)
+                            .accessibilityAddTraits(selected ? .isSelected : [])
                         }
                     }
 
-                    if estimatedBitrateBps < 300_000 {
-                        Label(tr("Nízký bitrate pro tuto délku — obraz může být výrazně komprimován."), systemImage: "exclamationmark.triangle.fill")
-                            .font(.caption2)
-                            .foregroundStyle(.orange)
-                    }
                     if let warning = targetSizeWarning {
                         Label(warning, systemImage: "exclamationmark.triangle.fill")
+                            .font(.caption2)
+                            .foregroundStyle(.orange)
+                    } else if estimatedBitrateBps < 300_000 {
+                        Label(tr("Nízký bitrate pro tuto délku — obraz může být výrazně komprimován."), systemImage: "exclamationmark.triangle.fill")
                             .font(.caption2)
                             .foregroundStyle(.orange)
                     }
                 }
             }
         }
-        .padding(12)
-        .appPanel()
         .disabled(viewModel.isExporting)
     }
 
@@ -234,22 +224,38 @@ struct ExportSidebarView: View {
 
     private var summarySection: some View {
         let res = viewModel.outputResolution
-        return VStack(alignment: .leading, spacing: 13) {
-            Text(tr("Odhad po exportu"))
-                .font(.system(size: 11)).foregroundStyle(.secondary)
-            Text(estimatedSizeLabel(sourceBytes: viewModel.totalSourceSizeBytes, estimatedBytes: viewModel.estimatedOutputBytes))
-                .font(.system(size: 22, weight: .semibold, design: .rounded))
-                .foregroundStyle(AppDesign.accent)
-                .lineLimit(1).minimumScaleFactor(0.8)
-            Divider()
-            VStack(spacing: 8) {
+        return VStack(alignment: .leading, spacing: 10) {
+            ViewThatFits(in: .horizontal) {
+                HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    estimateTitle
+                    Spacer(minLength: 0)
+                    estimateValue
+                }
+                VStack(alignment: .leading, spacing: 4) {
+                    estimateTitle
+                    estimateValue
+                }
+            }
+            VStack(spacing: 6) {
                 summaryRow(tr("Výsledná délka"), EditorViewModel.formatTime(viewModel.totalOutputDuration))
                 summaryRow(tr("Rozměry"), viewModel.exportMode == .separate ? tr("Podle klipu") : "\(Int(res.width)) × \(Int(res.height)) px")
                 summaryRow(tr("Původní velikost"), EditorViewModel.formatBytes(viewModel.totalSourceSizeBytes))
             }
         }
-        .padding(14)
-        .appPanel()
+    }
+
+    private var estimateTitle: some View {
+        Text(tr("Odhad po exportu"))
+            .font(.system(size: 11))
+            .foregroundStyle(.secondary)
+            .fixedSize()
+    }
+
+    private var estimateValue: some View {
+        Text(estimatedSizeLabel(sourceBytes: viewModel.totalSourceSizeBytes, estimatedBytes: viewModel.estimatedOutputBytes))
+            .font(.system(size: 22, weight: .semibold, design: .rounded))
+            .foregroundStyle(AppDesign.accent)
+            .fixedSize()
     }
 
     private func summaryRow(_ label: String, _ value: String, highlight: Bool = false) -> some View {
@@ -312,11 +318,9 @@ struct ExportSidebarView: View {
                     Button(tr("Zrušit export")) {
                         viewModel.cancelExport()
                     }
-                    .buttonStyle(AppButtonStyle(compact: true))
+                    .buttonStyle(.borderless)
                     .frame(maxWidth: .infinity)
                 }
-                .padding(12)
-                .background(AppDesign.accent.opacity(0.08), in: RoundedRectangle(cornerRadius: 10))
             } else {
                 Button {
                     viewModel.startExport()
@@ -349,37 +353,32 @@ struct ExportSidebarView: View {
                     Text("\(viewModel.lastExportDirectory?.lastPathComponent ?? result.outputURL.lastPathComponent) • \(EditorViewModel.formatBytes(viewModel.lastExportResults.reduce(0) { $0 + $1.fileSizeBytes }))\(result.usedPassthrough ? " (\(tr("Beze ztráty")))" : "")")
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                        .lineLimit(2)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                        .help(viewModel.lastExportDirectory?.lastPathComponent ?? result.outputURL.lastPathComponent)
 
                     HStack(spacing: 8) {
                         Button(tr("Zobrazit ve Finderu")) {
                             viewModel.revealLastExportInFinder()
                         }
-                        .buttonStyle(AppButtonStyle(compact: true))
+                        .buttonStyle(.borderless)
                         .controlSize(.small)
 
                         Button(viewModel.lastExportDirectory == nil ? tr("Přehrát") : tr("Otevřít složku")) {
                             viewModel.openLastExport()
                         }
-                        .buttonStyle(AppButtonStyle(compact: true))
+                        .buttonStyle(.borderless)
                         .controlSize(.small)
                     }
                 }
-                .padding(10)
-                .background(Color.green.opacity(0.1), in: RoundedRectangle(cornerRadius: 10))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .strokeBorder(Color.green.opacity(0.3), lineWidth: 1)
-                )
+                .padding(.top, 4)
             }
         }
     }
 
-    private func sectionTitle(_ title: String, systemImage: String) -> some View {
-        HStack(spacing: 7) {
-            Image(systemName: systemImage).foregroundStyle(AppDesign.accent)
-            Text(title).foregroundStyle(.primary)
-        }
-        .font(.system(size: 12, weight: .semibold))
+    private func sectionTitle(_ title: String) -> some View {
+        Text(title)
+            .foregroundStyle(.primary)
+            .font(.system(size: 12, weight: .semibold))
     }
 }

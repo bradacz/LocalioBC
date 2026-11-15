@@ -358,11 +358,11 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks");
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.localiobvideo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			}; name = Debug; };
@@ -374,11 +374,11 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks");
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.localiobvideo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			}; name = Release; };
@@ -430,13 +430,13 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
 				CODE_SIGN_STYLE = Manual;
                 DEVELOPMENT_TEAM = 4RY8J45UR3;
                 ENABLE_APP_SANDBOX = YES;
-                CURRENT_PROJECT_VERSION = 6;
+                CURRENT_PROJECT_VERSION = 7;
 				COMBINE_HIDPI_IMAGES = YES;
 
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks");
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.localiobvideo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			}; name = AppStore; };
@@ -460,8 +460,8 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
                 ENABLE_APP_SANDBOX = YES;
                 ENABLE_HARDENED_RUNTIME = NO;
                 COMBINE_HIDPI_IMAGES = YES;
-                CURRENT_PROJECT_VERSION = 6;
-                MARKETING_VERSION = 1.2.0;
+                CURRENT_PROJECT_VERSION = 7;
+                MARKETING_VERSION = 1.2.1;
                 INFOPLIST_FILE = AppStore/Info.plist;
                 LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks");
                 PRODUCT_BUNDLE_IDENTIFIER = com.localiobvideo.app;
@@ -478,8 +478,8 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
                 ENABLE_APP_SANDBOX = YES;
                 ENABLE_HARDENED_RUNTIME = YES; CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
                 COMBINE_HIDPI_IMAGES = YES;
-                CURRENT_PROJECT_VERSION = 6;
-                MARKETING_VERSION = 1.2.0;
+                CURRENT_PROJECT_VERSION = 7;
+                MARKETING_VERSION = 1.2.1;
                 INFOPLIST_FILE = AppStore/Info.plist;
                 LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks");
                 PRODUCT_BUNDLE_IDENTIFIER = com.localiobvideo.app;
@@ -496,8 +496,8 @@ A30000000000000000000007 = {isa = PBXFileReference; lastKnownFileType = text; pa
                 ENABLE_APP_SANDBOX = YES;
                 ENABLE_HARDENED_RUNTIME = YES; CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
                 COMBINE_HIDPI_IMAGES = YES;
-                CURRENT_PROJECT_VERSION = 6;
-                MARKETING_VERSION = 1.2.0;
+                CURRENT_PROJECT_VERSION = 7;
+                MARKETING_VERSION = 1.2.1;
                 INFOPLIST_FILE = AppStore/Info.plist;
                 LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks");
                 PRODUCT_BUNDLE_IDENTIFIER = com.localiobvideo.app;
