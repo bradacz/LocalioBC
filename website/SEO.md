@@ -63,3 +63,14 @@ The two homepage article teasers are presented together as image cards, using lo
 - [Meta descriptions](https://developers.google.com/search/docs/appearance/snippet)
 - [Localized page versions](https://developers.google.com/search/docs/specialty/international/localized-versions)
 - [SoftwareApplication rich-result requirements](https://developers.google.com/search/docs/appearance/structured-data/software-app)
+
+
+## SEO and analytics corrections — 15 November 2026
+
+The current sitemap has twelve pages. Search Console accepted a fresh submission and reported Success with twelve discovered URLs. Index discovery and a successful live inspection are distinct from completed indexing or search ranking. The homepage is indexed; new article indexing remains Google's decision.
+
+Static English and Czech 404 pages replace the implicit Cloudflare Pages homepage fallback for unknown URLs. They use noindex/follow, link to valid home/support pages, have no canonical or language-alternate claims about the missing address, load no analytics, and stay outside the sitemap. Correct HTTP 404 status must be verified after deployment.
+
+All article BlogPosting headlines now match their visible H1. The support FAQs recommend the current 1.3.0 manual download for users of editions without the updater. Current download links, the owner-supplied screenshot and the signed appcast are unchanged.
+
+Consented website measurement now includes explicit download-link and Bunny registration-link clicks and handles Back/Forward cache restores. The privacy pages and consent notice explain these interactions; click counts do not prove completed downloads, installs, registrations or purchases. Enhanced measurement stays off; only fixed public categories/placements are sent, with queries, fragments, referring-page addresses, arbitrary link text and affiliate codes omitted. See GOOGLE.md for event names, reporting configuration and tests.

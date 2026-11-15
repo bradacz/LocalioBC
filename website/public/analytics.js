@@ -2,18 +2,27 @@
 (() => {
   'use strict';
   const config = {"name": "LocalioBC", "id": "G-HFRP7KWGWE", "hosts": ["localiobc.mylocalio.com"], "key": "localiobc_analytics_consent_v1", "paths": ["/", "/cs/", "/support/", "/cs/support/", "/privacy/", "/cs/privacy/", "/blog/why-localiobc/", "/cs/blog/proc-vzniklo-localiobc/", "/blog/bunny-video-hosting/", "/cs/blog/bunny-hosting-videa/", "/blog/localiobc-1-3-bunny-storage/", "/cs/blog/localiobc-1-3-bunny-storage/"], "privacy": "/privacy/", "privacyCs": "/cs/privacy/"};
-  if (!config.hosts.includes(location.hostname)) return;
+  if (!config.hosts.includes(location.hostname) || !config.paths.includes(location.pathname)) return;
+  // Match public release/signup destinations, never collect arbitrary link URLs or text.
+  const downloadPath = '/bradacz/LocalioBC/releases/download/v1.3.0/LocalioBC-1.3.0-universal.dmg';
   const key = config.key;
   const lifetime = 180 * 24 * 60 * 60 * 1000;
   const read = () => {
     try {
       const saved = JSON.parse(localStorage.getItem(key));
-      return saved && ['granted', 'denied'].includes(saved.choice) && saved.at <= Date.now() && Date.now() - saved.at < lifetime ? saved.choice : null;
+      return saved && ['granted', 'denied'].includes(saved.choice) && Number.isFinite(saved.at) && saved.at <= Date.now() && Date.now() - saved.at < lifetime ? saved : null;
     } catch { return null; }
   };
-  let choice = read();
+  const saved = read();
+  let choice = saved?.choice ?? null;
+  let expiresAt = saved ? saved.at + lifetime : 0;
   let loaded = false;
   let lastPage = null;
+  const restoreChoice = () => {
+    const saved = read();
+    choice = saved?.choice ?? null;
+    expiresAt = saved ? saved.at + lifetime : 0;
+  };
   const disable = () => {
     window['ga-disable-' + config.id] = true;
     lastPage = null;
@@ -24,8 +33,19 @@
       document.cookie = name + '=; Max-Age=0; path=/; SameSite=Lax; Secure; domain=' + location.hostname;
     }
   };
+  const hasConsent = () => {
+    if (choice !== 'granted') return false;
+    if (Date.now() >= expiresAt || Date.now() < expiresAt - lifetime) {
+      choice = null;
+      expiresAt = 0;
+      disable();
+      show(true);
+      return false;
+    }
+    return true;
+  };
   const page = () => {
-    if (choice !== 'granted' || !config.paths.includes(location.pathname) || lastPage === location.pathname) return;
+    if (!hasConsent() || !config.paths.includes(location.pathname) || lastPage === location.pathname) return;
     lastPage = location.pathname;
     // Only known public paths; never send query strings, fragments or form values.
     window.gtag('event', 'page_view', {
@@ -60,6 +80,31 @@
     }
     page();
   };
+  const trackLink = event => {
+    if (!hasConsent() || !config.paths.includes(location.pathname) || event.defaultPrevented) return;
+    if ((event.type === 'click' && event.button !== 0) || (event.type === 'auxclick' && event.button !== 1)) return;
+    const link = event.target?.closest?.('a[href]');
+    if (!link) return;
+    let url;
+    try { url = new URL(link.href); } catch { return; }
+    if (url.username || url.password) return;
+    let name;
+    let details;
+    if (url.origin === 'https://github.com' && url.pathname === downloadPath) {
+      name = 'file_download';
+      details = {file_name: 'LocalioBC-1.3.0-universal.dmg', file_extension: 'dmg', link_domain: 'github.com'};
+    } else if (url.origin === 'https://bunny.net' && url.pathname === '/' && url.searchParams.get('ref') === 'gm93y8cppz') {
+      name = 'bunny_signup_click';
+      details = {link_domain: 'bunny.net'};
+    } else return;
+    const placement = link.closest('header') ? 'header' : link.closest('.hero') ? 'hero' : link.closest('article.prose') ? 'article' : link.closest('footer') ? 'footer' : 'content';
+    window.gtag('event', name, {
+      ...details, link_placement: placement,
+      page_location: location.origin + location.pathname,
+      page_referrer: '', page_title: config.name + ' — ' + location.pathname,
+      send_to: config.id
+    });
+  };
   const panel = document.createElement('section');
   panel.className = 'localio-analytics-consent';
   panel.innerHTML = '<p><strong></strong><br><span></span> <a></a></p><div><button type="button" data-choice="granted"></button><button type="button" data-choice="denied"></button><button type="button" data-close></button></div>';
@@ -70,7 +115,7 @@
     const cs = document.documentElement.lang === 'cs';
     panel.setAttribute('aria-label', cs ? 'Nastavení statistik návštěvnosti' : 'Website analytics preferences');
     panel.querySelector('strong').textContent = cs ? 'Pomůžete nám vylepšovat web?' : 'Help us improve this website?';
-    panel.querySelector('span').textContent = cs ? 'Google Analytics měří návštěvnost pouze s vaším souhlasem. Volbu můžete kdykoli změnit. Bez reklamního měření.' : 'Google Analytics measures website usage only with your consent. You can change your choice at any time. No advertising measurement.';
+    panel.querySelector('span').textContent = cs ? 'S vaším souhlasem Google Analytics měří zobrazení stránek a kliknutí na stažení aplikace a odkazy Bunny.net. Volbu můžete kdykoli změnit. Bez reklamního měření.' : 'With your consent, Google Analytics measures page views and clicks on download and Bunny.net links. You can change your choice at any time. No advertising measurement.';
     const link = panel.querySelector('a');
     link.textContent = cs ? 'Soukromí' : 'Privacy';
     link.href = cs ? config.privacyCs : config.privacy;
@@ -86,7 +131,9 @@
   };
   const choose = value => {
     choice = value;
-    try { localStorage.setItem(key, JSON.stringify({choice: value, at: Date.now()})); } catch { /* This page only. */ }
+    const at = Date.now();
+    expiresAt = at + lifetime;
+    try { localStorage.setItem(key, JSON.stringify({choice: value, at})); } catch { /* This page only. */ }
     if (choice === 'granted') enable(); else disable();
     show(false);
   };
@@ -95,12 +142,23 @@
   settings.addEventListener('click', () => show(panel.hidden));
   window.addEventListener('storage', event => {
     if (event.key !== key && event.key !== null) return;
-    choice = read();
+    restoreChoice();
     if (choice === 'granted') enable(); else disable();
     show(choice === null);
   });
   window.addEventListener('localio:page', page);
   window.addEventListener('popstate', page);
+  window.addEventListener('pageshow', event => {
+    if (!event.persisted) return;
+    // Cached documents retain JS state; refresh consent before counting the new visit.
+    restoreChoice();
+    lastPage = null;
+    if (choice === 'granted') enable(); else disable();
+    show(choice === null);
+  });
+  // Native click covers mouse, touch and keyboard activation without delaying navigation.
+  document.addEventListener('click', trackLink);
+  document.addEventListener('auxclick', trackLink);
   new MutationObserver(renderLanguage).observe(document.documentElement, {attributes: true, attributeFilter: ['lang']});
   document.body.append(panel, settings);
   renderLanguage();

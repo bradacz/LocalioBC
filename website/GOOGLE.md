@@ -1,26 +1,55 @@
 # LocalioBC website — Google measurement
 
-Updated 15 November 2026. Scope: public website only; macOS app has no analytics SDK.
+Updated 15 November 2026. Scope: the public website only; the macOS app has no analytics SDK. Private account details and account screenshots stay outside the public repository.
 
-- Google account: marian.tomanek@gmail.com; GA account MyLocalio `416230214`.
-- GA4 property `564290399`, web stream `16338219656`, measurement `G-HFRP7KWGWE`.
-- Stream URL `https://localiobc.mylocalio.com`; Europe/Prague, CZK.
-- Search Console https://localiobc.mylocalio.com/ is verified siteOwner via the permanent HTML meta tag. Do not remove the tag.
-- `public/analytics.js` loads Google only after explicit consent, expires choice after 180 days, supports Czech/English, rejects by default, restricts production host/public paths, omits query/hash/form contents and advertising personalization. Preferences allow revocation and remove host analytics cookies. No earlier cookie notice is treated as Analytics consent.
-- Cloudflare Pages is built automatically from GitHub main, root website, command python3 build.py, output dist. Build ignores temporary editor/media files.
-- Eliška named Google reporting is connected; daily email remains TwoUp, MyLocalio, FLOOXI and LocalioBuzz only.
-- Acceptance: shared consent code passed opt-in, rejection, revocation, expiry, blocked-storage, host-boundary and URL-redaction tests. Production deployment 8b7629ff-3d38-4070-81f7-f86fcac5ec85 succeeded. CNAME now points to localiobc-web.pages.dev; Cloudflare reports domain, validation and verification active. HTTPS serves the GitHub build. Google confirmed ownership and GA Realtime returned page_view, first_visit and session_start after a normal consented visit on 13/14 November. These acceptance visits are not representative traffic. Enhanced automatic measurement was disabled on 14 November; controlled page views remain enabled.
+## Production and ownership
 
-## Oprava inicializace 14. 11. 2026
+- Website: `https://localiobc.mylocalio.com/`.
+- Existing GA4 web measurement: `G-HFRP7KWGWE`. This public tag ID is not a credential. Keep the existing property and history; do not create a second tag or property.
+- Search Console ownership uses the existing permanent HTML verification meta tag. Preserve it.
+- Production deploys automatically from GitHub `bradacz/LocalioBC`, branch `main`, root `website`, build command `python3 build.py`, output `dist`. Temporary editor/media files are excluded.
 
-Google tag GTM-M8HZKXQH, účet 6405006390, kontejner 286852667: publikována živá verze 2. Výchozí Initialization - All Pages ignorovalo webové gtag config a způsobovalo duplicitní page_view. Nahrazeno jediným pravidlem Inicializace podle konfigurace webu s podporou gtag(config), čekáním na vlastní kontejner a přesné ID G-HFRP7KWGWE. Původní pravidlo odstraněno. Nastavení send_page_view:false i soukromí nyní řídí kód webu. Automatické rozšířené měření zůstává vypnuté.
+## Consent and data minimization
 
-Kontrolovaná návštěva se souhlasem po publikování přidala právě jedno page_view (Realtime 1 → 2). Jde o technický test, nikoli historickou návštěvnost. Přehledy v Elišce používají přesná GA/GSC ID; nová historie se nevytváří zpětně.
+`public/analytics.js` loads Google only after explicit analytics consent on the exact production hostname and known public page paths. A choice expires after 180 days. Rejecting or withdrawing consent stops further collection and clears this site's analytics cookies. Blocked storage is handled without preventing navigation or downloads. Consent preferences are available in Czech and English.
 
-## SEO, Search Console a nové články 15. 11. 2026
+Page URLs omit queries and fragments. Referring-page addresses, arbitrary link text, complete destination URLs, affiliate referral codes and form values are not sent. Advertising storage, personalization and Google Signals remain disabled. This intentionally limits traffic-source and campaign attribution; it is not an analytics outage. Do not restore arbitrary referrers or UTM/query collection as a routine measurement fix.
 
-- Produkce obsahuje osm indexovatelných stránek v češtině a angličtině, včetně `/blog/why-localiobc/` a `/cs/blog/proc-vzniklo-localiobc/`. Všech osm HTML souborů i `sitemap.xml` bylo po nasazení porovnáno se sestaveným webem a odpovídalo přesně.
-- Ve správné službě Search Console `https://localiobc.mylocalio.com/` byla odeslána `https://localiobc.mylocalio.com/sitemap.xml`. Google zobrazil „Soubor Sitemap byl úspěšně odeslán“ a záznam s datem 15. 11. 2026. Přijetí sitemap je ověřené; dokončené zpracování ani indexace nových článků tím potvrzené nejsou.
-- Obě cesty článků jsou v povoleném seznamu existujícího měření `G-HFRP7KWGWE`. Nevznikla další služba ani duplicitní značka. Souhlas, vypnuté automatické rozšířené měření a vyloučení děkovacích stránek zůstávají zachovány.
-- Po výslovném povolení statistik při kontrolní návštěvě produkčního webu zobrazil přehled GA4 „Stránky v reálném čase“ ve službě `564290399` obě cesty. Při závěrečném odečtu měl anglický článek jedno zobrazení a český dvě zobrazení po návratu přes přepínač jazyka. Jde o technické návštěvy, nikoli údaj o organické návštěvnosti nebo počtu skutečných čtenářů.
-- Doklady ověření jsou lokálně v ignorovaném `dist/seo-validation/`: `production.json`, `google-verification.json`, `search-console-sitemap.jpg` a `ga4-both-articles.jpg`. Snímky účtu Google se necommitují.
+Thank-you and error pages do not load analytics and are outside the measured-page allowlist. Ordinary local editing, exports and Bunny uploads in the app are not measured by this website tag.
+
+## Controlled events
+
+Enhanced automatic measurement stays **off** to prevent duplicate or uncontrolled events. The website owns these explicit events:
+
+| Event | Meaning |
+| --- | --- |
+| `page_view` | A known public page visit after consent, including a restored Back/Forward cache visit. Normal initialization and navigation callbacks are deduplicated. |
+| `file_download` | A click on a vetted LocalioBC release DMG download link. It does not prove a completed transfer or installation. |
+| `bunny_signup_click` | A click on a Bunny.net registration link. It does not prove registration, payment or affiliate revenue. |
+
+Both click events are configured as GA4 key events, counted once per event with no assigned default monetary value. The event-scoped **Link placement** custom dimension reads `link_placement` (`header`, `hero`, `article`, `footer`, `content`). These settings do not turn a click into a completed installation or sale. New custom-dimension reports need Google processing time.
+
+Interaction parameters use fixed public categories and bounded placements rather than arbitrary DOM text or URLs. Revocation, consent expiry, cross-tab changes and restoration from the browser's Back/Forward cache must be checked before sending events. Rejected actions are not replayed later when consent changes.
+
+Run the isolated regression suite with `node --test website/tests/analytics.test.mjs`. It uses mocks and sends no events to Google. Real production acceptance visits must be identified as technical tests rather than customer traffic.
+
+## Google tag initialization
+
+The existing Google tag configuration was corrected on 14 November 2026 to respect the website's `gtag(config)` and `send_page_view:false`, replacing a duplicate all-pages initialization rule. Keep the single controlled initialization and enhanced measurement disabled.
+
+## Search Console
+
+The sitemap contains twelve indexable English/Czech pages and their language alternates. Search Console accepted its resubmission on 15 November 2026 and reported **Success, 12 discovered pages**. The homepage was confirmed indexed; a live inspection of the Czech Bunny hosting article confirmed that Google could access and index it. A successful live test or sitemap submission does not mean every page is already indexed, nor does it guarantee ranking.
+
+Earlier eight-page acceptance records describe the site before the two localized Bunny articles and the two 1.3.0 release articles were added. They are not the current sitemap count. See [SEO notes](SEO.md) for the current page list and technical checks.
+
+## Missing pages
+
+Root `public/404.html` disables Cloudflare Pages' implicit SPA fallback. `public/cs/404.html` provides the nearest Czech error page. Missing addresses must return HTTP **404**, never a successful homepage response. Both error documents use `noindex,follow`, omit analytics and canonical/hreflang claims, and link to real home/support pages. Keep them outside the sitemap.
+
+## Primary references
+
+- [Cloudflare Pages not-found behavior](https://developers.cloudflare.com/pages/configuration/serving-pages/#not-found-behavior)
+- [Search Console sitemap submission and processing](https://support.google.com/webmasters/answer/7451001)
+- [GA4 events and key events](https://support.google.com/analytics/answer/9322688)
+- [Back/Forward cache measurement](https://web.dev/articles/bfcache)
